@@ -2,8 +2,310 @@
 <html lang="en">
 <head>
   <title>Draconis Personae</title>
+  <meta name="description" content="An app for tracking character sheets.">
+  <link rel="stylesheet" type="text/css" href="/main.css">
 </head>
 <body>
-  <p>Hello World!</p>
+  <header>Draconis Personae</header>
+  <form id="macro">
+    <label for="char-name">Character Name</label>
+    <input id="char-name" type="text">
+
+    <label for="class">Class</label>
+    <input id="class" type="text">
+
+    <label for="level">Level</label>
+    <input id="level" type="number">
+
+    <label for="background">Background</label>
+    <input id="background" type="text">
+
+    <label for="player-name">Player Name</label>
+    <input id="player-name" type="text">
+
+    <label for="race">Race</label>
+    <input id="race" type="text">
+
+    <label for="alignment">Alignment</label>
+    <input id="alignment" type="text">
+
+    <label for="experience">Experience Points</label>
+    <input id="experience" type="number">
+  </form>
+
+  <form id="attributes">
+    <label for="strength">Strength</label>
+    <input id="strength" class="attribute" type="number">
+
+    <label for="dexterity">Dexterity</label>
+    <input id="dexterity" class="attribute" type="number">
+
+    <label for="constitution">Constitution</label>
+    <input id="constitution" class="attribute" type="number">
+
+    <label for="intelligence">Intelligence</label>
+    <input id="intelligence" class="attribute" type="number">
+
+    <label for="wisdom">Wisdom</label>
+    <input id="wisdom" class="attribute" type="number">
+
+    <label for="charisma">Charisma</label>
+    <input id="charisma" class="attribute" type="number">
+  </form>
+
+  <form id="ins-prof">
+    <label for="inspiration">Inspiration</label>
+    <input id="inspiration" type="number">
+
+    <label for="prof-bonus">Proficiency Bonus</label>
+    <input id="prof-bonus" type="number">
+  </form>
+
+  <form id="combat">
+    <label for="AC">Armor Class</label>
+    <input id="AC" type="number">
+
+    <label for="initiative">Initiative</label>
+    <input id="initiative" type="number">
+
+    <label for="speed">Speed</label>
+    <input id="speed" type="number">
+
+    <label for="HP">Hit Point Maximum</label>
+    <input id="HP" type="number">
+
+    <label for="current-HP">Current Hit Points</label>
+    <input id="current-HP" type="number">
+
+    <label for="temp-HP">Temporary Hit Points</label>
+    <input id="temp-HP" type="number">
+
+    <label for="hit-dice">Hit Dice</label>
+    <input id="hit-dice" type="text">
+
+    <fieldset name="death-save-successes">
+      <legend>Successes</legend>
+      <input class="success" type="checkbox">
+      <input class="success" type="checkbox">
+      <input class="success" type="checkbox">
+    </fieldset>
+
+    <fieldset name="death-save-failures">
+      <legend>Failures</legend>
+      <input class="failure" type="checkbox">
+      <input class="failure" type="checkbox">
+      <input class="failure" type="checkbox">
+    </fieldset>
+  </form>
+
+  <form id="saving-throws">
+    <fieldset name="strength-save">
+      <legend>Strength</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="dexterity-save">
+      <legend>Dexterity</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="constitution-save">
+      <legend>Constitution</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="intelligence-save">
+      <legend>Intelligence</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="wisdom-save">
+      <legend>Wisdom</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="charisma-save">
+      <legend>Charisma</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+  </form>
+
+  <form id="skills">
+    <fieldset name="acrobatics">
+      <legend>Acrobatics<span>(Dex)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="animal-handling">
+      <legend>Animal Handling<span>(Wis)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="arcana">
+      <legend>Arcana<span>(Int)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="athletics">
+      <legend>Athletics<span>(Str)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="deception">
+      <legend>Deception<span>(Cha)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="history">
+      <legend>History<span>(Int)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="insight">
+      <legend>Insight<span>(Wis)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="intimidation">
+      <legend>Intimidation<span>(Cha)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="investigation">
+      <legend>Investigation<span>(Int)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="medicine">
+      <legend>Medicine<span>(Wis)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="nature">
+      <legend>Nature<span>(Int)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="perception">
+      <legend>Perception<span>(Wis)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="performance">
+      <legend>Performance<span>(Cha)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="persuasion">
+      <legend>Persuasion<span>(Cha)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="religion">
+      <legend>Religion<span>(Int)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="sleight-of-hand">
+      <legend>Sleight of Hand<span>(Dex)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="stealth">
+      <legend>Stealth<span>(Dex)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset name="survival">
+      <legend>Survival<span>(Wis)</span></legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+  </form>
+
+  <form id="perception">
+    <label for="percep">Passive Wisdom (Perception)</label>
+    <input id="percep" type="number">
+  </form>
+
+  <form id="attacks">
+    <span>Name</span>
+    <span>Atk Bonus</span>
+    <span>Damage/Type</span>
+    <input class="atk-name" type="text">
+    <input class="atk-bonus" type="number">
+    <input class="atk-damage" type="text">
+    <button>+</button>
+  </form>
+
+  <form id="prof-and-lang">
+    <label for="profs">Other Proficiencies &amp; Languages</label>
+    <input id="profs" type="text">
+  </form>
+
+  <form id="equipment">
+    <label for="cp">CP</label>
+    <input id="cp" type="number">
+
+    <label for="sp">SP</label>
+    <input id="sp" type="number">
+
+    <label for="ep">EP</label>
+    <input id="ep" type="number">
+
+    <label for="gp">GP</label>
+    <input id="gp" type="number">
+
+    <label for="pp">PP</label>
+    <input id="pp" type="number">
+
+    <label for="equip">Equipment</label>
+    <input id="equip" type="text">
+  </form>
+
+  <form id="story">
+    <label for="personality">Personality Traits</label>
+    <input id="personality" type="text">
+
+    <label for="ideals">Ideals</label>
+    <input id="ideals" type="text">
+
+    <label for="bonds">Bonds</label>
+    <input id="bonds" type="text">
+
+    <label for="flaws">Flaws</label>
+    <input id="flaws" type="text">
+  </form>
+
+  <form id="features">
+    <label for="traits">Features &amp; Traits</label>
+    <input id="traits" type="text">
+  </form>
+  
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/index.js"></script>
 </body>
 </html>

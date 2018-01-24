@@ -1,6 +1,7 @@
 'use strict';
 
 let MOCK_CHAR_SHEET = {
+  "id": 11111,
   "characterName": "Merriweather Abernethy"
   "class": "Barbarian",
   "level": 2,
@@ -66,7 +67,7 @@ let MOCK_CHAR_SHEET = {
     "successes": 0,
     "failures": 0
   },
-  "attacksAndSpellcasting": [
+  "attacks": [
     [
       "Greataxe",
       5,
@@ -133,7 +134,7 @@ function displayCharacterSheet() {
 }
 
 function getAndDisplayCharacterSheet() {
-  getCharacterSheet(getCharacterSheet);
+  getCharacterSheet(displayCharacterSheet);
 }
 
 getAndDisplayCharacterSheet();

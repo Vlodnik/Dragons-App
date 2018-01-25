@@ -3,13 +3,13 @@
 <head>
   <title>Draconis Personae</title>
   <meta name="description" content="An app for tracking character sheets.">
-  <link rel="stylesheet" type="text/css" href="/main.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
   <header>Draconis Personae</header>
   <form id="macro">
     <label for="char-name">Character Name</label>
-    <input id="char-name" type="text">
+    <input id="char-name" type="text" required>
 
     <label for="class">Class</label>
     <input id="class" type="text">
@@ -83,14 +83,14 @@
     <label for="hit-dice">Hit Dice</label>
     <input id="hit-dice" type="text">
 
-    <fieldset name="death-save-successes">
+    <fieldset name="death-succ">
       <legend>Successes</legend>
       <input class="success" type="checkbox">
       <input class="success" type="checkbox">
       <input class="success" type="checkbox">
     </fieldset>
 
-    <fieldset name="death-save-failures">
+    <fieldset name="death-fail">
       <legend>Failures</legend>
       <input class="failure" type="checkbox">
       <input class="failure" type="checkbox">
@@ -99,37 +99,37 @@
   </form>
 
   <form id="saving-throws">
-    <fieldset name="strength-save">
+    <fieldset id="strength-save">
       <legend>Strength</legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="dexterity-save">
+    <fieldset id="dexterity-save">
       <legend>Dexterity</legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="constitution-save">
+    <fieldset id="constitution-save">
       <legend>Constitution</legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="intelligence-save">
+    <fieldset id="intelligence-save">
       <legend>Intelligence</legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="wisdom-save">
+    <fieldset id="wisdom-save">
       <legend>Wisdom</legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="charisma-save">
+    <fieldset id="charisma-save">
       <legend>Charisma</legend>
       <input type="checkbox">
       <input type="number">
@@ -137,109 +137,109 @@
   </form>
 
   <form id="skills">
-    <fieldset name="acrobatics">
+    <fieldset id="acrobatics">
       <legend>Acrobatics<span>(Dex)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="animal-handling">
+    <fieldset id="animal-handling">
       <legend>Animal Handling<span>(Wis)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="arcana">
+    <fieldset id="arcana">
       <legend>Arcana<span>(Int)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="athletics">
+    <fieldset id="athletics">
       <legend>Athletics<span>(Str)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="deception">
+    <fieldset id="deception">
       <legend>Deception<span>(Cha)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="history">
+    <fieldset id="history">
       <legend>History<span>(Int)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="insight">
+    <fieldset id="insight">
       <legend>Insight<span>(Wis)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="intimidation">
+    <fieldset id="intimidation">
       <legend>Intimidation<span>(Cha)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="investigation">
+    <fieldset id="investigation">
       <legend>Investigation<span>(Int)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="medicine">
+    <fieldset id="medicine">
       <legend>Medicine<span>(Wis)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="nature">
+    <fieldset id="nature">
       <legend>Nature<span>(Int)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="perception">
+    <fieldset id="perception">
       <legend>Perception<span>(Wis)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="performance">
+    <fieldset id="performance">
       <legend>Performance<span>(Cha)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="persuasion">
+    <fieldset id="persuasion">
       <legend>Persuasion<span>(Cha)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="religion">
+    <fieldset id="religion">
       <legend>Religion<span>(Int)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="sleight-of-hand">
+    <fieldset id="sleight-of-hand">
       <legend>Sleight of Hand<span>(Dex)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="stealth">
+    <fieldset id="stealth">
       <legend>Stealth<span>(Dex)</span></legend>
       <input type="checkbox">
       <input type="number">
     </fieldset>
 
-    <fieldset name="survival">
+    <fieldset id="survival">
       <legend>Survival<span>(Wis)</span></legend>
       <input type="checkbox">
       <input type="number">
@@ -306,6 +306,6 @@
   </form>
   
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="/index.js"></script>
+  <script type="text/javascript" src="index.js"></script>
 </body>
 </html>

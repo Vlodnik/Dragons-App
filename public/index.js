@@ -2,14 +2,14 @@
 
 let MOCK_CHAR_SHEET = {
   "id": 11111,
-  "characterName": "Merriweather Abernethy"
+  "charName": "Merriweather Abernethy",
   "class": "Barbarian",
   "level": 2,
   "background": "Pro-Athelete",
   "playerName": "Evan",
   "race": "Halfling",
   "alignment": "Chaotic Good",
-  "experiencePoints": 500,
+  "experience": 500,
   "attributes": {
     "strength": 16,
     "dexterity": 16,
@@ -19,7 +19,7 @@ let MOCK_CHAR_SHEET = {
     "charisma": 15
   },
   "inspiration": 1,
-  "proficiencyBonus": 2,
+  "profBonus": 2,
   "AC": 16,
   "initiative": null,
   "speed": 25,
@@ -27,32 +27,32 @@ let MOCK_CHAR_SHEET = {
   "currentHP": 18,
   "temporaryHP": 0,
   "savingThrows": {
-    "strength": null,
-    "dexterity": null,
-    "constitution": null,
-    "intelligence": null,
-    "wisdom": null,
-    "charisma": null
+    "strength": [true, 4],
+    "dexterity": [false, 4],
+    "constitution": [true, 3],
+    "intelligence": [false, 0],
+    "wisdom": [false, 0],
+    "charisma": [false, 1]
   },
   "skills": {
-    "acrobatics": false,
-    "animalHandling": false,
-    "arcana": false,
-    "athletics": true,
-    "deception": false,
-    "history": false,
-    "insight": false,
-    "intimidation": true,
-    "investigation": false,
-    "medicine": false,
-    "nature": false,
-    "perception": false,
-    "performance": false,
-    "persuasion": false,
-    "religion": false,
-    "sleightOfHand": false,
-    "stealth": false,
-    "survival": false
+    "acrobatics": [false, 3],
+    "animal-handling": [false, -1],
+    "arcana": [false, -1],
+    "athletics": [true, 5],
+    "deception": [false, 2],
+    "history": [false, -1],
+    "insight": [false, -1],
+    "intimidation": [true, 4],
+    "investigation": [false, -1],
+    "medicine": [false, -1],
+    "nature": [false, -1],
+    "perception": [false, -1],
+    "performance": [false, 2],
+    "persuasion": [false, 2],
+    "religion": [false, -1],
+    "sleight-of-hand": [false, 3],
+    "stealth": [false, 3],
+    "survival": [false, -1]
   },
   "passiveWisdom": 8,
   "otherProfAndLang": [
@@ -62,10 +62,10 @@ let MOCK_CHAR_SHEET = {
     "Common",
     "Halfling"
   ],
-  "hitDice": null,
+  "hitDice": "Eh?",
   "deathSaves": {
-    "successes": 0,
-    "failures": 0
+    "successes": 2,
+    "failures": 1
   },
   "attacks": [
     [
@@ -107,8 +107,8 @@ let MOCK_CHAR_SHEET = {
     "Reckless Attack",
     "Danger Sense"
   ],
-  "spellcastingClass": null,
-  "spellcastingAbility": null,
+  "castingClass": null,
+  "castingAbility": null,
   "spellSaveDC": null,
   "spellAttackBonus": null,
   "cantrips": [],
@@ -130,7 +130,63 @@ function getCharacterSheet(callback) {
 }
 
 function displayCharacterSheet() {
+  $('#char-name').attr('value', MOCK_CHAR_SHEET.charName);
+  $('#class').attr('value', MOCK_CHAR_SHEET.class);
+  $('#level').attr('value', MOCK_CHAR_SHEET.level);
+  $('#background').attr('value', MOCK_CHAR_SHEET.background);
+  $('#player-name').attr('value', MOCK_CHAR_SHEET.playerName);
+  $('#race').attr('value', MOCK_CHAR_SHEET.race);
+  $('#alignment').attr('value', MOCK_CHAR_SHEET.alignment);
+  $('#experience').attr('value', MOCK_CHAR_SHEET.experience);
+  $('#strength').attr('value', MOCK_CHAR_SHEET.attributes.strength);
+  $('#dexterity').attr('value', MOCK_CHAR_SHEET.attributes.dexterity);
+  $('#constitution').attr('value', MOCK_CHAR_SHEET.attributes.constitution);
+  $('#intelligence').attr('value', MOCK_CHAR_SHEET.attributes.intelligence);
+  $('#wisdom').attr('value', MOCK_CHAR_SHEET.attributes.wisdom);
+  $('#charisma').attr('value', MOCK_CHAR_SHEET.attributes.charisma);
+  $('#inspiration').attr('value', MOCK_CHAR_SHEET.inspiration);
+  $('#prof-bonus').attr('value', MOCK_CHAR_SHEET.profBonus);
+  $('#AC').attr('value', MOCK_CHAR_SHEET.AC);
+  $('#initiative').attr('value', MOCK_CHAR_SHEET.initiative);
+  $('#speed').attr('value', MOCK_CHAR_SHEET.speed);
+  $('#HP').attr('value', MOCK_CHAR_SHEET.HP);
+  $('#current-HP').attr('value', MOCK_CHAR_SHEET.currentHP);
+  $('#temp-HP').attr('value', MOCK_CHAR_SHEET.temporaryHP);
+  $('#hit-dice').attr('value', MOCK_CHAR_SHEET.hitDice);
 
+  assignSavingThrows();
+  assignDeathSaves();
+  assignSkills();
+}
+
+function assignSavingThrows() {
+  for(let stat in MOCK_CHAR_SHEET.savingThrows) {
+    if(MOCK_CHAR_SHEET.savingThrows[stat][0]) {
+      $(`#${ stat }-save input:nth-child(2)`)
+        .attr('checked', true);
+    }
+    $(`#${ stat }-save input:nth-child(3)`)
+      .attr('value', MOCK_CHAR_SHEET.savingThrows[stat][1]);
+  }
+}
+
+function assignDeathSaves() {
+  for(let i = 1; i <= MOCK_CHAR_SHEET.deathSaves.successes; i++) {
+    $(`#combat fieldset:first-of-type input:nth-of-type(${i})`).attr('checked', true);
+  }
+  for(let i = 1; i <= MOCK_CHAR_SHEET.deathSaves.failures; i++) {
+    $(`#combat fieldset:nth-of-type(2) input:nth-of-type(${i})`).attr('checked', true);
+  }
+}
+
+function assignSkills() {
+  for(let skill in MOCK_CHAR_SHEET.skills) {
+    if(MOCK_CHAR_SHEET.skills[skill][0]) {
+      $(`#${ skill } input:first-of-type`).attr('checked', true)
+    }
+    $(`#${ skill } input:nth-of-type(2)`)
+      .attr('value', MOCK_CHAR_SHEET.skills[skill][1]);
+  }
 }
 
 function getAndDisplayCharacterSheet() {
@@ -138,5 +194,4 @@ function getAndDisplayCharacterSheet() {
 }
 
 getAndDisplayCharacterSheet();
-
-
+displayCharacterSheet();

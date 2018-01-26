@@ -36,7 +36,7 @@ let MOCK_CHAR_SHEET = {
   },
   "skills": {
     "acrobatics": [false, 3],
-    "animal-handling": [false, -1],
+    "animalHandling": [false, -1],
     "arcana": [false, -1],
     "athletics": [true, 5],
     "deception": [false, 2],
@@ -50,12 +50,12 @@ let MOCK_CHAR_SHEET = {
     "performance": [false, 2],
     "persuasion": [false, 2],
     "religion": [false, -1],
-    "sleight-of-hand": [false, 3],
+    "sleightOfHand": [false, 3],
     "stealth": [false, 3],
     "survival": [false, -1]
   },
   "passiveWisdom": 8,
-  "otherProfAndLang": [
+  "profAndLang": [
     "Light & Med Armor",
     "Shields",
     "Simple & Martial Weapons",
@@ -79,14 +79,14 @@ let MOCK_CHAR_SHEET = {
       "1d8 slashing"
     ]
   ],
+  "money": {
+    "cp": null,
+    "sp": 5,
+    "ep": null,
+    "gp": 20,
+    "pp": null
+  },
   "equipment": [
-    {
-      "cp": null,
-      "sp": null,
-      "ep": null,
-      "gp": null,
-      "pp": null
-    },
     "Greatclub",
     "Club",
     "Explorer's Pack",
@@ -95,11 +95,13 @@ let MOCK_CHAR_SHEET = {
     "Water Mask",
     "Marauder's Map"
   ],
-  "personalityTraits": null,
-  "ideals": null,
-  "bonds": null,
-  "flaws": null,
-  "featuresAndTraits": [
+  "story": {
+    "personality": "Merri is sassy, brassy, and Scottish as can be!",
+    "ideals": "Merri came to play, and is here to stay.",
+    "bonds": "Merri aspires to be a famous adventurer one day, and is bonded to courage.",
+    "flaws": "Very whacky."
+  },
+  "features": [
     "Lucky",
     "Brave",
     "Halfling Nimbleness",
@@ -138,12 +140,6 @@ function displayCharacterSheet() {
   $('#race').attr('value', MOCK_CHAR_SHEET.race);
   $('#alignment').attr('value', MOCK_CHAR_SHEET.alignment);
   $('#experience').attr('value', MOCK_CHAR_SHEET.experience);
-  $('#strength').attr('value', MOCK_CHAR_SHEET.attributes.strength);
-  $('#dexterity').attr('value', MOCK_CHAR_SHEET.attributes.dexterity);
-  $('#constitution').attr('value', MOCK_CHAR_SHEET.attributes.constitution);
-  $('#intelligence').attr('value', MOCK_CHAR_SHEET.attributes.intelligence);
-  $('#wisdom').attr('value', MOCK_CHAR_SHEET.attributes.wisdom);
-  $('#charisma').attr('value', MOCK_CHAR_SHEET.attributes.charisma);
   $('#inspiration').attr('value', MOCK_CHAR_SHEET.inspiration);
   $('#prof-bonus').attr('value', MOCK_CHAR_SHEET.profBonus);
   $('#AC').attr('value', MOCK_CHAR_SHEET.AC);
@@ -153,10 +149,24 @@ function displayCharacterSheet() {
   $('#current-HP').attr('value', MOCK_CHAR_SHEET.currentHP);
   $('#temp-HP').attr('value', MOCK_CHAR_SHEET.temporaryHP);
   $('#hit-dice').attr('value', MOCK_CHAR_SHEET.hitDice);
+  $('#percep').attr('value', MOCK_CHAR_SHEET.passiveWisdom);
 
+  assignAttributes();
   assignSavingThrows();
   assignDeathSaves();
   assignSkills();
+  assignAttacks();
+  assignProf();
+  assignMoney();
+  assignEquip();
+  assignTraits();
+  assignFeatures();
+}
+
+function assignAttributes() {
+  for(let stat in MOCK_CHAR_SHEET.attributes) {
+    $(`#${ stat }`).attr('value', MOCK_CHAR_SHEET.attributes[stat]);
+  }
 }
 
 function assignSavingThrows() {
@@ -172,10 +182,12 @@ function assignSavingThrows() {
 
 function assignDeathSaves() {
   for(let i = 1; i <= MOCK_CHAR_SHEET.deathSaves.successes; i++) {
-    $(`#combat fieldset:first-of-type input:nth-of-type(${i})`).attr('checked', true);
+    $(`#combat fieldset:first-of-type input:nth-of-type(${i})`)
+      .attr('checked', true);
   }
   for(let i = 1; i <= MOCK_CHAR_SHEET.deathSaves.failures; i++) {
-    $(`#combat fieldset:nth-of-type(2) input:nth-of-type(${i})`).attr('checked', true);
+    $(`#combat fieldset:nth-of-type(2) input:nth-of-type(${i})`)
+      .attr('checked', true);
   }
 }
 
@@ -189,9 +201,82 @@ function assignSkills() {
   }
 }
 
+function assignAttacks() {
+  let attackElements = [];
+  MOCK_CHAR_SHEET.attacks.forEach(function(attack) {
+    const newAttack = generateAttack(attack[0], attack[1], attack[2]);
+    attackElements.push(newAttack);
+  });
+  $('#attacks span:nth-of-type(3)').append(attackElements);
+}
+
+function generateAttack(name, bonus, dmg) {
+  return `
+    <input class="atk-name" type="text" value="${ name }">
+    <input class="atk-bonus" type="number" value="${ bonus }">
+    <input class="atk-damage" type="text" value="${ dmg }">
+  `;
+}
+
+function assignProf() {
+  let profs = [];
+  MOCK_CHAR_SHEET.profAndLang.forEach(function(prof) {
+    const newProf = generateProf(prof);
+    profs.push(newProf);
+  });
+  $('#prof-and-lang legend').append(profs);
+}
+
+function generateProf(prof) {
+  return `
+    <input class="profs" type="text" value="${ prof }">
+  `;
+}
+
+function assignMoney() {
+  for(let coin in MOCK_CHAR_SHEET.money) {
+    $(`#${ coin }`).attr('value', MOCK_CHAR_SHEET.money[coin]);
+  }
+}
+
+function assignEquip() {
+  let items = [];
+  MOCK_CHAR_SHEET.equipment.forEach(function(item) {
+    const newItem = generateEquip(item);
+    items.push(newItem);
+  });
+  $('#equipment fieldset').append(items);
+}
+
+function generateEquip(item) {
+  return `
+    <input class="equip" type="text" value="${ item }">
+  `;
+}
+
+function assignTraits() {
+  for(let trait in MOCK_CHAR_SHEET.story) {
+    $(`#${ trait }`).val(MOCK_CHAR_SHEET.story[trait]);
+  }
+}
+
+function assignFeatures() {
+  let features = [];
+  MOCK_CHAR_SHEET.features.forEach(function(feature) {
+    const newFeature = generateFeature(feature);
+    features.push(newFeature);
+  });
+  $('#features fieldset').append(features);
+}
+
+function generateFeature(feature) {
+  return `
+    <input class="traits" type="text" value="${ feature }">
+  `;
+}
+
 function getAndDisplayCharacterSheet() {
   getCharacterSheet(displayCharacterSheet);
 }
 
 getAndDisplayCharacterSheet();
-displayCharacterSheet();

@@ -3,6 +3,7 @@
 <head>
   <title>Draconis Personae</title>
   <meta name="description" content="An app for tracking character sheets.">
+  <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
@@ -143,7 +144,7 @@
       <input type="number">
     </fieldset>
 
-    <fieldset id="animal-handling">
+    <fieldset id="animalHandling">
       <legend>Animal Handling<span>(Wis)</span></legend>
       <input type="checkbox">
       <input type="number">
@@ -227,7 +228,7 @@
       <input type="number">
     </fieldset>
 
-    <fieldset id="sleight-of-hand">
+    <fieldset id="sleightOfHand">
       <legend>Sleight of Hand<span>(Dex)</span></legend>
       <input type="checkbox">
       <input type="number">
@@ -255,54 +256,54 @@
     <span>Name</span>
     <span>Atk Bonus</span>
     <span>Damage/Type</span>
-    <input class="atk-name" type="text">
-    <input class="atk-bonus" type="number">
-    <input class="atk-damage" type="text">
     <button>+</button>
   </form>
 
   <form id="prof-and-lang">
-    <label for="profs">Other Proficiencies &amp; Languages</label>
-    <input id="profs" type="text">
+    <fieldset>
+      <legend>Other Proficiencies &amp; Languages</legend>
+    </fieldset>
   </form>
 
   <form id="equipment">
-    <label for="cp">CP</label>
-    <input id="cp" type="number">
+    <fieldset>
+      <legend>Equipment</legend>
 
-    <label for="sp">SP</label>
-    <input id="sp" type="number">
+      <label for="cp">CP</label>
+      <input id="cp" type="number">
 
-    <label for="ep">EP</label>
-    <input id="ep" type="number">
+      <label for="sp">SP</label>
+      <input id="sp" type="number">
 
-    <label for="gp">GP</label>
-    <input id="gp" type="number">
+      <label for="ep">EP</label>
+      <input id="ep" type="number">
 
-    <label for="pp">PP</label>
-    <input id="pp" type="number">
+      <label for="gp">GP</label>
+      <input id="gp" type="number">
 
-    <label for="equip">Equipment</label>
-    <input id="equip" type="text">
+      <label for="pp">PP</label>
+      <input id="pp" type="number">
+    </fieldset>
   </form>
 
   <form id="story">
     <label for="personality">Personality Traits</label>
-    <input id="personality" type="text">
+    <textarea id="personality"></textarea>
 
     <label for="ideals">Ideals</label>
-    <input id="ideals" type="text">
+    <textarea id="ideals"></textarea>
 
     <label for="bonds">Bonds</label>
-    <input id="bonds" type="text">
+    <textarea id="bonds"></textarea>
 
     <label for="flaws">Flaws</label>
-    <input id="flaws" type="text">
+    <textarea id="flaws"></textarea>
   </form>
 
   <form id="features">
-    <label for="traits">Features &amp; Traits</label>
-    <input id="traits" type="text">
+    <fieldset>
+      <legend>Features &amp; Traits</legend>
+    </fieldset>
   </form>
   
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

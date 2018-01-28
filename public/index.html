@@ -4,62 +4,136 @@
   <title>Draconis Personae</title>
   <meta name="description" content="An app for tracking character sheets.">
   <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="normalize.css">
+  <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Archivo:500" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
   <header>Draconis Personae</header>
+
   <form id="macro">
     <label for="char-name">Character Name</label>
     <input id="char-name" type="text" required>
 
-    <label for="class">Class</label>
-    <input id="class" type="text">
+    <div>
+      <label for="player-name">Player Name</label>
+      <input id="player-name" type="text">
+    </div>
 
-    <label for="level">Level</label>
-    <input id="level" type="number">
+    <div>
+      <label for="class-level">Class &amp; Level</label>
+      <input id="class-level" type="text">
+    </div>
 
-    <label for="background">Background</label>
-    <input id="background" type="text">
+    <div>
+      <label for="background">Background</label>
+      <input id="background" type="text">
+    </div>
 
-    <label for="player-name">Player Name</label>
-    <input id="player-name" type="text">
+    <div>
+      <label for="race">Race</label>
+      <input id="race" type="text">
+    </div>
 
-    <label for="race">Race</label>
-    <input id="race" type="text">
+    <div>
+      <label for="alignment">Alignment</label>
+      <input id="alignment" type="text">
+    </div>
 
-    <label for="alignment">Alignment</label>
-    <input id="alignment" type="text">
-
-    <label for="experience">Experience Points</label>
-    <input id="experience" type="number">
+    <div>
+      <label for="experience">Exp Points</label>
+      <input id="experience" type="number">
+    </div>
   </form>
 
+  <h2 id="attributes-header">Attributes</h2>
   <form id="attributes">
-    <label for="strength">Strength</label>
-    <input id="strength" class="attribute" type="number">
+    <fieldset>
+      <legend>Strength</legend>
+      <input id="strength" class="attribute" type="number">
+      <input id="strength-mod" class="modifier" type="string">
+    </fieldset>
 
-    <label for="dexterity">Dexterity</label>
-    <input id="dexterity" class="attribute" type="number">
+    <fieldset>
+      <legend>Dexterity</legend>
+      <input id="dexterity" class="attribute" type="number">
+      <input id="dexterity-mod" class="modifier" type="string">
+    </fieldset>
 
-    <label for="constitution">Constitution</label>
-    <input id="constitution" class="attribute" type="number">
+    <fieldset>
+      <legend>Constitution</legend>
+      <input id="constitution" class="attribute" type="number">
+      <input id="constitution-mod" class="modifier" type="string">
+    </fieldset>
 
-    <label for="intelligence">Intelligence</label>
-    <input id="intelligence" class="attribute" type="number">
+    <fieldset>
+      <legend>Intelligence</legend>
+      <input id="intelligence" class="attribute" type="number">
+      <input id="intelligence-mod" class="modifier" type="string">
+    </fieldset>
 
-    <label for="wisdom">Wisdom</label>
-    <input id="wisdom" class="attribute" type="number">
+    <fieldset>
+      <legend>Wisdom</legend>
+      <input id="wisdom" class="attribute" type="number">
+      <input id="wisdom-mod" class="modifier" type="string">
+    </fieldset>
 
-    <label for="charisma">Charisma</label>
-    <input id="charisma" class="attribute" type="number">
+    <fieldset>
+      <legend>Charisma</legend>
+      <input id="charisma" class="attribute" type="number">
+      <input id="charisma-mod" class="modifier" type="string">
+    </fieldset>
   </form>
 
   <form id="ins-prof">
-    <label for="inspiration">Inspiration</label>
-    <input id="inspiration" type="number">
+    <fieldset>
+      <label for="inspiration">Inspiration</label>
+      <input id="inspiration" type="number">
+    </fieldset>
 
-    <label for="prof-bonus">Proficiency Bonus</label>
-    <input id="prof-bonus" type="number">
+    <fieldset>
+      <label for="prof-bonus">Proficiency Bonus</label>
+      <input id="prof-bonus" type="number">
+    </fieldset>
+  </form>
+
+  <h2 id="throws-header">Saving Throws</h2>
+  <form id="saving-throws">
+    <fieldset id="strength-save">
+      <legend>Strength</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset id="dexterity-save">
+      <legend>Dexterity</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset id="constitution-save">
+      <legend>Constitution</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset id="intelligence-save">
+      <legend>Intelligence</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset id="wisdom-save">
+      <legend>Wisdom</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
+
+    <fieldset id="charisma-save">
+      <legend>Charisma</legend>
+      <input type="checkbox">
+      <input type="number">
+    </fieldset>
   </form>
 
   <form id="combat">
@@ -96,44 +170,6 @@
       <input class="failure" type="checkbox">
       <input class="failure" type="checkbox">
       <input class="failure" type="checkbox">
-    </fieldset>
-  </form>
-
-  <form id="saving-throws">
-    <fieldset id="strength-save">
-      <legend>Strength</legend>
-      <input type="checkbox">
-      <input type="number">
-    </fieldset>
-
-    <fieldset id="dexterity-save">
-      <legend>Dexterity</legend>
-      <input type="checkbox">
-      <input type="number">
-    </fieldset>
-
-    <fieldset id="constitution-save">
-      <legend>Constitution</legend>
-      <input type="checkbox">
-      <input type="number">
-    </fieldset>
-
-    <fieldset id="intelligence-save">
-      <legend>Intelligence</legend>
-      <input type="checkbox">
-      <input type="number">
-    </fieldset>
-
-    <fieldset id="wisdom-save">
-      <legend>Wisdom</legend>
-      <input type="checkbox">
-      <input type="number">
-    </fieldset>
-
-    <fieldset id="charisma-save">
-      <legend>Charisma</legend>
-      <input type="checkbox">
-      <input type="number">
     </fieldset>
   </form>
 

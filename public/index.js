@@ -3,20 +3,19 @@
 let MOCK_CHAR_SHEET = {
   "id": 11111,
   "charName": "Merriweather Abernethy",
-  "class": "Barbarian",
-  "level": 2,
+  "classAndLevel": "Barbarian 2",
   "background": "Pro-Athelete",
   "playerName": "Evan",
   "race": "Halfling",
   "alignment": "Chaotic Good",
   "experience": 500,
   "attributes": {
-    "strength": 16,
-    "dexterity": 16,
-    "constitution": 16,
-    "intelligence": 8,
-    "wisdom": 8,
-    "charisma": 15
+    "strength": [16, '+3'],
+    "dexterity": [16, '+3'],
+    "constitution": [16, '+3'],
+    "intelligence": [8, '-1'],
+    "wisdom": [8, '-1'],
+    "charisma": [15,'+2']
   },
   "inspiration": 1,
   "profBonus": 2,
@@ -133,8 +132,7 @@ function getCharacterSheet(callback) {
 
 function displayCharacterSheet() {
   $('#char-name').attr('value', MOCK_CHAR_SHEET.charName);
-  $('#class').attr('value', MOCK_CHAR_SHEET.class);
-  $('#level').attr('value', MOCK_CHAR_SHEET.level);
+  $('#class-level').attr('value', MOCK_CHAR_SHEET.classAndLevel);
   $('#background').attr('value', MOCK_CHAR_SHEET.background);
   $('#player-name').attr('value', MOCK_CHAR_SHEET.playerName);
   $('#race').attr('value', MOCK_CHAR_SHEET.race);
@@ -165,7 +163,8 @@ function displayCharacterSheet() {
 
 function assignAttributes() {
   for(let stat in MOCK_CHAR_SHEET.attributes) {
-    $(`#${ stat }`).attr('value', MOCK_CHAR_SHEET.attributes[stat]);
+    $(`#${ stat }`).attr('value', MOCK_CHAR_SHEET.attributes[stat][0]);
+    $(`#${ stat }-mod`).attr('value', MOCK_CHAR_SHEET.attributes[stat][1]);
   }
 }
 

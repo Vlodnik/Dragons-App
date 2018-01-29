@@ -28,6 +28,8 @@ h2 {
 h3 {
   font-family: 'Archivo Black';
   margin: auto;
+  text-align: center;
+  width: 100%;
 }
 
 /*  Macro   */
@@ -245,7 +247,7 @@ h3 {
   width: 40%;
 }
 
-#combat > fieldset:nth-of-type(8) {
+#combat > fieldset:nth-of-type(7) {
   margin-bottom: auto;
   padding: 2em 0;
 }
@@ -316,4 +318,57 @@ h3 {
 }
 
 /*  Proficiencies and Languages  */
+#prof-and-lang fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin-bottom: 2.5em;
+}
+
+.profs {
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+/*  Equipment  */
+#equips {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.items {
+  border: none;
+  border-bottom: 1px solid black;
+  margin: auto;
+  margin-bottom: 0.5em;
+  width: 80%;
+}
+
+#equips label {
+  display: block;
+  margin: 0.5em 2em;
+}
+
+#coins-header {
+  margin: 1em 0;
+  text-align: center;
+  width: 100%;
+}
+
+#equips fieldset {
+  border: none;
+  width: 100%;
+}
+
+.coins {
+  border: none;
+  border-bottom: 1px solid black;
+  display: block;
+  text-align: center;
+  width: 10%;
+}
+
+
+
 

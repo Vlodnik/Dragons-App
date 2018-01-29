@@ -244,12 +244,12 @@ function assignEquip() {
     const newItem = generateEquip(item);
     items.push(newItem);
   });
-  $('#equipment fieldset').append(items);
+  $('#new-equip').before(items);
 }
 
 function generateEquip(item) {
   return `
-    <input class="equip" type="text" value="${ item }">
+    <input class="items" type="text" value="${ item }">
   `;
 }
 

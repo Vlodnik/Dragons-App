@@ -317,31 +317,49 @@
     </fieldset>
   </form>
 
+  <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
   <form id="prof-and-lang">
     <fieldset>
-      <legend>Other Proficiencies &amp; Languages</legend>
       <input id="new-prof" class="profs" type="text">
     </fieldset>
   </form>
 
+  <h2 id="equipment-header">Equipment</h2>
   <form id="equipment">
+    <div id="equips">
+      <input id="new-equip" type="string">
+
+      <h3 id="coins-header">Coins</h3>
+      <fieldset>
+        <label for="cp">CP</label>
+        <input id="cp" class="coins" type="number">
+      </fieldset>
+
+      <fieldset>
+        <label for="sp">SP</label>
+        <input id="sp" class="coins" type="number">
+      </fieldset>
+
+      <fieldset>
+        <label for="ep">EP</label>
+        <input id="ep" class="coins" type="number">
+      </fieldset>
+
+      <fieldset>
+        <label for="gp">GP</label>
+        <input id="gp" class="coins" type="number">
+      </fieldset>
+
+      <fieldset>
+        <label for="pp">PP</label>
+        <input id="pp" class="coins" type="number">
+      </fieldset>
+    </div>
+  </form>
+
+  <form id="features">
     <fieldset>
-      <legend>Equipment</legend>
-
-      <label for="cp">CP</label>
-      <input id="cp" type="number">
-
-      <label for="sp">SP</label>
-      <input id="sp" type="number">
-
-      <label for="ep">EP</label>
-      <input id="ep" type="number">
-
-      <label for="gp">GP</label>
-      <input id="gp" type="number">
-
-      <label for="pp">PP</label>
-      <input id="pp" type="number">
+      <legend>Features &amp; Traits</legend>
     </fieldset>
   </form>
 
@@ -357,12 +375,6 @@
 
     <label for="flaws">Flaws</label>
     <textarea id="flaws"></textarea>
-  </form>
-
-  <form id="features">
-    <fieldset>
-      <legend>Features &amp; Traits</legend>
-    </fieldset>
   </form>
   
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

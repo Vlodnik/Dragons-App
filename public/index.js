@@ -206,7 +206,7 @@ function assignAttacks() {
     const newAttack = generateAttack(attack[0], attack[1], attack[2]);
     attackElements.push(newAttack);
   });
-  $('#attacks span:nth-of-type(3)').append(attackElements);
+  $('#attacks span:nth-of-type(3)').after(attackElements);
 }
 
 function generateAttack(name, bonus, dmg) {
@@ -223,7 +223,7 @@ function assignProf() {
     const newProf = generateProf(prof);
     profs.push(newProf);
   });
-  $('#prof-and-lang legend').append(profs);
+  $('#new-prof').before(profs);
 }
 
 function generateProf(prof) {

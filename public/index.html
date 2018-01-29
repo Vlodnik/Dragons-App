@@ -136,168 +136,191 @@
     </fieldset>
   </form>
 
+  <h2 id="combat-header">Combat</h2>
   <form id="combat">
-    <label for="AC">Armor Class</label>
-    <input id="AC" type="number">
-
-    <label for="initiative">Initiative</label>
-    <input id="initiative" type="number">
-
-    <label for="speed">Speed</label>
-    <input id="speed" type="number">
-
-    <label for="HP">Hit Point Maximum</label>
-    <input id="HP" type="number">
-
-    <label for="current-HP">Current Hit Points</label>
-    <input id="current-HP" type="number">
-
-    <label for="temp-HP">Temporary Hit Points</label>
-    <input id="temp-HP" type="number">
-
-    <label for="hit-dice">Hit Dice</label>
-    <input id="hit-dice" type="text">
-
-    <fieldset name="death-succ">
-      <legend>Successes</legend>
-      <input class="success" type="checkbox">
-      <input class="success" type="checkbox">
-      <input class="success" type="checkbox">
+    <fieldset class="com-one">
+      <legend for="AC">Armor Class</legend>
+      <input id="AC" type="number">
     </fieldset>
 
-    <fieldset name="death-fail">
-      <legend>Failures</legend>
-      <input class="failure" type="checkbox">
-      <input class="failure" type="checkbox">
-      <input class="failure" type="checkbox">
+    <fieldset class="com-one">
+      <legend for="initiative">Initiative</legend>
+      <input id="initiative" type="number">
     </fieldset>
+
+    <fieldset class="com-one"> 
+      <legend for="speed">Speed</legend>
+      <input id="speed" type="number">
+    </fieldset>
+
+    <fieldset class="com-one">
+      <legend for="HP">Hit Point Maximum</legend>
+      <input id="HP" type="number">
+    </fieldset>
+
+    <fieldset class="com-one">
+      <legend for="current-HP">Current Hit Points</legend>
+      <input id="current-HP" type="number">
+    </fieldset>
+
+    <fieldset class="com-one">
+      <legend for="temp-HP">Temporary Hit Points</legend>
+      <input id="temp-HP" type="number">
+    </fieldset>
+
+    <h3>Attacks &amp; Spellcasting</h3>
+    <div id="attacks">
+      <span>Name</span>
+      <span>Atk Bonus</span>
+      <span>Damage/Type</span>
+      <input id="new-attack-name" type="text">
+      <input id="new-attack-bonus" type="number">
+      <input id="new-attack-damage" type="text">
+    </div>
+
+    <fieldset>
+      <legend for="hit-dice">Hit Dice</legend>
+      <input id="hit-dice" type="text">
+    </fieldset>
+
+    <div id="death-saves">
+      <h3>Death Saves</h3>
+      <fieldset name="death-succ">
+        <legend>Successes</legend>
+        <input class="success" type="checkbox">
+        <input class="success" type="checkbox">
+        <input class="success" type="checkbox">
+      </fieldset>
+
+      <fieldset name="death-fail">
+        <legend>Failures</legend>
+        <input class="failure" type="checkbox">
+        <input class="failure" type="checkbox">
+        <input class="failure" type="checkbox">
+      </fieldset>
+    </div>
   </form>
 
+  <h2 id="skills-header">Skills</h2>
   <form id="skills">
     <fieldset id="acrobatics">
       <legend>Acrobatics<span>(Dex)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="animalHandling">
       <legend>Animal Handling<span>(Wis)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="arcana">
       <legend>Arcana<span>(Int)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="athletics">
       <legend>Athletics<span>(Str)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="deception">
       <legend>Deception<span>(Cha)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="history">
       <legend>History<span>(Int)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="insight">
       <legend>Insight<span>(Wis)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="intimidation">
       <legend>Intimidation<span>(Cha)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="investigation">
       <legend>Investigation<span>(Int)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="medicine">
       <legend>Medicine<span>(Wis)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="nature">
       <legend>Nature<span>(Int)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="perception">
       <legend>Perception<span>(Wis)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="performance">
       <legend>Performance<span>(Cha)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="persuasion">
       <legend>Persuasion<span>(Cha)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="religion">
       <legend>Religion<span>(Int)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="sleightOfHand">
       <legend>Sleight of Hand<span>(Dex)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="stealth">
       <legend>Stealth<span>(Dex)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
 
     <fieldset id="survival">
       <legend>Survival<span>(Wis)</span></legend>
-      <input type="checkbox">
+      <input class="skill-prof" type="checkbox">
       <input type="number">
     </fieldset>
-  </form>
 
-  <form id="perception">
-    <label for="percep">Passive Wisdom (Perception)</label>
-    <input id="percep" type="number">
-  </form>
-
-  <form id="attacks">
-    <span>Name</span>
-    <span>Atk Bonus</span>
-    <span>Damage/Type</span>
-    <button>+</button>
+    <fieldset id="passive-percep">
+      <legend for="percep">Passive Wisdom (Perception)</legend>
+      <input id="percep" type="number">
+    </fieldset>
   </form>
 
   <form id="prof-and-lang">
     <fieldset>
       <legend>Other Proficiencies &amp; Languages</legend>
+      <input id="new-prof" class="profs" type="text">
     </fieldset>
   </form>
 

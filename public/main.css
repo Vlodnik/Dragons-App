@@ -8,7 +8,7 @@ html, body {
 }*/
 
 
-/*  Title  */
+/*  Titles  */
 header {
   font-family: 'Archivo Black';
   font-size: 3.5em;
@@ -17,6 +17,17 @@ header {
   margin-bottom: 0.5em;
   margin-top: 0.5em;
   text-align: center;
+}
+
+h2 {
+  font-family: 'Archivo Black';
+  font-size: 1.8em;
+  text-align: center;
+}
+
+h3 {
+  font-family: 'Archivo Black';
+  margin: auto;
 }
 
 /*  Macro   */
@@ -66,10 +77,6 @@ header {
 }
 
 /*  Attributes  */
-#attributes-header{
-  text-align: center;
-}
-
 #attributes {
   display: flex;
   flex-wrap: wrap;
@@ -131,10 +138,6 @@ header {
 }
 
 /*  Saving Throws  */
-#throws-header {
-  text-align: center;
-}
-
 #saving-throws {
   display: flex;
   flex-wrap: wrap;
@@ -166,3 +169,151 @@ header {
   text-align: center;
   width: 30%;
 }
+
+/*  Combat  */
+#combat {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5em;
+}
+
+#combat fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 0.5em;
+  padding: 0.8em 0;
+}
+
+#combat legend {
+  font-family: 'Archivo Black';
+  font-size: 0.9em;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+}
+
+.com-one {
+  width: 30%;
+}
+
+.com-one input {
+  border: 1px solid black;
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  padding: 0;
+  text-align: center;
+  width: 30%;
+}
+
+#attacks {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: auto;
+  width: 90%;
+}
+
+#attacks span:first-of-type, #attacks span:nth-of-type(2) {
+  border: none;
+  margin: 0.5em;
+  text-align: center;
+  width: 20%;
+}
+
+#attacks span:nth-of-type(3) {
+  border: none;
+  margin: 0.5em;
+  padding-top: 0;
+  text-align: center;
+  width: 40%;
+}
+
+#attacks :nth-child(3n+4), #attacks :nth-child(3n+5) {
+  border: 1px solid black;
+  margin: 0.5em;
+  text-align: center;
+  width: 20%;
+}
+
+#attacks :nth-child(3n+6) {
+  border: 1px solid black;
+  margin: 0.5em;
+  text-align: center;
+  width: 40%;
+}
+
+#combat > fieldset:nth-of-type(8) {
+  margin-bottom: auto;
+  padding: 2em 0;
+}
+
+#hit-dice {
+  display: block;
+  margin: auto;
+  border: 1px solid black;
+  text-align: center;
+  width: 50%;
+}
+
+#death-saves {
+  margin: auto;
+}
+
+#death-saves h3 {
+  margin: 0.2em;
+  font-size: 1.3em;
+}
+
+#death-saves fieldset {
+  width: 80%;
+  text-align: center;
+}
+
+#death-saves input {
+  margin: 0.3em;
+}
+
+/*  Skills  */
+#skills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#skills fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 1.5em;
+}
+
+#skills legend {
+  margin: auto;
+}
+
+.skill-prof {
+  margin-left: 2.5em;
+  text-align: center;
+  width: 20%;
+}
+
+#skills fieldset input:nth-of-type(2) {
+  border: none;
+  border-bottom: 1px solid black;
+  text-align: center;
+  width: 20%;
+}
+
+#percep {
+  border: none;
+  border-bottom: 1px solid black;
+  display: block;
+  margin: auto;
+  text-align: center;
+  width: 20%;
+}
+
+/*  Proficiencies and Languages  */
+

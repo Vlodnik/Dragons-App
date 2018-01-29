@@ -346,8 +346,8 @@ h3 {
 }
 
 #equips label {
-  display: block;
-  margin: 0.5em 2em;
+  margin: 0.5em auto;
+  text-align: center;
 }
 
 #coins-header {
@@ -358,17 +358,36 @@ h3 {
 
 #equips fieldset {
   border: none;
+  text-align: center;
   width: 100%;
+}
+
+#coins-div {
+  border: 1px solid black;
+  margin: auto;
 }
 
 .coins {
   border: none;
   border-bottom: 1px solid black;
-  display: block;
+  margin: auto;
   text-align: center;
-  width: 10%;
+  width: 20%;
 }
 
+/*  Features and Traits  */
+#features fieldset {
+  border: 1px solid black;
+}
 
+/*  Story  */
+#story {
+  display: flex;
+  flex-direction: column;
+}
 
+#story textarea {
+  border: 1px solid black;
+  height: 8em;
+}
 

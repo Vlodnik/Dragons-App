@@ -254,8 +254,8 @@ function generateEquip(item) {
 }
 
 function assignTraits() {
-  for(let trait in MOCK_CHAR_SHEET.story) {
-    $(`#${ trait }`).val(MOCK_CHAR_SHEET.story[trait]);
+  for(let item in MOCK_CHAR_SHEET.story) {
+    $(`#${ item }`).val(MOCK_CHAR_SHEET.story[item]);
   }
 }
 
@@ -265,7 +265,7 @@ function assignFeatures() {
     const newFeature = generateFeature(feature);
     features.push(newFeature);
   });
-  $('#features fieldset').append(features);
+  $('#new-trait').before(features);
 }
 
 function generateFeature(feature) {

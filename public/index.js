@@ -130,24 +130,399 @@ function getCharacterSheet(callback) {
   }, 100);
 }
 
-function displayCharacterSheet() {
-  $('#char-name').attr('value', MOCK_CHAR_SHEET.charName);
-  $('#class-level').attr('value', MOCK_CHAR_SHEET.classAndLevel);
-  $('#background').attr('value', MOCK_CHAR_SHEET.background);
-  $('#player-name').attr('value', MOCK_CHAR_SHEET.playerName);
-  $('#race').attr('value', MOCK_CHAR_SHEET.race);
-  $('#alignment').attr('value', MOCK_CHAR_SHEET.alignment);
-  $('#experience').attr('value', MOCK_CHAR_SHEET.experience);
-  $('#inspiration').attr('value', MOCK_CHAR_SHEET.inspiration);
-  $('#prof-bonus').attr('value', MOCK_CHAR_SHEET.profBonus);
-  $('#AC').attr('value', MOCK_CHAR_SHEET.AC);
-  $('#initiative').attr('value', MOCK_CHAR_SHEET.initiative);
-  $('#speed').attr('value', MOCK_CHAR_SHEET.speed);
-  $('#HP').attr('value', MOCK_CHAR_SHEET.HP);
-  $('#current-HP').attr('value', MOCK_CHAR_SHEET.currentHP);
-  $('#temp-HP').attr('value', MOCK_CHAR_SHEET.temporaryHP);
-  $('#hit-dice').attr('value', MOCK_CHAR_SHEET.hitDice);
-  $('#percep').attr('value', MOCK_CHAR_SHEET.passiveWisdom);
+function renderCharSheet(data) {
+  const html = `
+    <header>Draconis Personae</header>
+
+    <form id="macro">
+      <label for="charName">Character Name</label>
+      <input id="charName" type="text" value="${ data.charName }" required>
+
+      <div>
+        <label for="playerName">Player Name</label>
+        <input id="playerName" type="text" value="${ data.playerName }">
+      </div>
+
+      <div>
+        <label for="classAndLevel">Class &amp; Level</label>
+        <input id="classAndLevel" type="text" value="${ data.classAndLevel }">
+      </div>
+
+      <div>
+        <label for="background">Background</label>
+        <input id="background" type="text" value="${ data.background }">
+      </div>
+
+      <div>
+        <label for="race">Race</label>
+        <input id="race" type="text" value="${ data.race }">
+      </div>
+
+      <div>
+        <label for="alignment">Alignment</label>
+        <input id="alignment" type="text" value="${ data.alignment }">
+      </div>
+
+      <div>
+        <label for="experience">Exp Points</label>
+        <input id="experience" type="number">
+      </div>
+    </form>
+
+    <h2 id="attributes-header">Attributes</h2>
+    <form id="attributes">
+      <fieldset>
+        <legend>Strength</legend>
+        <input id="strength" class="attribute" type="number">
+        <input id="strength-mod" class="modifier" type="string">
+      </fieldset>
+
+      <fieldset>
+        <legend>Dexterity</legend>
+        <input id="dexterity" class="attribute" type="number">
+        <input id="dexterity-mod" class="modifier" type="string">
+      </fieldset>
+
+      <fieldset>
+        <legend>Constitution</legend>
+        <input id="constitution" class="attribute" type="number">
+        <input id="constitution-mod" class="modifier" type="string">
+      </fieldset>
+
+      <fieldset>
+        <legend>Intelligence</legend>
+        <input id="intelligence" class="attribute" type="number">
+        <input id="intelligence-mod" class="modifier" type="string">
+      </fieldset>
+
+      <fieldset>
+        <legend>Wisdom</legend>
+        <input id="wisdom" class="attribute" type="number">
+        <input id="wisdom-mod" class="modifier" type="string">
+      </fieldset>
+
+      <fieldset>
+        <legend>Charisma</legend>
+        <input id="charisma" class="attribute" type="number">
+        <input id="charisma-mod" class="modifier" type="string">
+      </fieldset>
+    </form>
+
+    <form id="ins-prof">
+      <fieldset>
+        <label for="inspiration">Inspiration</label>
+        <input id="inspiration" type="number">
+      </fieldset>
+
+      <fieldset>
+        <label for="profBonus">Proficiency Bonus</label>
+        <input id="profBonus" type="number">
+      </fieldset>
+    </form>
+
+    <h2 id="throws-header">Saving Throws</h2>
+    <form id="saving-throws">
+      <fieldset id="strength-save">
+        <legend>Strength</legend>
+        <input type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="dexterity-save">
+        <legend>Dexterity</legend>
+        <input type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="constitution-save">
+        <legend>Constitution</legend>
+        <input type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="intelligence-save">
+        <legend>Intelligence</legend>
+        <input type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="wisdom-save">
+        <legend>Wisdom</legend>
+        <input type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="charisma-save">
+        <legend>Charisma</legend>
+        <input type="checkbox">
+        <input type="number">
+      </fieldset>
+    </form>
+
+    <h2 id="combat-header">Combat</h2>
+    <form id="combat">
+      <fieldset class="com-one">
+        <legend for="AC">Armor Class</legend>
+        <input id="AC" type="number">
+      </fieldset>
+
+      <fieldset class="com-one">
+        <legend for="initiative">Initiative</legend>
+        <input id="initiative" type="number">
+      </fieldset>
+
+      <fieldset class="com-one"> 
+        <legend for="speed">Speed</legend>
+        <input id="speed" type="number">
+      </fieldset>
+
+      <fieldset class="com-one">
+        <legend for="HP">Hit Point Maximum</legend>
+        <input id="HP" type="number">
+      </fieldset>
+
+      <fieldset class="com-one">
+        <legend for="currentHP">Current Hit Points</legend>
+        <input id="currentHP" type="number">
+      </fieldset>
+
+      <fieldset class="com-one">
+        <legend for="temporaryHP">Temporary Hit Points</legend>
+        <input id="temporaryHP" type="number">
+      </fieldset>
+
+      <h3>Attacks &amp; Spellcasting</h3>
+      <div id="attacks">
+        <span>Name</span>
+        <span>Atk Bonus</span>
+        <span>Damage/Type</span>
+        <input id="new-attack-name" type="text">
+        <input id="new-attack-bonus" type="number">
+        <input id="new-attack-damage" type="text">
+      </div>
+
+      <fieldset>
+        <legend for="hitDice">Hit Dice</legend>
+        <input id="hitDice" type="text" value="${ data.hitDice }">
+      </fieldset>
+
+      <div id="death-saves">
+        <h3>Death Saves</h3>
+        <fieldset name="death-succ">
+          <legend>Successes</legend>
+          <input class="success" type="checkbox">
+          <input class="success" type="checkbox">
+          <input class="success" type="checkbox">
+        </fieldset>
+
+        <fieldset name="death-fail">
+          <legend>Failures</legend>
+          <input class="failure" type="checkbox">
+          <input class="failure" type="checkbox">
+          <input class="failure" type="checkbox">
+        </fieldset>
+      </div>
+    </form>
+
+    <h2 id="skills-header">Skills</h2>
+    <form id="skills">
+      <fieldset id="acrobatics">
+        <legend>Acrobatics<span>(Dex)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="animalHandling">
+        <legend>Animal Handling<span>(Wis)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="arcana">
+        <legend>Arcana<span>(Int)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="athletics">
+        <legend>Athletics<span>(Str)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="deception">
+        <legend>Deception<span>(Cha)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="history">
+        <legend>History<span>(Int)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="insight">
+        <legend>Insight<span>(Wis)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="intimidation">
+        <legend>Intimidation<span>(Cha)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="investigation">
+        <legend>Investigation<span>(Int)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="medicine">
+        <legend>Medicine<span>(Wis)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="nature">
+        <legend>Nature<span>(Int)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="perception">
+        <legend>Perception<span>(Wis)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="performance">
+        <legend>Performance<span>(Cha)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="persuasion">
+        <legend>Persuasion<span>(Cha)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="religion">
+        <legend>Religion<span>(Int)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="sleightOfHand">
+        <legend>Sleight of Hand<span>(Dex)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="stealth">
+        <legend>Stealth<span>(Dex)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="survival">
+        <legend>Survival<span>(Wis)</span></legend>
+        <input class="skill-prof" type="checkbox">
+        <input type="number">
+      </fieldset>
+
+      <fieldset id="passive-percep">
+        <legend for="passiveWisdom">Passive Wisdom (Perception)</legend>
+        <input id="passiveWisdom" type="number">
+      </fieldset>
+    </form>
+
+    <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
+    <form id="prof-and-lang">
+      <fieldset>
+        <input id="new-prof" class="profs" type="text">
+      </fieldset>
+    </form>
+
+    <h2 id="equipment-header">Equipment</h2>
+    <form id="equipment">
+      <div id="equips">
+        <input id="new-equip" class="items" type="string">
+
+        <h3 id="coins-header">Coins</h3>
+        <div id="coins-div">
+          <fieldset>
+            <label for="cp">CP</label>
+            <input id="cp" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="sp">SP</label>
+            <input id="sp" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="ep">EP</label>
+            <input id="ep" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="gp">GP</label>
+            <input id="gp" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="pp">PP</label>
+            <input id="pp" class="coins" type="number">
+          </fieldset>
+        </div>
+      </div>
+    </form>
+
+    <h2 id="features-header">Features &amp; Traits</h2>
+    <form id="features">
+      <fieldset>
+        <input id="new-trait" class="traits" type="text">
+      </fieldset>
+    </form>
+
+    <h2 id="story-header">Story</h2>
+    <form id="story">
+      
+        <h3>Personality Traits</h3>
+        <textarea id="personality"></textarea>
+
+        <h3>Ideals</h3>
+        <textarea id="ideals"></textarea>
+
+        <h3>Bonds</h3>
+        <textarea id="bonds"></textarea>
+
+        <h3>Flaws</h3>
+        <textarea id="flaws"></textarea>
+    </form>
+  `;
+  $('body').html(html);
+
+  const numberFieldsArray = [
+    'experience',
+    'inspiration',
+    'profBonus',
+    'AC',
+    'initiative',
+    'speed',
+    'HP',
+    'currentHP',
+    'temporaryHP',
+    'passiveWisdom'
+  ];
+
+  numberFieldsArray.forEach(function(field) {
+    $(`#${ field }`).attr('value', MOCK_CHAR_SHEET[field])
+  });
 
   assignAttributes();
   assignSavingThrows();
@@ -274,8 +649,10 @@ function generateFeature(feature) {
   `;
 }
 
+
+
 function getAndDisplayCharacterSheet() {
-  getCharacterSheet(displayCharacterSheet);
+  getCharacterSheet(renderCharSheet);
 }
 
 getAndDisplayCharacterSheet();

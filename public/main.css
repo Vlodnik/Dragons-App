@@ -252,7 +252,7 @@ h3 {
   padding: 2em 0;
 }
 
-#hit-dice {
+#hitDice {
   display: block;
   margin: auto;
   border: 1px solid black;
@@ -308,7 +308,7 @@ h3 {
   width: 20%;
 }
 
-#percep {
+#passiveWisdom {
   border: none;
   border-bottom: 1px solid black;
   display: block;

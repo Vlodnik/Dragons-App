@@ -125,6 +125,9 @@ h3 {
 /*  Inspiration and Proficiency Bonus  */
 #ins-prof fieldset {
   border: none;
+  margin: auto;
+  width: 70%;
+  max-width: 250px
 }
 
 #ins-prof label {
@@ -133,8 +136,7 @@ h3 {
 
 #ins-prof input {
   border: 1px solid black;
-  position: absolute;
-  right: 8em;
+  float: right;
   text-align: center;
   width: 1.5em;
 }
@@ -214,6 +216,7 @@ h3 {
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
+  justify-content: center;
   margin: auto;
   width: 90%;
 }
@@ -233,21 +236,30 @@ h3 {
   width: 40%;
 }
 
-#attacks :nth-child(3n+4), #attacks :nth-child(3n+5) {
+#attacks input:nth-child(3n+4), #attacks input:nth-child(3n+5) {
   border: 1px solid black;
   margin: 0.5em;
   text-align: center;
   width: 20%;
 }
 
-#attacks :nth-child(3n+6) {
+#attacks input:nth-child(3n+6) {
   border: 1px solid black;
   margin: 0.5em;
   text-align: center;
   width: 40%;
 }
 
+#js-add-attack {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 40%;
+  max-width: 200px
+}
+
 #combat > fieldset:nth-of-type(7) {
+  /*  This selects the Hit Dice fieldset  */
   margin-bottom: auto;
   padding: 2em 0;
 }
@@ -317,35 +329,40 @@ h3 {
   width: 20%;
 }
 
-/*  Proficiencies and Languages  */
-#prof-and-lang fieldset {
-  border: 1px solid black;
-  border-top: none;
-  margin-bottom: 2.5em;
+/*  Equipment  */
+#equipment {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.profs {
+#items-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 2.5em;
+  width: 90%;
+}
+
+#js-add-item {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  width: 40%;
+  max-width: 200px
+}
+
+.items {
   width: 90%;
   border: none;
   border-bottom: 1px solid black;
   margin-bottom: 0.5em;
 }
 
-/*  Equipment  */
-#equips {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.items {
-  border: none;
-  border-bottom: 1px solid black;
-  margin: auto;
-  margin-bottom: 0.5em;
-  width: 80%;
-}
-
-#equips label {
+#equipment label {
   margin: 0.5em auto;
   text-align: center;
 }
@@ -356,7 +373,7 @@ h3 {
   width: 100%;
 }
 
-#equips fieldset {
+#equipment fieldset {
   border: none;
   text-align: center;
   width: 100%;
@@ -364,6 +381,7 @@ h3 {
 
 #coins-div {
   border: 1px solid black;
+  border-top: none;
   margin: auto;
 }
 
@@ -375,9 +393,62 @@ h3 {
   width: 20%;
 }
 
-/*  Features and Traits  */
-#features fieldset {
+/*  Proficiencies and Languages  */
+#proficiencies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 2.5em;
+  width: 90%;
+  max-width: 700px;
+}
+
+.profs {
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+#js-add-prof {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  width: 40%;
+  max-width: 200px
+}
+
+/*  Features and Traits  */
+#features-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 2.5em;
+  width: 90%;
+  max-width: 700px
+}
+
+#js-add-trait {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  width: 40%;
+  max-width: 200px
+}
+
+.traits {
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
 }
 
 /*  Story  */
@@ -386,8 +457,44 @@ h3 {
   flex-direction: column;
 }
 
+#story div {
+  text-align: center;
+}
+
 #story textarea {
   border: 1px solid black;
   height: 8em;
+  margin: 0.5em auto 1.5em auto;
+  width: 90%;
 }
 
+@media only screen and (min-width: 1050px) {
+  #story {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #story div {
+    width: 40%;
+  }
+
+  #combat > fieldset:nth-of-type(7) {
+    /*  This selects the Hit Dice fieldset  */
+    margin-left: 30%; 
+  }  
+
+  #death-saves {
+    margin-right: 30%;
+  }
+
+  #items-div {
+    margin: auto;
+    width: 55%;
+  }
+
+  #coins-div {
+    margin: 0 auto;
+    width: 25%;
+  }
+}

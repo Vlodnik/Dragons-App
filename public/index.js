@@ -299,6 +299,7 @@ function renderCharSheet(data) {
         <input id="new-attack-name" type="text">
         <input id="new-attack-bonus" type="number">
         <input id="new-attack-damage" type="text">
+        <button id="js-add-attack" type="submit">Add Attack</button>
       </div>
 
       <fieldset>
@@ -440,71 +441,78 @@ function renderCharSheet(data) {
       </fieldset>
     </form>
 
-    <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
-    <form id="prof-and-lang">
-      <fieldset>
-        <input id="new-prof" class="profs" type="text">
-      </fieldset>
-    </form>
-
-    <h2 id="equipment-header">Equipment</h2>
     <form id="equipment">
-      <div id="equips">
-        <input id="new-equip" class="items" type="string">
+      <div id="items-div"> 
+        <h2 id="equipment-header">Equipment</h2>
+        <input id="new-item" class="items" type="string">
+        <button id="js-add-item" type="submit">Add Item</button>
+      </div>
+      <div id="coins-div">
+      <h3 id="coins-header">Coins</h3>
+        <fieldset>
+          <label for="cp">CP</label>
+          <input id="cp" class="coins" type="number">
+        </fieldset>
 
-        <h3 id="coins-header">Coins</h3>
-        <div id="coins-div">
-          <fieldset>
-            <label for="cp">CP</label>
-            <input id="cp" class="coins" type="number">
-          </fieldset>
+        <fieldset>
+          <label for="sp">SP</label>
+          <input id="sp" class="coins" type="number">
+        </fieldset>
 
-          <fieldset>
-            <label for="sp">SP</label>
-            <input id="sp" class="coins" type="number">
-          </fieldset>
+        <fieldset>
+          <label for="ep">EP</label>
+          <input id="ep" class="coins" type="number">
+        </fieldset>
 
-          <fieldset>
-            <label for="ep">EP</label>
-            <input id="ep" class="coins" type="number">
-          </fieldset>
+        <fieldset>
+          <label for="gp">GP</label>
+          <input id="gp" class="coins" type="number">
+        </fieldset>
 
-          <fieldset>
-            <label for="gp">GP</label>
-            <input id="gp" class="coins" type="number">
-          </fieldset>
-
-          <fieldset>
-            <label for="pp">PP</label>
-            <input id="pp" class="coins" type="number">
-          </fieldset>
-        </div>
+        <fieldset>
+          <label for="pp">PP</label>
+          <input id="pp" class="coins" type="number">
+        </fieldset>
       </div>
     </form>
 
-    <h2 id="features-header">Features &amp; Traits</h2>
+    <form id="prof-and-lang">
+      <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
+      <div id="proficiencies">
+        <input id="new-prof" class="profs" type="text">
+        <button id="js-add-prof" type="submit">Add Proficiency</button>
+      </div>
+    </form>
+
     <form id="features">
-      <fieldset>
+      <h2 id="features-header">Features &amp; Traits</h2>
+      <div id="features-div"> 
         <input id="new-trait" class="traits" type="text">
-      </fieldset>
+        <button id="js-add-trait" type="submit">Add Trait</button>
+      </div>
     </form>
 
     <h2 id="story-header">Story</h2>
     <form id="story">
-      
+      <div>
         <h3>Personality Traits</h3>
         <textarea id="personality"></textarea>
-
+      </div>
+      <div>
         <h3>Ideals</h3>
         <textarea id="ideals"></textarea>
-
+      </div>
+      <div>
         <h3>Bonds</h3>
         <textarea id="bonds"></textarea>
-
+      </div>
+      <div>
         <h3>Flaws</h3>
         <textarea id="flaws"></textarea>
+      </div>
     </form>
   `;
+
   $('body').html(html);
 
   const numberFieldsArray = [
@@ -532,8 +540,8 @@ function renderCharSheet(data) {
   assignProf();
   assignMoney();
   assignEquip();
+  assignStory();
   assignTraits();
-  assignFeatures();
 }
 
 function assignAttributes() {
@@ -581,7 +589,7 @@ function assignAttacks() {
     const newAttack = generateAttack(attack[0], attack[1], attack[2]);
     attackElements.push(newAttack);
   });
-  $('#attacks span:nth-of-type(3)').after(attackElements);
+  $('#new-attack-name').before(attackElements);
 }
 
 function generateAttack(name, bonus, dmg) {
@@ -619,7 +627,7 @@ function assignEquip() {
     const newItem = generateEquip(item);
     items.push(newItem);
   });
-  $('#new-equip').before(items);
+  $('#new-item').before(items);
 }
 
 function generateEquip(item) {
@@ -628,31 +636,81 @@ function generateEquip(item) {
   `;
 }
 
-function assignTraits() {
+function assignStory() {
   for(let item in MOCK_CHAR_SHEET.story) {
     $(`#${ item }`).val(MOCK_CHAR_SHEET.story[item]);
   }
 }
 
-function assignFeatures() {
-  let features = [];
-  MOCK_CHAR_SHEET.features.forEach(function(feature) {
-    const newFeature = generateFeature(feature);
-    features.push(newFeature);
+function assignTraits() {
+  let traits = [];
+  MOCK_CHAR_SHEET.features.forEach(function(trait) {
+    const newTrait = generateTrait(trait);
+    traits.push(newTrait);
   });
-  $('#new-trait').before(features);
+  $('#new-trait').before(traits);
 }
 
-function generateFeature(feature) {
+function generateTrait(trait) {
   return `
-    <input class="traits" type="text" value="${ feature }">
+    <input class="traits" type="text" value="${ trait }">
   `;
 }
 
+function handleAddAttackButton() {
+  $('body').on('click', '#js-add-attack', function() {
+    event.preventDefault();
+    const name = $('#new-attack-name').val();
+    const bonus = $('#new-attack-bonus').val();
+    const damage = $('#new-attack-damage').val();
+    const newAttack = generateAttack(name, bonus, damage);
+    $('#new-attack-name').before(newAttack);
+    $('#new-attack-name').val('');
+    $('#new-attack-bonus').val('');
+    $('#new-attack-damage').val('');
+  });
+}
 
+function handleAddProfButton() {
+  $('body').on('click', '#js-add-prof', function() {
+    event.preventDefault();
+    const prof = $('#new-prof').val(); 
+    const newProf = generateProf(prof);
+    $('#new-prof').before(newProf);
+    $('#new-prof').val('');
+  });
+}
+
+function handleAddItemButton() {
+  $('body').on('click', '#js-add-item', function() {
+    event.preventDefault();
+    const item = $('#new-item').val();
+    const newItem = generateEquip(item);
+    $('#new-item').before(newItem);
+    $('#new-item').val('');
+  });
+}
+
+function handleAddTraitButton() {
+  $('body').on('click', '#js-add-trait', function() {
+    event.preventDefault();
+    const trait = $('#new-trait').val();
+    const newTrait = generateTrait(trait);
+    $('#new-trait').before(newTrait);
+    $('#new-trait').val('');
+  });
+}
 
 function getAndDisplayCharacterSheet() {
   getCharacterSheet(renderCharSheet);
 }
 
+function handleButtons() {
+  handleAddAttackButton();
+  handleAddProfButton();
+  handleAddItemButton();
+  handleAddTraitButton();
+}
+
 getAndDisplayCharacterSheet();
+handleButtons();

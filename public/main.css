@@ -1,0 +1,500 @@
+html, body {
+  box-sizing: border-box;
+  font-family: 'Archivo';
+}
+
+/*body * {
+  border: 1px red solid;
+}*/
+
+
+/*  Titles  */
+header {
+  font-family: 'Archivo Black';
+  font-size: 3.5em;
+  margin: auto;
+  line-height: 0.8em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Archivo Black';
+  font-size: 1.8em;
+  text-align: center;
+}
+
+h3 {
+  font-family: 'Archivo Black';
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+
+/*  Macro   */
+#macro {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#macro > label {
+  font-size: 1.4em;
+  margin: auto;
+  text-align: center;
+  width: 100%;
+}
+
+#macro > input {
+  font-size: 2em;
+  margin: auto;
+  margin-bottom: 0.5em;
+  text-align: center;
+  width: 95%;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+#macro div {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+#macro div label, #macro div input {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+#macro label {
+  font-family: 'Archivo Black';
+}
+
+#macro div input{
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
+  width: 80%;
+}
+
+/*  Attributes  */
+#attributes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5em;
+}
+
+#attributes fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 0.5em;
+  padding: 0;
+  width: 30%;
+}
+
+#attributes legend {
+  font-family: 'Archivo Black';
+  font-size: 0.9em;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+}
+
+#attributes input {
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  padding: 0;
+  text-align: center;
+  width: 2.5em;
+}
+
+.attribute {
+  font-size: 1.5em;
+}
+
+.modifier {
+  border: 1px solid black;
+  border-radius: 100%;
+  padding: 0.3em;
+}
+
+/*  Inspiration and Proficiency Bonus  */
+#ins-prof fieldset {
+  border: none;
+  margin: auto;
+  width: 70%;
+  max-width: 250px
+}
+
+#ins-prof label {
+  font-family: 'Archivo Black'
+}
+
+#ins-prof input {
+  border: 1px solid black;
+  float: right;
+  text-align: center;
+  width: 1.5em;
+}
+
+/*  Saving Throws  */
+#saving-throws {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5em;
+}
+
+#saving-throws fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 0.5em;
+  padding: 0.8em 0;
+  width: 30%;
+}
+
+#saving-throws legend {
+  font-family: 'Archivo Black';
+  font-size: 0.9em;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+}
+
+#saving-throws input {
+  margin: auto;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  padding: 0;
+  text-align: center;
+  width: 30%;
+}
+
+/*  Combat  */
+#combat {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5em;
+}
+
+#combat fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 0.5em;
+  padding: 0.8em 0;
+}
+
+#combat legend {
+  font-family: 'Archivo Black';
+  font-size: 0.9em;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+}
+
+.com-one {
+  width: 30%;
+}
+
+.com-one input {
+  border: 1px solid black;
+  display: block;
+  margin: auto;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  padding: 0;
+  text-align: center;
+  width: 30%;
+}
+
+#attacks {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+  width: 90%;
+}
+
+#attacks span:first-of-type, #attacks span:nth-of-type(2) {
+  border: none;
+  margin: 0.5em;
+  text-align: center;
+  width: 20%;
+}
+
+#attacks span:nth-of-type(3) {
+  border: none;
+  margin: 0.5em;
+  padding-top: 0;
+  text-align: center;
+  width: 40%;
+}
+
+#attacks input:nth-child(3n+4), #attacks input:nth-child(3n+5) {
+  border: 1px solid black;
+  margin: 0.5em;
+  text-align: center;
+  width: 20%;
+}
+
+#attacks input:nth-child(3n+6) {
+  border: 1px solid black;
+  margin: 0.5em;
+  text-align: center;
+  width: 40%;
+}
+
+#js-add-attack {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 40%;
+  max-width: 200px
+}
+
+#combat > fieldset:nth-of-type(7) {
+  /*  This selects the Hit Dice fieldset  */
+  margin-bottom: auto;
+  padding: 2em 0;
+}
+
+#hitDice {
+  display: block;
+  margin: auto;
+  border: 1px solid black;
+  text-align: center;
+  width: 50%;
+}
+
+#death-saves {
+  margin: auto;
+}
+
+#death-saves h3 {
+  margin: 0.2em;
+  font-size: 1.3em;
+}
+
+#death-saves fieldset {
+  width: 80%;
+  text-align: center;
+}
+
+#death-saves input {
+  margin: 0.3em;
+}
+
+/*  Skills  */
+#skills {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#skills fieldset {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 1.5em;
+}
+
+#skills legend {
+  margin: auto;
+}
+
+.skill-prof {
+  margin-left: 2.5em;
+  text-align: center;
+  width: 20%;
+}
+
+#skills fieldset input:nth-of-type(2) {
+  border: none;
+  border-bottom: 1px solid black;
+  text-align: center;
+  width: 20%;
+}
+
+#passiveWisdom {
+  border: none;
+  border-bottom: 1px solid black;
+  display: block;
+  margin: auto;
+  text-align: center;
+  width: 20%;
+}
+
+/*  Equipment  */
+#equipment {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#items-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 2.5em;
+  width: 90%;
+}
+
+#js-add-item {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  width: 40%;
+  max-width: 200px
+}
+
+.items {
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+#equipment label {
+  margin: 0.5em auto;
+  text-align: center;
+}
+
+#coins-header {
+  margin: 1em 0;
+  text-align: center;
+  width: 100%;
+}
+
+#equipment fieldset {
+  border: none;
+  text-align: center;
+  width: 100%;
+}
+
+#coins-div {
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+}
+
+.coins {
+  border: none;
+  border-bottom: 1px solid black;
+  margin: auto;
+  text-align: center;
+  width: 20%;
+}
+
+/*  Proficiencies and Languages  */
+#proficiencies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 2.5em;
+  width: 90%;
+  max-width: 700px;
+}
+
+.profs {
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+#js-add-prof {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  width: 40%;
+  max-width: 200px
+}
+
+/*  Features and Traits  */
+#features-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: 1px solid black;
+  border-top: none;
+  margin: auto;
+  margin-bottom: 2.5em;
+  width: 90%;
+  max-width: 700px
+}
+
+#js-add-trait {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-bottom: 0.5em;
+  width: 40%;
+  max-width: 200px
+}
+
+.traits {
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-bottom: 0.5em;
+}
+
+/*  Story  */
+#story {
+  display: flex;
+  flex-direction: column;
+}
+
+#story div {
+  text-align: center;
+}
+
+#story textarea {
+  border: 1px solid black;
+  height: 8em;
+  margin: 0.5em auto 1.5em auto;
+  width: 90%;
+}
+
+@media only screen and (min-width: 1050px) {
+  #story {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #story div {
+    width: 40%;
+  }
+
+  #combat > fieldset:nth-of-type(7) {
+    /*  This selects the Hit Dice fieldset  */
+    margin-left: 30%; 
+  }  
+
+  #death-saves {
+    margin-right: 30%;
+  }
+
+  #items-div {
+    margin: auto;
+    width: 55%;
+  }
+
+  #coins-div {
+    margin: 0 auto;
+    width: 25%;
+  }
+}

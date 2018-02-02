@@ -511,6 +511,9 @@ function renderCharSheet(data) {
         <textarea id="flaws"></textarea>
       </div>
     </form>
+    <form id="save">
+      <button id="js-save" type="submit">Save Character</button>
+    </form>
   `;
 
   $('body').html(html);
@@ -657,6 +660,70 @@ function generateTrait(trait) {
   `;
 }
 
+function createSheetObject() {
+  let savedSheet = {};
+
+  const stringValues = [
+    'charName', 
+    'classAndLevel', 
+    'background', 
+    'playerName', 
+    'race',
+    'alignment',
+    'hitDice',
+    ];
+
+  const numValues = [
+    'experience',
+    'inspiration',
+    'profBonus',
+    'AC',
+    'initiative',
+    'speed',
+    'HP',
+    'currentHP',
+    'temporaryHP',
+    'passiveWisdom'
+  ];
+
+  const unusedData = [
+    'castingClass',
+    'castingAbility',
+    'spellSaveDC',
+    'spellAttackBonus',
+    'cantrips',
+    'levelOneSpells',
+    'levelTwoSpells',
+    'levelThreeSpells',
+    'levelFourSpells',
+    'levelFiveSpells',
+    'levelSixSpells',
+    'levelSevenSpells',
+    'levelEightSpells',
+    'levelNineSpells'
+  ];
+
+  stringValues.forEach(function(field) {
+    savedSheet[field] = $(`#${ field }`).val();
+  });
+
+  numValues.forEach(function(field) {
+    savedSheet[field] = parseInt($(`#${ field }`).val(), 10);
+  })
+
+  unusedData.forEach(function(field) {
+    if(field.indexOf('level') === 0) {
+      savedSheet[field] = [];
+    } else if(field === 'cantrips') {
+      savedSheet[field] = [];
+    } else {
+      savedSheet[field] = null;
+    }
+  });
+
+  console.log(savedSheet);
+}
+
 function handleAddAttackButton() {
   $('body').on('click', '#js-add-attack', function() {
     event.preventDefault();
@@ -701,6 +768,23 @@ function handleAddTraitButton() {
   });
 }
 
+function handleSaveButton() {
+  $('body').on('click', '#js-save', function() {
+    event.preventDefault();
+    const savedSheet = createSheetObject();
+    console.log(savedSheet);
+    $.ajax({
+      type: 'PUT',
+      dataType: 'json',
+      url: 'localhost:8080',
+      data: `${ savedSheet }`,
+      success: function() {
+        console.log('PUT request successful');
+      }
+    });
+  });
+}
+
 function getAndDisplayCharacterSheet() {
   getCharacterSheet(renderCharSheet);
 }
@@ -710,6 +794,7 @@ function handleButtons() {
   handleAddProfButton();
   handleAddItemButton();
   handleAddTraitButton();
+  handleSaveButton();
 }
 
 getAndDisplayCharacterSheet();

@@ -1,0 +1,122 @@
+{
+  "charName": "Merriweather Abernethy",
+  "classAndLevel": "Barbarian 2",
+  "background": "Pro-Athelete",
+  "playerName": "Evan",
+  "race": "Halfling",
+  "alignment": "Chaotic Good",
+  "experience": 500,
+  "attributes": {
+    "strength": [16, "+3"],
+    "dexterity": [16, "+3"],
+    "constitution": [16, "+3"],
+    "intelligence": [8, "-1"],
+    "wisdom": [8, "-1"],
+    "charisma": [15,"+2"]
+  },
+  "inspiration": 1,
+  "profBonus": 2,
+  "AC": 16,
+  "initiative": null,
+  "speed": 25,
+  "HP": 25,
+  "currentHP": 18,
+  "temporaryHP": 0,
+  "savingThrows": {
+    "strength": [true, 4],
+    "dexterity": [false, 4],
+    "constitution": [true, 3],
+    "intelligence": [false, 0],
+    "wisdom": [false, 0],
+    "charisma": [false, 1]
+  },
+  "skills": {
+    "acrobatics": [false, 3],
+    "animalHandling": [false, -1],
+    "arcana": [false, -1],
+    "athletics": [true, 5],
+    "deception": [false, 2],
+    "history": [false, -1],
+    "insight": [false, -1],
+    "intimidation": [true, 4],
+    "investigation": [false, -1],
+    "medicine": [false, -1],
+    "nature": [false, -1],
+    "perception": [false, -1],
+    "performance": [false, 2],
+    "persuasion": [false, 2],
+    "religion": [false, -1],
+    "sleightOfHand": [false, 3],
+    "stealth": [false, 3],
+    "survival": [false, -1]
+  },
+  "passiveWisdom": 8,
+  "profAndLang": [
+    "Light & Med Armor",
+    "Shields",
+    "Simple & Martial Weapons",
+    "Common",
+    "Halfling"
+  ],
+  "hitDice": "Eh?",
+  "deathSaves": {
+    "successes": 2,
+    "failures": 1
+  },
+  "attacks": [
+    [
+      "Greataxe",
+      5,
+      "1d12 + 3 slashing"
+    ],
+    [
+      "Greatclub",
+      5,
+      "1d8 slashing"
+    ]
+  ],
+  "money": {
+    "cp": null,
+    "sp": 5,
+    "ep": null,
+    "gp": 20,
+    "pp": null
+  },
+  "equipment": [
+    "Greatclub",
+    "Club",
+    "Explorer's Pack",
+    "Javelins x4",
+    "Sword of Vengeance",
+    "Water Mask",
+    "Marauder's Map"
+  ],
+  "story": {
+    "personality": "Merri is sassy, brassy, and Scottish as can be!",
+    "ideals": "Merri came to play, and is here to stay.",
+    "bonds": "Merri aspires to be a famous adventurer one day, and is bonded to courage.",
+    "flaws": "Very whacky."
+  },
+  "features": [
+    "Lucky",
+    "Brave",
+    "Halfling Nimbleness",
+    "RAGE",
+    "Reckless Attack",
+    "Danger Sense"
+  ],
+  "castingClass": null,
+  "castingAbility": null,
+  "spellSaveDC": null,
+  "spellAttackBonus": null,
+  "cantrips": [],
+  "levelOneSpells": [],
+  "levelTwoSpells": [],
+  "levelThreeSpells": [],
+  "levelFourSpells": [],
+  "levelFiveSpells": [],
+  "levelSixSpells": [],
+  "levelSevenSpells": [],
+  "levelEightSpells": [],
+  "levelNineSpells": []
+}

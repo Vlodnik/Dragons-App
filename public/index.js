@@ -296,9 +296,9 @@ function renderCharSheet(data) {
         <span>Name</span>
         <span>Atk Bonus</span>
         <span>Damage/Type</span>
-        <input id="new-attack-name" type="text">
-        <input id="new-attack-bonus" type="number">
-        <input id="new-attack-damage" type="text">
+        <input id="new-attack-name" class="atk-damage" type="text">
+        <input id="new-attack-bonus" class="atk-bonus" type="number">
+        <input id="new-attack-damage" class="atk-damage" type="text">
         <button id="js-add-attack" type="submit">Add Attack</button>
       </div>
 
@@ -721,7 +721,183 @@ function createSheetObject() {
     }
   });
 
-  console.log(savedSheet);
+  savedSheet.attributes = createAttributesObject();
+  savedSheet.savingThrows = createSavingThrowsObject();
+  savedSheet.skills = createSkillsObject();
+  savedSheet.profAndLang = createProfsArray();
+  savedSheet.deathSaves = createDeathSavesObject();
+  savedSheet.attacks = createAttacksArray();
+  savedSheet.money = createMoneyObject();
+  savedSheet.equipment = createEquipmentArray();
+  savedSheet.story = createStoryObject();
+  savedSheet.features = createFeaturesArray();
+
+  return savedSheet;
+}
+
+function createAttributesObject() {
+  let attributesObject = {};
+  const attributes = [
+    'strength', 
+    'dexterity', 
+    'constitution',
+    'intelligence',
+    'wisdom',
+    'charisma'
+  ];
+
+  attributes.forEach(function(stat) {
+    attributesObject[stat] = [
+      parseInt($(`#${ stat }`).val(), 10), 
+      $(`#${ stat }-mod`).val()
+    ];
+  });
+
+  return attributesObject;
+}
+
+function createSavingThrowsObject() {
+  let savingThrowsObject = {};
+  const attributes = [
+    'strength', 
+    'dexterity', 
+    'constitution',
+    'intelligence',
+    'wisdom',
+    'charisma'
+  ];
+
+  attributes.forEach(function(stat) {
+    savingThrowsObject[stat] = [
+      findCheckedValue(`#${ stat }-save input:first-of-type`),
+      parseInt($(`#${ stat }-save input:nth-of-type(2)`).val(), 10)
+    ];
+  });
+
+  return savingThrowsObject;
+}
+
+function createSkillsObject() {
+  let skillsObject = {};
+  const skills = [
+    'acrobatics',
+    'animalHandling',
+    'arcana',
+    'athletics',
+    'deception',
+    'history',
+    'insight',
+    'intimidation',
+    'investigation',
+    'medicine',
+    'nature',
+    'perception',
+    'performance',
+    'persuasion',
+    'religion',
+    'sleightOfHand',
+    'stealth',
+    'survival'
+  ];
+
+  skills.forEach(function(skill) {
+    skillsObject[skill] = [
+      findCheckedValue(`#${ skill } input:first-of-type`),
+      parseInt($(`#${ skill } input:nth-of-type(2)`).val(), 10)
+    ];
+  });
+
+  return skillsObject;
+}
+
+function createProfsArray() {
+  let profsArray = [];
+
+  for(let i = 1; i <= $('.profs').length; i++) {
+    const prof = $(`.profs:nth-of-type(${ i })`).val();
+    if(prof !== '') {
+      profsArray.push(prof);
+    }
+  }
+
+  return profsArray;
+}
+
+function createDeathSavesObject() {
+  let savesObject = {
+    'successes': 0,
+    'failures': 0
+  };
+
+  for(let i = 1; i <= 3; i++) {
+    if(findCheckedValue(`.success:nth-of-type(${ i })`)) {
+      savesObject.successes++;
+    }
+    if(findCheckedValue(`.failure:nth-of-type(${ i })`)) {
+      savesObject.failures++;
+    }
+  }
+
+  return savesObject;
+}
+
+function createAttacksArray() {
+  let attacksArray = [];
+
+  for(let i = 0; i <= $('.atk-name').length; i++) {
+    if(
+        $(`#attacks input:nth-of-type(${ 3*i+1 })`).val() !== '' ||
+        $(`#attacks input:nth-of-type(${ 3*i+2 }`).val() !== '' ||
+        $(`#attacks input:nth-of-type(${ 3*i+3 }`).val() !== ''
+      ) {
+          let newAttack = [];
+          newAttack.push($(`#attacks input:nth-of-type(${ 3*i+1 })`).val());
+          newAttack.push(parseInt($(`#attacks input:nth-of-type(${ 3*i+2 })`).val(), 10));
+          newAttack.push($(`#attacks input:nth-of-type(${ 3*i+3 })`).val());
+          attacksArray.push(newAttack);
+    }
+  }
+  return attacksArray;
+}
+
+function createMoneyObject() {
+  let moneyObject = {};
+  const coins = ['cp', 'sp', 'ep', 'gp', 'pp'];
+
+  coins.forEach(function(coin) {
+    moneyObject[coin] = parseInt($(`#${ coin }`).val(), 10);
+  });  
+
+  return moneyObject;
+}
+
+function createEquipmentArray() {
+  let equipmentArray = [];
+
+  for(let i = 1; i <= $('.items').length; i++) {
+    const item = $(`.items:nth-of-type(${ i })`).val();
+    if(item !== '') {
+      equipmentArray.push(item);
+    }
+  }
+
+  return equipmentArray;
+}
+
+function createStoryObject() {
+
+}
+
+function createFeaturesArray() {
+
+}
+ 
+function findCheckedValue(element) {
+  if($(element).is(':checked')) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function handleAddAttackButton() {

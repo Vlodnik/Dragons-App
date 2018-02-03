@@ -885,11 +885,27 @@ function createEquipmentArray() {
 }
 
 function createStoryObject() {
+  let storyObject = {};
+  const storyItems = ['personality', 'ideals', 'bonds', 'flaws'];
 
+  storyItems.forEach(function(item) {
+    storyObject[item] = $(`#${ item }`).val();
+  });
+
+  return storyObject;
 }
 
 function createFeaturesArray() {
+  let featuresArray = [];
 
+  for(let i = 1; i <= $('.traits').length; i++) {
+    const trait = $(`.traits:nth-of-type(${ i })`).val();
+    if(trait !== '') {
+      featuresArray.push(trait);
+    }
+  }
+
+  return featuresArray;
 }
  
 function findCheckedValue(element) {

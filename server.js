@@ -1,9 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
 const app = express();
 
 app.use(express.static('public'));
 
-const PORT = process.env.PORT || 8080;
+const { PORT, DATABASE_URL } = require('./config');
 
 let server;
 

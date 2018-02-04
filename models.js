@@ -143,4 +143,4 @@ sheetSchema.methods.serialize = function() {
 
 const Sheet = mongoose.model('Sheet', sheetSchema);
 
-module.exports{ Sheet };
+module.exports = { Sheet };

@@ -187,7 +187,7 @@ function tearDownDb() {
 describe('Dragon-App API resource', function() {
 
   before(function() {
-    return runServer();
+    return runServer(TEST_DATABASE_URL);
   });
 
   beforeEach(function() {

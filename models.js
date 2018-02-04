@@ -83,15 +83,15 @@ const sheetSchema = mongoose.Schema({
   spellSaveDC: Number,
   spellAttackBonus: String,
   cantrips: [String],
-  levelOneSpells: [String]],
-  levelTwoSpells: [String]],
-  levelThreeSpells: [String]],
-  levelFourSpells: [String]],
-  levelFiveSpells: [String]],
-  levelSixSpells: [String]],
-  levelSevenSpells: [String]],
-  levelEightSpells: [String]],
-  levelNineSpells: [String]]
+  levelOneSpells: [String],
+  levelTwoSpells: [String],
+  levelThreeSpells: [String],
+  levelFourSpells: [String],
+  levelFiveSpells: [String],
+  levelSixSpells: [String],
+  levelSevenSpells: [String],
+  levelEightSpells: [String],
+  levelNineSpells: [String]
 });
 
 sheetSchema.methods.serialize = function() {

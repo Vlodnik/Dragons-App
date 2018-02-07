@@ -86,42 +86,42 @@ function generateSheetData() {
   });
 
   newSheet.attributes = {
-    strength: [faker.random.number(), faker.random.word()],
-    dexterity: [faker.random.number(), faker.random.word()],
-    constitution: [faker.random.number(), faker.random.word()],
-    intelligence: [faker.random.number(), faker.random.word()],
-    wisdom: [faker.random.number(), faker.random.word()],
-    charisma: [faker.random.number(),faker.random.word()]
+    strength: {val: faker.random.number(), bonus: faker.random.word()},
+    dexterity: {val: faker.random.number(), bonus: faker.random.word()},
+    constitution: {val: faker.random.number(), bonus: faker.random.word()},
+    intelligence: {val: faker.random.number(), bonus: faker.random.word()},
+    wisdom: {val: faker.random.number(), bonus: faker.random.word()},
+    charisma: {val: faker.random.number(), bonus: faker.random.word()}
   };
 
   newSheet.savingThrows = {
-    strength: [faker.random.boolean(), faker.random.word()],
-    dexterity: [faker.random.boolean(), faker.random.word()],
-    constitution: [faker.random.boolean(), faker.random.word()],
-    intelligence: [faker.random.boolean(), faker.random.word()],
-    wisdom: [faker.random.boolean(), faker.random.word()],
-    charisma: [faker.random.boolean(),faker.random.word()]
+    strength: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    dexterity: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    constitution: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    intelligence: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    wisdom: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    charisma: {checked: faker.random.boolean(), bonus: faker.random.number()}
   };
 
   newSheet.skills = {
-    acrobatics: [faker.random.boolean(), faker.random.number()],
-    animalHandling: [faker.random.boolean(), faker.random.number()],
-    arcana: [faker.random.boolean(), faker.random.number()],
-    athletics: [faker.random.boolean(), faker.random.number()],
-    deception: [faker.random.boolean(), faker.random.number()],
-    history: [faker.random.boolean(), faker.random.number()],
-    insight: [faker.random.boolean(), faker.random.number()],
-    intimidation: [faker.random.boolean(), faker.random.number()],
-    investigation: [faker.random.boolean(), faker.random.number()],
-    medicine: [faker.random.boolean(), faker.random.number()],
-    nature: [faker.random.boolean(), faker.random.number()],
-    perception: [faker.random.boolean(), faker.random.number()],
-    performance: [faker.random.boolean(), faker.random.number()],
-    persuasion: [faker.random.boolean(), faker.random.number()],
-    religion: [faker.random.boolean(), faker.random.number()],
-    sleightOfHand: [faker.random.boolean(), faker.random.number()],
-    stealth: [faker.random.boolean(), faker.random.number()],
-    survival: [faker.random.boolean(), faker.random.number()]
+    acrobatics: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    animalHandling: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    arcana: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    athletics: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    deception: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    history: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    insight: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    intimidation: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    investigation: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    medicine: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    nature: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    perception: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    performance: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    persuasion: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    religion: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    sleightOfHand: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    stealth: {checked: faker.random.boolean(), bonus: faker.random.number()},
+    survival: {checked: faker.random.boolean(), bonus: faker.random.number()}
   };
 
   newSheet.profAndLang = createRandomStringArray();
@@ -169,11 +169,11 @@ function createRandomAttacksArray() {
   let attacksArray = [];
 
   for(let i = 0; i <= Math.floor(Math.random() * 10); i++) {
-    attacksArray.push([
-        faker.random.word(),
-        faker.random.number(),
-        faker.random.words()
-      ]);
+    attacksArray.push({
+        name: faker.random.word(),
+        bonus: faker.random.number(),
+        damage: faker.random.words()
+      });
   }
 
   return attacksArray;
@@ -214,11 +214,53 @@ describe('Dragon-App API resource', function() {
     });
   });
 
+  describe('GET endpoint', function() {
+
+    it('should respond with a json character sheet', function() {
+      return chai.request(app)
+        .get('/sheets')
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res).to.have.status(200);
+        })
+    });
+  });
+
+  // describe('POST endpoint', function() {
+
+  //   it('should create new sheet and send 201 status code', function() {
+  //     const newSheet = generateSheetData();
+
+  //     return chai.request(app)
+  //       .post('/sheets')
+  //       .then(function(res) {
+  //         expect(res).to.be.json;
+  //         expect(res).to.have.status(201);
+  //         expect(res.body.charName).to.equal(newSheet.charName);
+  //         //expect(res.body).to.deep.equal(newSheet);
+  //       })
+  //   });
+  // });
+
   describe('PUT endpoint', function() {
 
-    it('should update sheet and send 204 status code', function() {
-      const updateData = generateSheetData();
-
+    it('should update sheet and send 200 status code', function() {
+      const updateData = {
+        charName: 'etetetetetetet',
+        attributes: {
+          strength: {val: 9001, bonus: '+3000'},
+          dexterity: {val: 9001, bonus: '+3000'},
+          constitution: {val: 9001, bonus: '+3000'},
+          intelligence: {val: 9001, bonus: '+3000'},
+          wisdom: {val: 9001, bonus: '+3000'},
+          charisma: {val: 9001, bonus: '+3000'}
+        },
+        levelNineSpells: [
+          'Funky Chicken Dance',
+          'Barbarian Rage',
+          'Scottish Brogue'
+        ]
+      };
       return Sheet
         .findOne()
         .then(function(charSheet) {
@@ -229,12 +271,25 @@ describe('Dragon-App API resource', function() {
             .send(updateData)
         })
         .then(function(res) {
-          expect(res).to.have.status(204);
+          expect(res).to.have.status(200);
 
           return Sheet.findById(updateData.id);
         }) 
         .then(function(sheet) {
-          expect(sheet).to.deep.equal(updateData);
+          expect(sheet.charName).to.equal(updateData.charName);
+          expect(sheet.attributes.strength.val).to.equal(updateData.attributes.strength.val);
+          expect(sheet.attributes.dexterity.val).to.equal(updateData.attributes.dexterity.val);
+          expect(sheet.attributes.constitution.val).to.equal(updateData.attributes.constitution.val);
+          expect(sheet.attributes.intelligence.val).to.equal(updateData.attributes.intelligence.val);
+          expect(sheet.attributes.wisdom.val).to.equal(updateData.attributes.wisdom.val);
+          expect(sheet.attributes.charisma.val).to.equal(updateData.attributes.charisma.val);
+          expect(sheet.attributes.strength.bonus).to.equal(updateData.attributes.strength.bonus);
+          expect(sheet.attributes.dexterity.bonus).to.equal(updateData.attributes.dexterity.bonus);
+          expect(sheet.attributes.constitution.bonus).to.equal(updateData.attributes.constitution.bonus);
+          expect(sheet.attributes.intelligence.bonus).to.equal(updateData.attributes.intelligence.bonus);
+          expect(sheet.attributes.wisdom.bonus).to.equal(updateData.attributes.wisdom.bonus);
+          expect(sheet.attributes.charisma.bonus).to.equal(updateData.attributes.charisma.bonus);
+          expect(sheet.levelNineSpells).to.deep.equal(updateData.levelNineSpells);
         });
     });
   });

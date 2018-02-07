@@ -12,12 +12,30 @@ const sheetSchema = mongoose.Schema({
   alignment: String,
   experience: Number,
   attributes: {
-    strength: [{ any: {} }],
-    dexterity: [{ any: {} }],
-    constitution: [{ any: {} }],
-    intelligence: [{ any: {} }],
-    wisdom: [{ any: {} }],
-    charisma: [{ any: {} }]
+    strength: {
+      val: Number,
+      bonus: String
+    },
+    dexterity: {
+      val: Number,
+      bonus: String
+    },
+    constitution: {
+      val: Number,
+      bonus: String
+    },
+    intelligence: {
+      val: Number,
+      bonus: String
+    },
+    wisdom: {
+      val: Number,
+      bonus: String
+    },
+    charisma: {
+      val: Number,
+      bonus: String
+    }
   },
   inspiration: Number,
   profBonus: Number,
@@ -28,32 +46,104 @@ const sheetSchema = mongoose.Schema({
   currentHP: Number,
   temporaryHP: Number,
   savingThrows: {
-    strength: [{ any: {} }],
-    dexterity: [{ any: {} }],
-    constitution: [{ any: {} }],
-    intelligence: [{ any: {} }],
-    wisdom: [{ any: {} }],
-    charisma: [{ any: {} }]
+    strength: {
+      checked: Boolean,
+      bonus: Number
+    },
+    dexterity: {
+      checked: Boolean,
+      bonus: Number
+    },
+    constitution: {
+      checked: Boolean,
+      bonus: Number
+    },
+    intelligence: {
+      checked: Boolean,
+      bonus: Number
+    },
+    wisdom: {
+      checked: Boolean,
+      bonus: Number
+    },
+    charisma: {
+      checked: Boolean,
+      bonus: Number
+    }
   },
   skills: {
-    acrobatics: [{ any: {} }],
-    animalHandling: [{ any: {} }],
-    arcana: [{ any: {} }],
-    athletics: [{ any: {} }],
-    deception: [{ any: {} }],
-    history: [{ any: {} }],
-    insight: [{ any: {} }],
-    intimidation: [{ any: {} }],
-    investigation: [{ any: {} }],
-    medicine: [{ any: {} }],
-    nature: [{ any: {} }],
-    perception: [{ any: {} }],
-    performance: [{ any: {} }],
-    persuasion: [{ any: {} }],
-    religion: [{ any: {} }],
-    sleightOfHand: [{ any: {} }],
-    stealth: [{ any: {} }],
-    survival: [{ any: {} }]
+    acrobatics: {
+      checked: Boolean,
+      bonus: Number
+    },
+    animalHandling: {
+      checked: Boolean,
+      bonus: Number
+    },
+    arcana: {
+      checked: Boolean,
+      bonus: Number
+    },
+    athletics: {
+      checked: Boolean,
+      bonus: Number
+    },
+    deception: {
+      checked: Boolean,
+      bonus: Number
+    },
+    history: {
+      checked: Boolean,
+      bonus: Number
+    },
+    insight: {
+      checked: Boolean,
+      bonus: Number
+    },
+    intimidation: {
+      checked: Boolean,
+      bonus: Number
+    },
+    investigation: {
+      checked: Boolean,
+      bonus: Number
+    },
+    medicine: {
+      checked: Boolean,
+      bonus: Number
+    },
+    nature: {
+      checked: Boolean,
+      bonus: Number
+    },
+    perception: {
+      checked: Boolean,
+      bonus: Number
+    },
+    performance: {
+      checked: Boolean,
+      bonus: Number
+    },
+    persuasion: {
+      checked: Boolean,
+      bonus: Number
+    },
+    religion: {
+      checked: Boolean,
+      bonus: Number
+    },
+    sleightOfHand: {
+      checked: Boolean,
+      bonus: Number
+    },
+    stealth: {
+      checked: Boolean,
+      bonus: Number
+    },
+    survival: {
+      checked: Boolean,
+      bonus: Number
+    }
   },
   passiveWisdom: Number,
   profAndLang: [String],
@@ -62,7 +152,13 @@ const sheetSchema = mongoose.Schema({
     successes: Number,
     failures: Number
   },
-  attacks: [[]],
+  attacks: [
+    {
+      name: String,
+      bonus: Number,
+      damage: String
+    }
+  ],
   money: {
     cp: Number,
     sp: Number,

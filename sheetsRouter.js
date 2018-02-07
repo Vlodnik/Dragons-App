@@ -5,13 +5,14 @@ const router = express.Router();
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 const Sheet = require('./models');
 
 router.put('/:id', jsonParser, (req, res) => {
   if(req.params.id !== req.body.id) {
-    const message = (`Request path id ${ req.params.id } must equal`
-      `request body id ${ req.body.id }`);
+    const message = (`Request path id ${ req.params.id } must equal request body id ${ req.body.id }`);
     console.error(message);
     return res.status(400).send(message);
   }

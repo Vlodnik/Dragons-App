@@ -7,12 +7,30 @@
   "alignment": "Chaotic Good",
   "experience": 500,
   "attributes": {
-    "strength": [16, "+3"],
-    "dexterity": [16, "+3"],
-    "constitution": [16, "+3"],
-    "intelligence": [8, "-1"],
-    "wisdom": [8, "-1"],
-    "charisma": [15,"+2"]
+    "strength": {
+      "val": 16,
+      "bonus": "+3"
+    },
+    "dexterity": {
+      "val": 16,
+      "bonus": "+3"
+    },
+    "constitution": {
+      "val": 16,
+      "bonus": "+3"
+    },
+    "intelligence": {
+      "val": 8,
+      "bonus": "-1"
+    },
+    "wisdom": {
+      "val": 8,
+      "bonus": "-1"
+    },
+    "charisma": {
+      "val": 15,
+      "bonus": "+2"
+    }
   },
   "inspiration": 1,
   "profBonus": 2,
@@ -23,32 +41,104 @@
   "currentHP": 18,
   "temporaryHP": 0,
   "savingThrows": {
-    "strength": [true, 4],
-    "dexterity": [false, 4],
-    "constitution": [true, 3],
-    "intelligence": [false, 0],
-    "wisdom": [false, 0],
-    "charisma": [false, 1]
+    "strength": {
+      "checked": true,
+      "bonus": 4
+    },
+    "dexterity": {
+      "checked": false,
+      "bonus": 4
+    },
+    "constitution": {
+      "checked": true,
+      "bonus": 3
+    },
+    "intelligence": {
+      "checked": false,
+      "bonus": 0
+    },
+    "wisdom": {
+      "checked": false,
+      "bonus": 0
+    },
+    "charisma": {
+      "checked": false,
+      "bonus": 1
+    }
   },
   "skills": {
-    "acrobatics": [false, 3],
-    "animalHandling": [false, -1],
-    "arcana": [false, -1],
-    "athletics": [true, 5],
-    "deception": [false, 2],
-    "history": [false, -1],
-    "insight": [false, -1],
-    "intimidation": [true, 4],
-    "investigation": [false, -1],
-    "medicine": [false, -1],
-    "nature": [false, -1],
-    "perception": [false, -1],
-    "performance": [false, 2],
-    "persuasion": [false, 2],
-    "religion": [false, -1],
-    "sleightOfHand": [false, 3],
-    "stealth": [false, 3],
-    "survival": [false, -1]
+    "acrobatics": {
+      "checked": false,
+      "bonus": 3
+    },
+    "animalHandling": {
+      "checked": false,
+      "bonus": -1
+    },
+    "arcana": {
+      "checked": false,
+      "bonus": -1
+    },
+    "athletics": {
+      "checked": true,
+      "bonus": 5
+    },
+    "deception": {
+      "checked": false,
+      "bonus": 2
+    },
+    "history": {
+      "checked": false,
+      "bonus": -1
+    },
+    "insight": {
+      "checked": false,
+      "bonus": -1
+    },
+    "intimidation": {
+      "checked": true,
+      "bonus": 4
+    },
+    "investigation": {
+      "checked": false,
+      "bonus": -1
+    },
+    "medicine": {
+      "checked": false,
+      "bonus": -1
+    },
+    "nature": {
+      "checked": false,
+      "bonus": -1
+    },
+    "perception": {
+      "checked": false,
+      "bonus": -1
+    },
+    "performance": {
+      "checked": false,
+      "bonus": 2
+    },
+    "persuasion": {
+      "checked": false,
+      "bonus": 2
+    },
+    "religion": {
+      "checked": false,
+      "bonus": -1
+    },
+    "sleightOfHand": {
+      "checked": false,
+      "bonus": 3
+    },
+    "stealth": {
+      "checked": false,
+      "bonus": 3
+    },
+    "survival": {
+      "checked": false,
+      "bonus": -1
+    }
   },
   "passiveWisdom": 8,
   "profAndLang": [
@@ -64,16 +154,16 @@
     "failures": 1
   },
   "attacks": [
-    [
-      "Greataxe",
-      5,
-      "1d12 + 3 slashing"
-    ],
-    [
-      "Greatclub",
-      5,
-      "1d8 slashing"
-    ]
+    {
+      "name": "Greataxe",
+      "bonus": 5,
+      "damage": "1d12 + 3 slashing"
+    },
+    {
+      "name": "Greatclub",
+      "bonus": 2,
+      "damage": "1d8 slashing"
+    }
   ],
   "money": {
     "cp": null,

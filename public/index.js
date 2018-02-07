@@ -12,14 +12,23 @@ function getCharacterSheet(callback) {
   $.getJSON('http://localhost:8080/sheets', callback);
 }
 
+// <button class="js-save" type="submit">Save Character</button>
+
 function renderCharSheet(data) {
   const html = `
+    <nav id="nav-bar">
+      <ul>
+        <li>Home</li>
+        <li>Save Character</li>
+        <li>New Character</li>
+      </ul>
+    </nav>
+
     <header>Draconis Personae</header>
 
     <form id="macro">
       <label for="charName">Character Name</label>
       <input id="charName" type="text" value="${ data.charName }" required>
-
       <div>
         <label for="playerName">Player Name</label>
         <input id="playerName" type="text" value="${ data.playerName }">
@@ -392,9 +401,6 @@ function renderCharSheet(data) {
         <h3>Flaws</h3>
         <textarea id="flaws"></textarea>
       </div>
-    </form>
-    <form id="save" aria-live="assertive">
-      <button id="js-save" type="submit">Save Character</button>
     </form>
   `;
 

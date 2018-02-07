@@ -1,133 +1,15 @@
 'use strict';
 
-let MOCK_CHAR_SHEET = {
-  "id": 11111,
-  "charName": "Merriweather Abernethy",
-  "classAndLevel": "Barbarian 2",
-  "background": "Pro-Athelete",
-  "playerName": "Evan",
-  "race": "Halfling",
-  "alignment": "Chaotic Good",
-  "experience": 500,
-  "attributes": {
-    "strength": [16, '+3'],
-    "dexterity": [16, '+3'],
-    "constitution": [16, '+3'],
-    "intelligence": [8, '-1'],
-    "wisdom": [8, '-1'],
-    "charisma": [15,'+2']
-  },
-  "inspiration": 1,
-  "profBonus": 2,
-  "AC": 16,
-  "initiative": null,
-  "speed": 25,
-  "HP": 25,
-  "currentHP": 18,
-  "temporaryHP": 0,
-  "savingThrows": {
-    "strength": [true, 4],
-    "dexterity": [false, 4],
-    "constitution": [true, 3],
-    "intelligence": [false, 0],
-    "wisdom": [false, 0],
-    "charisma": [false, 1]
-  },
-  "skills": {
-    "acrobatics": [false, 3],
-    "animalHandling": [false, -1],
-    "arcana": [false, -1],
-    "athletics": [true, 5],
-    "deception": [false, 2],
-    "history": [false, -1],
-    "insight": [false, -1],
-    "intimidation": [true, 4],
-    "investigation": [false, -1],
-    "medicine": [false, -1],
-    "nature": [false, -1],
-    "perception": [false, -1],
-    "performance": [false, 2],
-    "persuasion": [false, 2],
-    "religion": [false, -1],
-    "sleightOfHand": [false, 3],
-    "stealth": [false, 3],
-    "survival": [false, -1]
-  },
-  "passiveWisdom": 8,
-  "profAndLang": [
-    "Light & Med Armor",
-    "Shields",
-    "Simple & Martial Weapons",
-    "Common",
-    "Halfling"
-  ],
-  "hitDice": "Eh?",
-  "deathSaves": {
-    "successes": 2,
-    "failures": 1
-  },
-  "attacks": [
-    [
-      "Greataxe",
-      5,
-      "1d12 + 3 slashing"
-    ],
-    [
-      "Greatclub",
-      5,
-      "1d8 slashing"
-    ]
-  ],
-  "money": {
-    "cp": null,
-    "sp": 5,
-    "ep": null,
-    "gp": 20,
-    "pp": null
-  },
-  "equipment": [
-    "Greatclub",
-    "Club",
-    "Explorer's Pack",
-    "Javelins x4",
-    "Sword of Vengeance",
-    "Water Mask",
-    "Marauder's Map"
-  ],
-  "story": {
-    "personality": "Merri is sassy, brassy, and Scottish as can be!",
-    "ideals": "Merri came to play, and is here to stay.",
-    "bonds": "Merri aspires to be a famous adventurer one day, and is bonded to courage.",
-    "flaws": "Very whacky."
-  },
-  "features": [
-    "Lucky",
-    "Brave",
-    "Halfling Nimbleness",
-    "RAGE",
-    "Reckless Attack",
-    "Danger Sense"
-  ],
-  "castingClass": null,
-  "castingAbility": null,
-  "spellSaveDC": null,
-  "spellAttackBonus": null,
-  "cantrips": [],
-  "levelOneSpells": [],
-  "levelTwoSpells": [],
-  "levelThreeSpells": [],
-  "levelFourSpells": [],
-  "levelFiveSpells": [],
-  "levelSixSpells": [],
-  "levelSevenSpells": [],
-  "levelEightSpells": [],
-  "levelNineSpells": []
+const appState = {
+  currentSheetId: null
 };
 
 function getCharacterSheet(callback) {
-  setTimeout(function() {
-    callback(MOCK_CHAR_SHEET)
-  }, 100);
+  // setTimeout(function() {
+  //   callback(MOCK_CHAR_SHEET)
+  // }, 100);
+  console.log('getting character sheet');
+  $.getJSON('http://localhost:8080/sheets', callback);
 }
 
 function renderCharSheet(data) {
@@ -296,9 +178,9 @@ function renderCharSheet(data) {
         <span>Name</span>
         <span>Atk Bonus</span>
         <span>Damage/Type</span>
-        <input id="new-attack-name" type="text">
-        <input id="new-attack-bonus" type="number">
-        <input id="new-attack-damage" type="text">
+        <input id="new-attack-name" class="atk-damage" type="text">
+        <input id="new-attack-bonus" class="atk-bonus" type="number">
+        <input id="new-attack-damage" class="atk-damage" type="text">
         <button id="js-add-attack" type="submit">Add Attack</button>
       </div>
 
@@ -511,6 +393,9 @@ function renderCharSheet(data) {
         <textarea id="flaws"></textarea>
       </div>
     </form>
+    <form id="save" aria-live="assertive">
+      <button id="js-save" type="submit">Save Character</button>
+    </form>
   `;
 
   $('body').html(html);
@@ -529,64 +414,70 @@ function renderCharSheet(data) {
   ];
 
   numberFieldsArray.forEach(function(field) {
-    $(`#${ field }`).attr('value', MOCK_CHAR_SHEET[field])
+    $(`#${ field }`).attr('value', data[field])
   });
 
-  assignAttributes();
-  assignSavingThrows();
-  assignDeathSaves();
-  assignSkills();
-  assignAttacks();
-  assignProf();
-  assignMoney();
-  assignEquip();
-  assignStory();
-  assignTraits();
+  assignAttributes(data);
+  assignSavingThrows(data);
+  assignDeathSaves(data);
+  assignSkills(data);
+  assignAttacks(data);
+  assignProf(data);
+  assignMoney(data);
+  assignEquip(data);
+  assignStory(data);
+  assignTraits(data);
+
+  // Make app state aware of the current sheet
+  appState.currentSheetId = data._id;
+
+  console.log('renderCharSheet ran');
+  console.log(appState.currentSheetId);
 }
 
-function assignAttributes() {
-  for(let stat in MOCK_CHAR_SHEET.attributes) {
-    $(`#${ stat }`).attr('value', MOCK_CHAR_SHEET.attributes[stat][0]);
-    $(`#${ stat }-mod`).attr('value', MOCK_CHAR_SHEET.attributes[stat][1]);
+function assignAttributes(data) {
+  for(let stat in data.attributes) {
+    $(`#${ stat }`).attr('value', data.attributes[stat].val);
+    $(`#${ stat }-mod`).attr('value', data.attributes[stat].bonus);
   }
 }
 
-function assignSavingThrows() {
-  for(let stat in MOCK_CHAR_SHEET.savingThrows) {
-    if(MOCK_CHAR_SHEET.savingThrows[stat][0]) {
+function assignSavingThrows(data) {
+  for(let stat in data.savingThrows) {
+    if(data.savingThrows[stat].checked) {
       $(`#${ stat }-save input:nth-child(2)`)
         .attr('checked', true);
     }
     $(`#${ stat }-save input:nth-child(3)`)
-      .attr('value', MOCK_CHAR_SHEET.savingThrows[stat][1]);
+      .attr('value', data.savingThrows[stat].bonus);
   }
 }
 
-function assignDeathSaves() {
-  for(let i = 1; i <= MOCK_CHAR_SHEET.deathSaves.successes; i++) {
+function assignDeathSaves(data) {
+  for(let i = 1; i <= data.deathSaves.successes; i++) {
     $(`#combat fieldset:first-of-type input:nth-of-type(${i})`)
       .attr('checked', true);
   }
-  for(let i = 1; i <= MOCK_CHAR_SHEET.deathSaves.failures; i++) {
+  for(let i = 1; i <= data.deathSaves.failures; i++) {
     $(`#combat fieldset:nth-of-type(2) input:nth-of-type(${i})`)
       .attr('checked', true);
   }
 }
 
-function assignSkills() {
-  for(let skill in MOCK_CHAR_SHEET.skills) {
-    if(MOCK_CHAR_SHEET.skills[skill][0]) {
+function assignSkills(data) {
+  for(let skill in data.skills) {
+    if(data.skills[skill].checked) {
       $(`#${ skill } input:first-of-type`).attr('checked', true)
     }
     $(`#${ skill } input:nth-of-type(2)`)
-      .attr('value', MOCK_CHAR_SHEET.skills[skill][1]);
+      .attr('value', data.skills[skill].bonus);
   }
 }
 
-function assignAttacks() {
+function assignAttacks(data) {
   let attackElements = [];
-  MOCK_CHAR_SHEET.attacks.forEach(function(attack) {
-    const newAttack = generateAttack(attack[0], attack[1], attack[2]);
+  data.attacks.forEach(function(attack) {
+    const newAttack = generateAttack(attack.name, attack.bonus, attack.damage);
     attackElements.push(newAttack);
   });
   $('#new-attack-name').before(attackElements);
@@ -600,9 +491,9 @@ function generateAttack(name, bonus, dmg) {
   `;
 }
 
-function assignProf() {
+function assignProf(data) {
   let profs = [];
-  MOCK_CHAR_SHEET.profAndLang.forEach(function(prof) {
+  data.profAndLang.forEach(function(prof) {
     const newProf = generateProf(prof);
     profs.push(newProf);
   });
@@ -615,15 +506,15 @@ function generateProf(prof) {
   `;
 }
 
-function assignMoney() {
-  for(let coin in MOCK_CHAR_SHEET.money) {
-    $(`#${ coin }`).attr('value', MOCK_CHAR_SHEET.money[coin]);
+function assignMoney(data) {
+  for(let coin in data.money) {
+    $(`#${ coin }`).attr('value', data.money[coin]);
   }
 }
 
-function assignEquip() {
+function assignEquip(data) {
   let items = [];
-  MOCK_CHAR_SHEET.equipment.forEach(function(item) {
+  data.equipment.forEach(function(item) {
     const newItem = generateEquip(item);
     items.push(newItem);
   });
@@ -636,15 +527,15 @@ function generateEquip(item) {
   `;
 }
 
-function assignStory() {
-  for(let item in MOCK_CHAR_SHEET.story) {
-    $(`#${ item }`).val(MOCK_CHAR_SHEET.story[item]);
+function assignStory(data) {
+  for(let item in data.story) {
+    $(`#${ item }`).val(data.story[item]);
   }
 }
 
-function assignTraits() {
+function assignTraits(data) {
   let traits = [];
-  MOCK_CHAR_SHEET.features.forEach(function(trait) {
+  data.features.forEach(function(trait) {
     const newTrait = generateTrait(trait);
     traits.push(newTrait);
   });
@@ -656,6 +547,274 @@ function generateTrait(trait) {
     <input class="traits" type="text" value="${ trait }">
   `;
 }
+
+// Code for creating PUT request
+
+function createSheetObject() {
+  let savedSheet = {};
+
+  const stringValues = [
+    'charName', 
+    'classAndLevel', 
+    'background', 
+    'playerName', 
+    'race',
+    'alignment',
+    'hitDice',
+    ];
+
+  const numValues = [
+    'experience',
+    'inspiration',
+    'profBonus',
+    'AC',
+    'initiative',
+    'speed',
+    'HP',
+    'currentHP',
+    'temporaryHP',
+    'passiveWisdom'
+  ];
+
+  const unusedData = [
+    'castingClass',
+    'castingAbility',
+    'spellSaveDC',
+    'spellAttackBonus',
+    'cantrips',
+    'levelOneSpells',
+    'levelTwoSpells',
+    'levelThreeSpells',
+    'levelFourSpells',
+    'levelFiveSpells',
+    'levelSixSpells',
+    'levelSevenSpells',
+    'levelEightSpells',
+    'levelNineSpells'
+  ];
+
+  stringValues.forEach(function(field) {
+    savedSheet[field] = $(`#${ field }`).val();
+  });
+
+  numValues.forEach(function(field) {
+    savedSheet[field] = parseInt($(`#${ field }`).val(), 10);
+  })
+
+  unusedData.forEach(function(field) {
+    if(field.indexOf('level') === 0) {
+      savedSheet[field] = [];
+    } else if(field === 'cantrips') {
+      savedSheet[field] = [];
+    } else {
+      savedSheet[field] = null;
+    }
+  });
+
+  savedSheet.attributes = createAttributesObject();
+  savedSheet.savingThrows = createSavingThrowsObject();
+  savedSheet.skills = createSkillsObject();
+  savedSheet.profAndLang = createProfsArray();
+  savedSheet.deathSaves = createDeathSavesObject();
+  savedSheet.attacks = createAttacksArray();
+  savedSheet.money = createMoneyObject();
+  savedSheet.equipment = createEquipmentArray();
+  savedSheet.story = createStoryObject();
+  savedSheet.features = createFeaturesArray();
+  savedSheet.id = appState.currentSheetId;
+
+  return savedSheet;
+}
+
+function createAttributesObject() {
+  let attributesObject = {};
+  const attributes = [
+    'strength', 
+    'dexterity', 
+    'constitution',
+    'intelligence',
+    'wisdom',
+    'charisma'
+  ];
+
+  attributes.forEach(function(stat) {
+    attributesObject[stat] = {
+      val: parseInt($(`#${ stat }`).val(), 10), 
+      bonus: $(`#${ stat }-mod`).val()
+    };
+  });
+
+  return attributesObject;
+}
+
+function createSavingThrowsObject() {
+  let savingThrowsObject = {};
+  const attributes = [
+    'strength', 
+    'dexterity', 
+    'constitution',
+    'intelligence',
+    'wisdom',
+    'charisma'
+  ];
+
+  attributes.forEach(function(stat) {
+    savingThrowsObject[stat] = {
+      checked: findCheckedValue(`#${ stat }-save input:first-of-type`),
+      bonus: parseInt($(`#${ stat }-save input:nth-of-type(2)`).val(), 10)
+    };
+  });
+
+  return savingThrowsObject;
+}
+
+function createSkillsObject() {
+  let skillsObject = {};
+  const skills = [
+    'acrobatics',
+    'animalHandling',
+    'arcana',
+    'athletics',
+    'deception',
+    'history',
+    'insight',
+    'intimidation',
+    'investigation',
+    'medicine',
+    'nature',
+    'perception',
+    'performance',
+    'persuasion',
+    'religion',
+    'sleightOfHand',
+    'stealth',
+    'survival'
+  ];
+
+  skills.forEach(function(skill) {
+    skillsObject[skill] = {
+      checked: findCheckedValue(`#${ skill } input:first-of-type`),
+      bonus: parseInt($(`#${ skill } input:nth-of-type(2)`).val(), 10)
+    };
+  });
+
+  return skillsObject;
+}
+
+function createProfsArray() {
+  let profsArray = [];
+
+  for(let i = 1; i <= $('.profs').length; i++) {
+    const prof = $(`.profs:nth-of-type(${ i })`).val();
+    if(prof !== '') {
+      profsArray.push(prof);
+    }
+  }
+
+  return profsArray;
+}
+
+function createDeathSavesObject() {
+  let savesObject = {
+    'successes': 0,
+    'failures': 0
+  };
+
+  for(let i = 1; i <= 3; i++) {
+    if(findCheckedValue(`.success:nth-of-type(${ i })`)) {
+      savesObject.successes++;
+    }
+    if(findCheckedValue(`.failure:nth-of-type(${ i })`)) {
+      savesObject.failures++;
+    }
+  }
+
+  return savesObject;
+}
+
+function createAttacksArray() {
+  let attacksArray = [];
+
+  for(let i = 0; i <= $('.atk-name').length; i++) {
+    if(
+        $(`#attacks input:nth-of-type(${ 3*i+1 })`).val() !== '' ||
+        $(`#attacks input:nth-of-type(${ 3*i+2 }`).val() !== '' ||
+        $(`#attacks input:nth-of-type(${ 3*i+3 }`).val() !== ''
+      ) {
+          let newAttack = {};
+          newAttack.name = $(`#attacks input:nth-of-type(${ 3*i+1 })`).val();
+          newAttack.bonus = parseInt($(`#attacks input:nth-of-type(${ 3*i+2 })`).val(), 10);
+          newAttack.damage = $(`#attacks input:nth-of-type(${ 3*i+3 })`).val();
+          attacksArray.push(newAttack);
+    }
+  }
+  return attacksArray;
+}
+
+function createMoneyObject() {
+  let moneyObject = {};
+  const coins = ['cp', 'sp', 'ep', 'gp', 'pp'];
+
+  coins.forEach(function(coin) {
+    moneyObject[coin] = parseInt($(`#${ coin }`).val(), 10);
+  });  
+
+  return moneyObject;
+}
+
+function createEquipmentArray() {
+  let equipmentArray = [];
+
+  for(let i = 1; i <= $('.items').length; i++) {
+    const item = $(`.items:nth-of-type(${ i })`).val();
+    if(item !== '') {
+      equipmentArray.push(item);
+    }
+  }
+
+  return equipmentArray;
+}
+
+function createStoryObject() {
+  let storyObject = {};
+  const storyItems = ['personality', 'ideals', 'bonds', 'flaws'];
+
+  storyItems.forEach(function(item) {
+    storyObject[item] = $(`#${ item }`).val();
+  });
+
+  return storyObject;
+}
+
+function createFeaturesArray() {
+  let featuresArray = [];
+
+  for(let i = 1; i <= $('.traits').length; i++) {
+    const trait = $(`.traits:nth-of-type(${ i })`).val();
+    if(trait !== '') {
+      featuresArray.push(trait);
+    }
+  }
+
+  return featuresArray;
+}
+ 
+function findCheckedValue(element) {
+  if($(element).is(':checked')) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function showSaveSuccessful(data) {
+  console.log('PUT request successful');
+ 
+  $('#js-save').text(data.message);
+  setTimeout(() => $('#js-save').text('Save Character'), 2000);
+}
+
+//*** Event handlers ***//
 
 function handleAddAttackButton() {
   $('body').on('click', '#js-add-attack', function() {
@@ -701,6 +860,23 @@ function handleAddTraitButton() {
   });
 }
 
+function handleSaveButton() {
+  $('body').on('click', '#js-save', function() {
+    event.preventDefault();
+    const savedSheet = createSheetObject();
+    console.log(savedSheet);
+    $.ajax({
+      type: 'PUT',
+      contentType: 'application/json',
+      dataType: 'json',
+      processData: false,
+      url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
+      data: JSON.stringify(savedSheet),
+      success: showSaveSuccessful
+    });
+  });
+}
+
 function getAndDisplayCharacterSheet() {
   getCharacterSheet(renderCharSheet);
 }
@@ -710,6 +886,7 @@ function handleButtons() {
   handleAddProfButton();
   handleAddItemButton();
   handleAddTraitButton();
+  handleSaveButton();
 }
 
 getAndDisplayCharacterSheet();

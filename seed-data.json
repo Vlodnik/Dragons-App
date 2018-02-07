@@ -1,0 +1,212 @@
+{
+  "charName": "Merriweather Abernethy",
+  "classAndLevel": "Barbarian 2",
+  "background": "Pro-Athelete",
+  "playerName": "Evan",
+  "race": "Halfling",
+  "alignment": "Chaotic Good",
+  "experience": 500,
+  "attributes": {
+    "strength": {
+      "val": 16,
+      "bonus": "+3"
+    },
+    "dexterity": {
+      "val": 16,
+      "bonus": "+3"
+    },
+    "constitution": {
+      "val": 16,
+      "bonus": "+3"
+    },
+    "intelligence": {
+      "val": 8,
+      "bonus": "-1"
+    },
+    "wisdom": {
+      "val": 8,
+      "bonus": "-1"
+    },
+    "charisma": {
+      "val": 15,
+      "bonus": "+2"
+    }
+  },
+  "inspiration": 1,
+  "profBonus": 2,
+  "AC": 16,
+  "initiative": null,
+  "speed": 25,
+  "HP": 25,
+  "currentHP": 18,
+  "temporaryHP": 0,
+  "savingThrows": {
+    "strength": {
+      "checked": true,
+      "bonus": 4
+    },
+    "dexterity": {
+      "checked": false,
+      "bonus": 4
+    },
+    "constitution": {
+      "checked": true,
+      "bonus": 3
+    },
+    "intelligence": {
+      "checked": false,
+      "bonus": 0
+    },
+    "wisdom": {
+      "checked": false,
+      "bonus": 0
+    },
+    "charisma": {
+      "checked": false,
+      "bonus": 1
+    }
+  },
+  "skills": {
+    "acrobatics": {
+      "checked": false,
+      "bonus": 3
+    },
+    "animalHandling": {
+      "checked": false,
+      "bonus": -1
+    },
+    "arcana": {
+      "checked": false,
+      "bonus": -1
+    },
+    "athletics": {
+      "checked": true,
+      "bonus": 5
+    },
+    "deception": {
+      "checked": false,
+      "bonus": 2
+    },
+    "history": {
+      "checked": false,
+      "bonus": -1
+    },
+    "insight": {
+      "checked": false,
+      "bonus": -1
+    },
+    "intimidation": {
+      "checked": true,
+      "bonus": 4
+    },
+    "investigation": {
+      "checked": false,
+      "bonus": -1
+    },
+    "medicine": {
+      "checked": false,
+      "bonus": -1
+    },
+    "nature": {
+      "checked": false,
+      "bonus": -1
+    },
+    "perception": {
+      "checked": false,
+      "bonus": -1
+    },
+    "performance": {
+      "checked": false,
+      "bonus": 2
+    },
+    "persuasion": {
+      "checked": false,
+      "bonus": 2
+    },
+    "religion": {
+      "checked": false,
+      "bonus": -1
+    },
+    "sleightOfHand": {
+      "checked": false,
+      "bonus": 3
+    },
+    "stealth": {
+      "checked": false,
+      "bonus": 3
+    },
+    "survival": {
+      "checked": false,
+      "bonus": -1
+    }
+  },
+  "passiveWisdom": 8,
+  "profAndLang": [
+    "Light & Med Armor",
+    "Shields",
+    "Simple & Martial Weapons",
+    "Common",
+    "Halfling"
+  ],
+  "hitDice": "Eh?",
+  "deathSaves": {
+    "successes": 2,
+    "failures": 1
+  },
+  "attacks": [
+    {
+      "name": "Greataxe",
+      "bonus": 5,
+      "damage": "1d12 + 3 slashing"
+    },
+    {
+      "name": "Greatclub",
+      "bonus": 2,
+      "damage": "1d8 slashing"
+    }
+  ],
+  "money": {
+    "cp": null,
+    "sp": 5,
+    "ep": null,
+    "gp": 20,
+    "pp": null
+  },
+  "equipment": [
+    "Greatclub",
+    "Club",
+    "Explorer's Pack",
+    "Javelins x4",
+    "Sword of Vengeance",
+    "Water Mask",
+    "Marauder's Map"
+  ],
+  "story": {
+    "personality": "Merri is sassy, brassy, and Scottish as can be!",
+    "ideals": "Merri came to play, and is here to stay.",
+    "bonds": "Merri aspires to be a famous adventurer one day, and is bonded to courage.",
+    "flaws": "Very whacky."
+  },
+  "features": [
+    "Lucky",
+    "Brave",
+    "Halfling Nimbleness",
+    "RAGE",
+    "Reckless Attack",
+    "Danger Sense"
+  ],
+  "castingClass": null,
+  "castingAbility": null,
+  "spellSaveDC": null,
+  "spellAttackBonus": null,
+  "cantrips": [],
+  "levelOneSpells": [],
+  "levelTwoSpells": [],
+  "levelThreeSpells": [],
+  "levelFourSpells": [],
+  "levelFiveSpells": [],
+  "levelSixSpells": [],
+  "levelSevenSpells": [],
+  "levelEightSpells": [],
+  "levelNineSpells": []
+}

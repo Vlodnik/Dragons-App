@@ -4,7 +4,7 @@ html, body {
 }
 
 /*body * {
-  border: 1px red solid;
+  border: 1px blue solid;
 }*/
 
 
@@ -15,8 +15,16 @@ header {
   margin: auto;
   line-height: 0.8em;
   margin-bottom: 0.5em;
-  margin-top: 0.5em;
+  margin-top: 1.5em;
   text-align: center;
+}
+
+header img {
+  display: block;
+  margin: auto;
+  width: 100%;
+  max-width: 400px;
+  height: 4em;
 }
 
 h2 {
@@ -32,7 +40,66 @@ h3 {
   width: 100%;
 }
 
-/*  Macro   */
+/*  Nav Bar  */
+#nav-bar {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  padding: 1em;
+  top: 0;
+  width: 100%;
+  background-color: red;
+}
+
+#nav-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  /*overflow: hidden;*/
+}
+
+#nav-bar li {
+  padding: 0.5em;
+  font-size: 1.5em;
+}
+
+#nav-bar li, #nav-bar button {
+  background-color: red;
+  display: inline;
+}
+
+#nav-bar button {
+  border: none;
+  color: white;
+  margin: 0;
+}
+
+#nav-bar button:hover {
+  cursor: pointer;
+  background-color: gray;
+}
+
+/*  Confirm Buttons for landing page  */
+#confirm-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+#confirm-buttons li {
+  margin: auto;
+}
+
+#confirm-buttons button {
+  border: none;
+  background-color: lightgray;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  height: 3em;
+  width: 15em;
+}
+
+/*  Macro  */
 #macro {
   display: flex;
   flex-wrap: wrap;
@@ -138,7 +205,7 @@ h3 {
   border: 1px solid black;
   float: right;
   text-align: center;
-  width: 1.5em;
+  width: 2em;
 }
 
 /*  Saving Throws  */
@@ -469,7 +536,7 @@ h3 {
 }
 
 /*  Save Button  */
-#save {
+/*#save {
   text-align: center;
 }
 
@@ -481,9 +548,23 @@ h3 {
   max-width: 200px;
   height: 3em;
   margin-bottom: 3em;
-}
+}*/
+
+/*  Media Queries  */
 
 @media only screen and (min-width: 1050px) {
+/*  #nav-bar {
+    justify-content: flex-end;
+  }
+
+  #home {
+    margin-right: auto;
+  }
+
+  #save {
+    margin-left: auto;
+  }
+*/
   #story {
     flex-direction: row;
     flex-wrap: wrap;

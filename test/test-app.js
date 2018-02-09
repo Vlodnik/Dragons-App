@@ -224,23 +224,47 @@ describe('Dragon-App API resource', function() {
           expect(res).to.have.status(200);
         })
     });
+
+    it('should retrieve object based on ID', function() {
+      let sheetId;
+
+      return chai.request(app)
+        .get('/sheets')
+        .then(function(data) {
+          console.log(data.body[0]._id);
+          sheetId = data.body[0]._id;
+
+          return chai.request(app)
+            .get(`/sheets/${ sheetId }`)
+        })
+        .then(function(data) {
+          console.log('The data follows this log');
+          console.log(data);
+          expect(data.body.id).to.equal(sheetId);
+          expect(data).to.be.json;
+          expect(data.charName).to.not.equal(null);
+        })
+    });
   });
 
-  // describe('POST endpoint', function() {
+  describe('POST endpoint', function() {
 
-  //   it('should create new sheet and send 201 status code', function() {
-  //     const newSheet = generateSheetData();
+    it('should create new sheet and send 201 status code', function() {
+      const newSheet = generateSheetData();
 
-  //     return chai.request(app)
-  //       .post('/sheets')
-  //       .then(function(res) {
-  //         expect(res).to.be.json;
-  //         expect(res).to.have.status(201);
-  //         expect(res.body.charName).to.equal(newSheet.charName);
-  //         //expect(res.body).to.deep.equal(newSheet);
-  //       })
-  //   });
-  // });
+      return chai.request(app)
+        .post('/sheets')
+        .send(newSheet)
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.charName).to.equal(newSheet.charName);
+          newSheet.id = res.body._id;
+          expect(res.body._id).to.not.equal(undefined);
+          expect(res.body._id).to.equal(newSheet.id);
+        })
+    });
+  });
 
   describe('PUT endpoint', function() {
 

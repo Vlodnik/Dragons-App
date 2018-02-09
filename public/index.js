@@ -5,44 +5,100 @@ const appState = {
 };
 
 function getCharacterSheet(callback) {
-  // setTimeout(function() {
-  //   callback(MOCK_CHAR_SHEET)
-  // }, 100);
   console.log('getting character sheet');
   $.getJSON('http://localhost:8080/sheets', callback);
 }
 
+// <button class="js-save" type="submit">Save Character</button>
+
+function renderLandingPage() {
+  const html =`
+    <nav id="nav-bar">
+      <ul>
+        <li id="home"><button id="js-home" type="submit">Home</button></li>
+        <li><button id="js-new-sheet" type="submit">New</button></li>
+      </ul>
+    </nav>
+
+    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+
+    <ul id="confirm-buttons">
+    </ul>
+  `;
+
+  $('body').html(html);
+
+  getAndDisplaySavedSheets();
+}
+
+function getAndDisplaySavedSheets() {
+  console.log('Getting saved sheets');
+      $.ajax({
+        method: 'GET',
+        dataType: 'json',
+        url: `http://localhost:8080/sheets`,
+        success: renderSavedCharacters
+      });
+}
+
+function renderSavedCharacters(data) {
+  // if data.length === 0, then display 'you have no characters'
+  const listElements = data.map(createListElement);
+
+  $('#confirm-buttons').append(listElements);
+}
+
+function createListElement(sheet) {
+  return `
+    <li class="landing-chars">
+      <button 
+        class="confirm" 
+        data-id="${ sheet._id }" 
+        type="submit">
+        ${ sheet.charName }
+      </button>
+    </li>
+  `;
+}
+
 function renderCharSheet(data) {
   const html = `
-    <header>Draconis Personae</header>
+    <nav id="nav-bar">
+      <ul>
+        <li id="home"><button id="js-home" type="submit">Home</button></li>
+        <li id="save"><button id="js-save" type="submit">Save</button></li>
+        <li><button id="js-new-sheet" type="submit">New</button></li>
+      </ul>
+    </nav>
+
+    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
 
     <form id="macro">
       <label for="charName">Character Name</label>
-      <input id="charName" type="text" value="${ data.charName }" required>
-
+      <input id="charName" type="text" required>
       <div>
         <label for="playerName">Player Name</label>
-        <input id="playerName" type="text" value="${ data.playerName }">
+        <input id="playerName" type="text">
       </div>
 
       <div>
         <label for="classAndLevel">Class &amp; Level</label>
-        <input id="classAndLevel" type="text" value="${ data.classAndLevel }">
+        <input id="classAndLevel" type="text">
       </div>
 
       <div>
         <label for="background">Background</label>
-        <input id="background" type="text" value="${ data.background }">
+        <input id="background" type="text">
       </div>
 
       <div>
         <label for="race">Race</label>
-        <input id="race" type="text" value="${ data.race }">
+        <input id="race" type="text">
       </div>
 
       <div>
         <label for="alignment">Alignment</label>
-        <input id="alignment" type="text" value="${ data.alignment }">
+        <input id="alignment" type="text">
       </div>
 
       <div>
@@ -186,7 +242,7 @@ function renderCharSheet(data) {
 
       <fieldset>
         <legend for="hitDice">Hit Dice</legend>
-        <input id="hitDice" type="text" value="${ data.hitDice }">
+        <input id="hitDice" type="text">
       </fieldset>
 
       <div id="death-saves">
@@ -393,14 +449,22 @@ function renderCharSheet(data) {
         <textarea id="flaws"></textarea>
       </div>
     </form>
-    <form id="save" aria-live="assertive">
-      <button id="js-save" type="submit">Save Character</button>
-    </form>
   `;
 
   $('body').html(html);
+}
 
-  const numberFieldsArray = [
+function renderSavedSheet(data) {
+  renderCharSheet();
+
+  const fieldsArray = [
+    'charName', 
+    'classAndLevel', 
+    'background', 
+    'playerName', 
+    'race',
+    'alignment',
+    'hitDice',
     'experience',
     'inspiration',
     'profBonus',
@@ -413,7 +477,7 @@ function renderCharSheet(data) {
     'passiveWisdom'
   ];
 
-  numberFieldsArray.forEach(function(field) {
+  fieldsArray.forEach(function(field) {
     $(`#${ field }`).attr('value', data[field])
   });
 
@@ -429,12 +493,12 @@ function renderCharSheet(data) {
   assignTraits(data);
 
   // Make app state aware of the current sheet
-  appState.currentSheetId = data._id;
+  appState.currentSheetId = data.id;
 
   console.log('renderCharSheet ran');
   console.log(appState.currentSheetId);
 }
-
+ 
 function assignAttributes(data) {
   for(let stat in data.attributes) {
     $(`#${ stat }`).attr('value', data.attributes[stat].val);
@@ -548,7 +612,7 @@ function generateTrait(trait) {
   `;
 }
 
-// Code for creating PUT request
+// *** Code for creating saved Character Sheet objects *** //
 
 function createSheetObject() {
   let savedSheet = {};
@@ -808,13 +872,41 @@ function findCheckedValue(element) {
 }
 
 function showSaveSuccessful(data) {
-  console.log('PUT request successful');
- 
-  $('#js-save').text(data.message);
-  setTimeout(() => $('#js-save').text('Save Character'), 2000);
+  console.log('Save successful');
+  $('#js-save').text('Saved!');
+  setTimeout(() => $('#js-save').text('Save'), 2000);
+
+ if(data.id) {
+    appState.currentSheetId = data.id;
+    console.log('Changed current sheet');
+  } 
 }
 
 //*** Event handlers ***//
+
+function handleConfirmButton() {
+  $('body').on('click', '.confirm', function() {
+    event.preventDefault();
+    console.log($(this).attr('data-id'));
+    const selectedtId = $(this).attr('data-id');
+    console.log(selectedtId);
+    $.ajax({
+      method: 'GET',
+      contentType: 'application/json',
+      dataType: 'json',
+      url: `http://localhost:8080/sheets/${ selectedtId }`,
+      success: renderSavedSheet
+    });
+  });
+}
+
+function handleHomeButton() {
+  $('body').on('click', '#js-home', function() {
+    event.preventDefault();
+    renderLandingPage();
+    appState.currentSheetId = null;
+  });
+}
 
 function handleAddAttackButton() {
   $('body').on('click', '#js-add-attack', function() {
@@ -864,30 +956,57 @@ function handleSaveButton() {
   $('body').on('click', '#js-save', function() {
     event.preventDefault();
     const savedSheet = createSheetObject();
-    console.log(savedSheet);
-    $.ajax({
-      type: 'PUT',
-      contentType: 'application/json',
-      dataType: 'json',
-      processData: false,
-      url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
-      data: JSON.stringify(savedSheet),
-      success: showSaveSuccessful
-    });
+
+    if(appState.currentSheetId) {
+      console.log('Saving sheet');
+      $.ajax({
+        method: 'PUT',
+        contentType: 'application/json',
+        dataType: 'json',
+        processData: false,
+        url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
+        data: JSON.stringify(savedSheet),
+        success: showSaveSuccessful
+      });
+    } else {
+      console.log('Saving new sheet');
+      $.ajax({
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        processData: false,
+        url: 'http://localhost:8080/sheets',
+        data: JSON.stringify(savedSheet),
+        success: showSaveSuccessful
+      });
+    }
+  });
+}
+
+function handleNewButton() {
+  $('body').on('click', '#js-new-sheet', function() {
+    event.preventDefault();
+    console.log('Providing empty sheet');
+    renderCharSheet();
+    appState.currentSheetId = null;
   });
 }
 
 function getAndDisplayCharacterSheet() {
-  getCharacterSheet(renderCharSheet);
+  getCharacterSheet(renderSavedSheet);
 }
 
 function handleButtons() {
+  handleConfirmButton();
+  handleHomeButton();
   handleAddAttackButton();
   handleAddProfButton();
   handleAddItemButton();
   handleAddTraitButton();
   handleSaveButton();
+  handleNewButton();
 }
 
-getAndDisplayCharacterSheet();
+//getAndDisplayCharacterSheet();
+renderLandingPage();
 handleButtons();

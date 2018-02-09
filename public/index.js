@@ -4,14 +4,8 @@ const appState = {
   currentSheetId: null
 };
 
-function getCharacterSheet(callback) {
-  console.log('getting character sheet');
-  $.getJSON('http://localhost:8080/sheets', callback);
-}
-
-// <button class="js-save" type="submit">Save Character</button>
-
 function renderLandingPage() {
+  console.log(DATABASE_URL);
   const html =`
     <nav id="nav-bar">
       <ul>
@@ -36,7 +30,7 @@ function getAndDisplaySavedSheets() {
       $.ajax({
         method: 'GET',
         dataType: 'json',
-        url: `http://localhost:8080/sheets`,
+        url: `${ process.env.DATABASE_URL }/sheets`,
         success: renderSavedCharacters
       });
 }
@@ -894,7 +888,7 @@ function handleConfirmButton() {
       method: 'GET',
       contentType: 'application/json',
       dataType: 'json',
-      url: `http://localhost:8080/sheets/${ selectedtId }`,
+      url: `${ process.env.DATABASE_URL }/sheets/${ selectedtId }`,
       success: renderSavedSheet
     });
   });
@@ -964,7 +958,7 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
+        url: `${ process.env.DATABASE_URL }/sheets/${ appState.currentSheetId }`,
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -975,7 +969,7 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: 'http://localhost:8080/sheets',
+        url: `${ process.env.DATABASE_URL }/sheets`,
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -992,10 +986,6 @@ function handleNewButton() {
   });
 }
 
-function getAndDisplayCharacterSheet() {
-  getCharacterSheet(renderSavedSheet);
-}
-
 function handleButtons() {
   handleConfirmButton();
   handleHomeButton();
@@ -1007,6 +997,5 @@ function handleButtons() {
   handleNewButton();
 }
 
-//getAndDisplayCharacterSheet();
 renderLandingPage();
 handleButtons();

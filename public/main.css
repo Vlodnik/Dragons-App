@@ -10,12 +10,10 @@ html, body {
 
 /*  Titles  */
 header {
-  font-family: 'Archivo Black';
   font-size: 3.5em;
   margin: auto;
-  line-height: 0.8em;
   margin-bottom: 0.5em;
-  margin-top: 1.5em;
+  /*margin-top: 1.5em;*/
   text-align: center;
 }
 
@@ -38,6 +36,76 @@ h3 {
   margin: auto;
   text-align: center;
   width: 100%;
+}
+
+/*  Landing Page  */
+h1 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+#sign-in, #account-creation {
+  border: 1px solid black;
+  border-top: none;
+  margin: 0 auto 1em;
+  width: 90%;
+  max-width: 500px;
+}
+
+#sign-in h2, #account-creation h2 {
+  font-family: 'Archivo';
+  margin-top: 0;
+}
+
+#sign-in input, #account-creation input {
+  display: block;
+  border: 1px solid black;
+  margin: 0 auto 1em;
+  font-size: 1.5em;
+  text-align: center;
+  border-radius: 5px;
+  width: 80%;
+}
+
+#sign-in button, #account-creation button {
+  display: block;
+  border: 1px solid red;
+  color: white;
+  margin: 0 auto 1em;
+  font-size: 1.5em;
+  background-color: red;
+  transition: background-color .4s;
+  width: 80%;
+  border-radius: 5px;
+}
+
+#sign-in button:hover, #account-creation button:hover {
+  cursor: pointer;
+  border: 1px solid darkred;
+  color: lightgray;
+  background-color: darkred;
+}
+
+#new-account, #example {
+  display: block;
+  border: none;
+  margin: 0 auto 1em;
+  font-size: 1.2em;
+  background-color: lightgray;
+  transition: background-color .4s;
+  border-radius: 5px;
+  width: 60%;
+  max-width: 300px;
+}
+
+#new-account:hover, #example:hover {
+  cursor: pointer;
+  background-color: darkgray;
+}
+
+.logged-in {
+  margin-top: 1.5em;
 }
 
 /*  Nav Bar  */
@@ -79,11 +147,16 @@ h3 {
   background-color: gray;
 }
 
-/*  Confirm Buttons for landing page  */
+/*  Confirm Buttons for home page  */
+#nav-bar ul {
+  padding: 0;
+}
+
 #confirm-buttons {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+  padding: 0;
 }
 
 #confirm-buttons li {

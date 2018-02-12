@@ -5,7 +5,38 @@ const appState = {
 };
 
 function renderLandingPage() {
-  console.log(DATABASE_URL);
+  const html = `
+    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <h1>Create and update character sheets</h1>
+    <form id="sign-in">
+      <h2>Sign In</h2>
+      <input id="username" type="text" placeholder="Username" required>
+      <input id="password" type="password" placeholder="Password" required>
+      <button id="login" type="submit">Login</button>
+    </form>
+    <button id="new-account" type="submit">Create an account</button>
+    <button id="example" type="submit">See an example</button>
+  `;
+
+  $('body').html(html);
+}
+
+function renderAccountCreationPage() {
+  const html = `
+    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <form id="account-creation">
+      <h2>Create your account</h2>
+      <input id="new-user" type="text" placeholder="Username" required>
+      <input id="new-pass" type="password" placeholder="Password" required>
+      <input id="pass-confirm" type="password" placeholder="Confirm password" required>
+      <button id="create" type="submit">Create</button>
+    </form>
+  `;
+
+  $('body').html(html);
+}
+
+function renderHomePage() {
   const html =`
     <nav id="nav-bar">
       <ul>
@@ -30,7 +61,7 @@ function getAndDisplaySavedSheets() {
       $.ajax({
         method: 'GET',
         dataType: 'json',
-        url: `${ process.env.DATABASE_URL }/sheets`,
+        url: `http://localhost:8080/sheets`,
         success: renderSavedCharacters
       });
 }
@@ -878,17 +909,57 @@ function showSaveSuccessful(data) {
 
 //*** Event handlers ***//
 
+function handleExampleButton() {
+  $('body').on('click', '#example', function() {
+    event.preventDefault();
+    renderHomePage();
+    $('header').addClass('logged-in');
+  });
+} 
+
+function handleNewUser() {
+  $('body').on('click', '#new-account', function() {
+    event.preventDefault();
+    renderAccountCreationPage();
+  });
+}
+
+function handleAccountCreation() {
+  $('body').on('click', '#create', function() {
+    event.preventDefault();
+    const user = $('#new-user').val();
+    const pass = $('#new-pass').val();
+    const confirmPass = $('#pass-confirm').val();
+
+    if(pass === confirmPass) {
+      const newUser = {
+        username: user,
+        password: pass
+      };
+      $.ajax({
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        processData: false,
+        url: `http://localhost:8080/users`,
+        data: JSON.stringify(newUser),
+        success: renderHomePage
+      });
+    } else {
+      console.log('pass and confirm do not match');
+    }
+  });
+}
+
 function handleConfirmButton() {
   $('body').on('click', '.confirm', function() {
     event.preventDefault();
-    console.log($(this).attr('data-id'));
     const selectedtId = $(this).attr('data-id');
-    console.log(selectedtId);
     $.ajax({
       method: 'GET',
       contentType: 'application/json',
       dataType: 'json',
-      url: `${ process.env.DATABASE_URL }/sheets/${ selectedtId }`,
+      url: `http://localhost:8080/sheets/${ selectedtId }`,
       success: renderSavedSheet
     });
   });
@@ -897,7 +968,7 @@ function handleConfirmButton() {
 function handleHomeButton() {
   $('body').on('click', '#js-home', function() {
     event.preventDefault();
-    renderLandingPage();
+    renderHomePage();
     appState.currentSheetId = null;
   });
 }
@@ -958,7 +1029,7 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `${ process.env.DATABASE_URL }/sheets/${ appState.currentSheetId }`,
+        url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -969,7 +1040,7 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `${ process.env.DATABASE_URL }/sheets`,
+        url: `http://localhost:8080/sheets`,
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -987,6 +1058,9 @@ function handleNewButton() {
 }
 
 function handleButtons() {
+  handleExampleButton();
+  handleNewUser();
+  handleAccountCreation();
   handleConfirmButton();
   handleHomeButton();
   handleAddAttackButton();

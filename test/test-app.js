@@ -231,15 +231,11 @@ describe('Dragon-App API resource', function() {
       return chai.request(app)
         .get('/sheets')
         .then(function(data) {
-          console.log(data.body[0]._id);
           sheetId = data.body[0]._id;
-
           return chai.request(app)
             .get(`/sheets/${ sheetId }`)
         })
         .then(function(data) {
-          console.log('The data follows this log');
-          console.log(data);
           expect(data.body.id).to.equal(sheetId);
           expect(data).to.be.json;
           expect(data.charName).to.not.equal(null);

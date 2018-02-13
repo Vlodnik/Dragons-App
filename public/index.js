@@ -46,7 +46,7 @@ function renderHomePage() {
       </ul>
     </nav>
 
-    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
 
     <ul id="confirm-buttons">
     </ul>
@@ -98,7 +98,7 @@ function renderCharSheet(data) {
       </ul>
     </nav>
 
-    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
 
     <form id="macro">
       <label for="charName">Character Name</label>
@@ -935,7 +935,7 @@ function handleLoginButton() {
       contentType: 'application/json',
       dataType: 'json',
       processData: false,
-      url: `/users`,
+      url: `/users/login`,
       data: JSON.stringify(loginObj),
       success: getUsersAccount
     }); 
@@ -946,7 +946,6 @@ function handleExampleButton() {
   $('body').on('click', '#example', function() {
     event.preventDefault();
     renderHomePage();
-    $('header').addClass('logged-in');
   });
 } 
 

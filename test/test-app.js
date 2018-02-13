@@ -3,6 +3,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const expect = chai.expect;
@@ -371,11 +372,43 @@ describe('Dragon-App API resource', function() {
             .send(newUser)
         })
         .then(function(res) {
+          // this code should never run, if it does we error
           expect(1).to.equal(2);
         })
         .catch(function(err) {
           expect(err).to.have.status(422);
           // expect(err.message).to.equal('Username already taken');
+        });
+    });
+  });
+
+  describe('POST endpoint for creating jwts on login', function() {
+
+    it('should return a jwt when given username and password', function() {
+      let testUser = {};
+      let userId;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testUser.username = user.username;
+          testUser.password = user.password;
+          userId = user._id;
+          
+          return bcrypt.hash(user.password, 10);
+        })
+        .then(function(encryptedPass) {
+          return User
+            .findByIdAndUpdate(userId, {password: encryptedPass})
+        })
+        .then(function() {
+          return chai.request(app)
+            .post('/users/login')
+            .send(testUser)
+        })
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
         });
     });
   });

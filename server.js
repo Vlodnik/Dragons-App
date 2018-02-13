@@ -3,6 +3,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
+const passport = require('passport');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
@@ -12,7 +13,8 @@ const app = express();
 
 const sheetsRouter = require('./routes/sheets');
 const usersRouter = require('./routes/users');
-
+const { jwtStrategy, localStrategy } = require('./strategies');
+ 
 app.use(morgan('common'));
 // app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());

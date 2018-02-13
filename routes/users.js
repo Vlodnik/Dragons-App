@@ -1,6 +1,10 @@
 'use strict';
 
 const express = require('express');
+const passport = require('passport');
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+
 const router = express.Router();
 
 const bodyParser = require('body-parser');
@@ -102,7 +106,7 @@ router.post('/', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  
+
 });
 
 module.exports = router;

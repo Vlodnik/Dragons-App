@@ -1,6 +1,7 @@
 'use strict';
 
 const appState = {
+  currentUser: null,
   currentSheetId: null
 };
 
@@ -54,6 +55,7 @@ function renderHomePage() {
   $('body').html(html);
 
   getAndDisplaySavedSheets();
+  $('header').addClass('logged-in');
 }
 
 function getAndDisplaySavedSheets() {
@@ -636,6 +638,19 @@ function generateTrait(trait) {
     <input class="traits" type="text" value="${ trait }">
   `;
 }
+// *** Code for finding user information *** //
+
+function getUsersAccount(jwt) {
+  $.ajax({
+    method: 'GET',
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    url: `http://localhost:8080/sheets/`,
+    data: JSON.stringify(jwt),
+    success: renderHomePage
+  });
+}
 
 // *** Code for creating saved Character Sheet objects *** //
 
@@ -909,6 +924,24 @@ function showSaveSuccessful(data) {
 
 //*** Event handlers ***//
 
+function handleLoginButton() {
+  $('body').on('click', '#login', function() {
+    event.preventDefault();
+    const username = $('#username').val();
+    const password = $('#password').val();
+    const loginObj = { username, password };
+    $.ajax({
+      method: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      processData: false,
+      url: `http://localhost:8080/users`,
+      data: JSON.stringify(loginObj),
+      success: getUsersAccount
+    }); 
+  });
+}
+
 function handleExampleButton() {
   $('body').on('click', '#example', function() {
     event.preventDefault();
@@ -1058,6 +1091,7 @@ function handleNewButton() {
 }
 
 function handleButtons() {
+  handleLoginButton();
   handleExampleButton();
   handleNewUser();
   handleAccountCreation();

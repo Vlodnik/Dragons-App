@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const expect = chai.expect;
 
-const { Sheet } = require('../models');
+const { Sheet, User } = require('../models');
 const { app, runServer, closeServer } = require('../server');
 const { TEST_DATABASE_URL } = require('../config');
 
@@ -24,10 +24,22 @@ function seedSheetData() {
   return Sheet.insertMany(seedData);
 }
 
+function seedUserData() {
+  console.info('seeding user data')
+  const seedData = [];
+
+  for(let i = 1; i <= 10; i++) {
+    seedData.push(generateUserData());
+  }
+
+  return User.insertMany(seedData);
+}
+
 function generateSheetData() {
   let newSheet = {};
 
   const stringValues = [
+    'user',
     'charName', 
     'classAndLevel', 
     'background', 
@@ -179,6 +191,13 @@ function createRandomAttacksArray() {
   return attacksArray;
 }
 
+function generateUserData() {
+  return {
+    username: faker.name.firstName() + faker.name.lastName(),
+    password: faker.internet.password()
+  };
+}
+
 function tearDownDb() {
   console.warn('tearing down database');
   mongoose.connection.dropDatabase();
@@ -193,6 +212,10 @@ describe('Dragon-App API resource', function() {
   beforeEach(function() {
     return seedSheetData();
   });
+
+  beforeEach(function() {
+    return seedUserData();
+  })
 
   afterEach(function() {
     return tearDownDb();
@@ -310,6 +333,49 @@ describe('Dragon-App API resource', function() {
           expect(sheet.attributes.wisdom.bonus).to.equal(updateData.attributes.wisdom.bonus);
           expect(sheet.attributes.charisma.bonus).to.equal(updateData.attributes.charisma.bonus);
           expect(sheet.levelNineSpells).to.deep.equal(updateData.levelNineSpells);
+        });
+    });
+  });
+
+  describe('POST endpoint for new users', function() {
+
+    it('should create a new user and send 201 status code', function() {
+      const newUser = {
+        username: 'tomtomtomtomtomtomtomtomtom',
+        password: 'flappingaboutwildlylikeabigbirdinthebreeze'
+      };
+
+      return chai.request(app)
+        .post('/users')
+        .send(newUser)
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.username).to.equal(newUser.username);
+        });
+    });
+
+    it('should return an error if username is taken', function() {
+      const newUser = {
+        password: 'manymanymonkeys'
+      };
+
+      return User
+        .findOne()
+        .then(function(user) {
+          console.log(user);
+          newUser.username = user.username;
+          console.log(newUser);
+          return chai.request(app)
+            .post('/users')
+            .send(newUser)
+        })
+        .then(function(res) {
+          expect(1).to.equal(2);
+        })
+        .catch(function(err) {
+          expect(err).to.have.status(422);
+          // expect(err.message).to.equal('Username already taken');
         });
     });
   });

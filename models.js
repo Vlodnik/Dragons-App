@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const sheetSchema = mongoose.Schema({
-  charName: {type: String, required: true},
+  user: { type: String, required: true },
+  charName: { type: String, required: true },
   classAndLevel: String,
   background: String,
   playerName: String,
@@ -194,6 +195,7 @@ const sheetSchema = mongoose.Schema({
 sheetSchema.methods.serialize = function() {
   return {
     id: this._id,
+    user: this.user,
     charName: this.charName,
     classAndLevel: this.classAndLevel,
     background: this.background,

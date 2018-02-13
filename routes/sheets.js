@@ -34,6 +34,7 @@ router.get('/:id', jsonParser, (req, res) => {
 });
 
 const sheetFields = [
+  'user',
   'charName',
   'classAndLevel',
   'background',

@@ -63,7 +63,7 @@ function getAndDisplaySavedSheets() {
       $.ajax({
         method: 'GET',
         dataType: 'json',
-        url: `http://localhost:8080/sheets`,
+        url: `/sheets`,
         success: renderSavedCharacters
       });
 }
@@ -646,7 +646,7 @@ function getUsersAccount(jwt) {
     contentType: 'application/json',
     dataType: 'json',
     processData: false,
-    url: `http://localhost:8080/sheets/`,
+    url: `/sheets`,
     data: JSON.stringify(jwt),
     success: renderHomePage
   });
@@ -935,7 +935,7 @@ function handleLoginButton() {
       contentType: 'application/json',
       dataType: 'json',
       processData: false,
-      url: `http://localhost:8080/users`,
+      url: `/users`,
       data: JSON.stringify(loginObj),
       success: getUsersAccount
     }); 
@@ -974,7 +974,7 @@ function handleAccountCreation() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `http://localhost:8080/users`,
+        url: `/users`,
         data: JSON.stringify(newUser),
         success: renderHomePage
       });
@@ -992,7 +992,7 @@ function handleConfirmButton() {
       method: 'GET',
       contentType: 'application/json',
       dataType: 'json',
-      url: `http://localhost:8080/sheets/${ selectedtId }`,
+      url: `/sheets/${ selectedtId }`,
       success: renderSavedSheet
     });
   });
@@ -1062,7 +1062,7 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
+        url: `/sheets/${ appState.currentSheetId }`,
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -1073,7 +1073,7 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `http://localhost:8080/sheets`,
+        url: `/sheets`,
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });

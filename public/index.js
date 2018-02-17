@@ -2,6 +2,7 @@
 
 const appState = {
   currentUser: null,
+  currentJwt: null,
   currentSheetId: null
 };
 
@@ -37,12 +38,33 @@ function renderAccountCreationPage() {
   $('body').html(html);
 }
 
-function renderHomePage() {
+// *** Code for finding and displaying user information *** //
+
+function initialLogin(jwt) {
+  appState.currentUser = $('#username').val();
+  appState.currentJwt = jwt.authToken;
+  getUsersAccount();
+}
+
+function getUsersAccount() {
+  $.ajax({
+    method: 'GET',
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    url: `/sheets`,
+    headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
+    success: renderHomePage
+  });
+}
+
+function renderHomePage(data) {
   const html =`
     <nav id="nav-bar">
       <ul>
-        <li id="home"><button id="js-home" type="submit">Home</button></li>
-        <li><button id="js-new-sheet" type="submit">New</button></li>
+        <li id="js-home">Home</li>
+        <li id="js-new-sheet">New</li>
+        <li id="js-logout">Logout</li>
       </ul>
     </nav>
 
@@ -51,26 +73,18 @@ function renderHomePage() {
     <ul id="confirm-buttons">
     </ul>
   `;
-
+ 
   $('body').html(html);
-
-  getAndDisplaySavedSheets();
   $('header').addClass('logged-in');
-}
-
-function getAndDisplaySavedSheets() {
-  console.log('Getting saved sheets');
-      $.ajax({
-        method: 'GET',
-        dataType: 'json',
-        url: `/sheets`,
-        success: renderSavedCharacters
-      });
+  renderSavedCharacters(data);
+  appState.currentSheetId = null;
 }
 
 function renderSavedCharacters(data) {
-  // if data.length === 0, then display 'you have no characters'
-  const listElements = data.map(createListElement);
+  let listElements;
+  data.length ? 
+  listElements = data.map(createListElement) : 
+  listElements = `<li id="no-chars">You have no characters yet!</li>`;
 
   $('#confirm-buttons').append(listElements);
 }
@@ -88,13 +102,22 @@ function createListElement(sheet) {
   `;
 }
 
+function showErrorMessage(err) {
+  // NEEDS TO BE MODIFIED TO CORRECTLY FIND ERROR FROM LOGIN PAGE
+  console.log(err);
+  const message = `<p>${ err.responseJSON.message }</p>`;
+  $('form').append(message);
+}
+
 function renderCharSheet(data) {
   const html = `
     <nav id="nav-bar">
       <ul>
-        <li id="home"><button id="js-home" type="submit">Home</button></li>
-        <li id="save"><button id="js-save" type="submit">Save</button></li>
-        <li><button id="js-new-sheet" type="submit">New</button></li>
+        <li id="js-home">Home</li>
+        <li id="js-save">Save</li>
+        <li id="js-new-sheet">New</li>
+        <li id="js-delete">Delete</li>
+        <li id="js-logout">Logout</li>
       </ul>
     </nav>
 
@@ -523,7 +546,7 @@ function renderSavedSheet(data) {
   appState.currentSheetId = data.id;
 
   console.log('renderCharSheet ran');
-  console.log(appState.currentSheetId);
+
 }
  
 function assignAttributes(data) {
@@ -637,19 +660,6 @@ function generateTrait(trait) {
   return `
     <input class="traits" type="text" value="${ trait }">
   `;
-}
-// *** Code for finding user information *** //
-
-function getUsersAccount(jwt) {
-  $.ajax({
-    method: 'GET',
-    contentType: 'application/json',
-    dataType: 'json',
-    processData: false,
-    url: `/sheets`,
-    data: JSON.stringify(jwt),
-    success: renderHomePage
-  });
 }
 
 // *** Code for creating saved Character Sheet objects *** //
@@ -916,17 +926,34 @@ function showSaveSuccessful(data) {
   $('#js-save').text('Saved!');
   setTimeout(() => $('#js-save').text('Save'), 2000);
 
- if(data.id) {
-    appState.currentSheetId = data.id;
+  if(data._id) {
+    appState.currentSheetId = data._id;
     console.log('Changed current sheet');
   } 
+}
+
+function renderDeletionPrompt() {
+  if(window.confirm('Are you sure you want to delete this sheet?')) {
+    $.ajax({
+      method: 'DELETE',
+      dataType: 'json',
+      headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
+      url: `/sheets/${ appState.currentSheetId }`,
+      success: renderCharSheet,
+      error: showDeletionError
+    });
+  }
+}
+
+function showDeletionError() {
+  window.alert('Deletion failed!');
 }
 
 //*** Event handlers ***//
 
 function handleLoginButton() {
-  $('body').on('click', '#login', function() {
-    event.preventDefault();
+  $('body').on('click', '#login', function(ev) {
+    ev.preventDefault();
     const username = $('#username').val();
     const password = $('#password').val();
     const loginObj = { username, password };
@@ -937,28 +964,29 @@ function handleLoginButton() {
       processData: false,
       url: `/users/login`,
       data: JSON.stringify(loginObj),
-      success: getUsersAccount
+      success: initialLogin,
+      error: showErrorMessage
     }); 
   });
 }
 
 function handleExampleButton() {
-  $('body').on('click', '#example', function() {
-    event.preventDefault();
+  $('body').on('click', '#example', function(ev) {
+    ev.preventDefault();
     renderHomePage();
   });
 } 
 
 function handleNewUser() {
-  $('body').on('click', '#new-account', function() {
-    event.preventDefault();
+  $('body').on('click', '#new-account', function(ev) {
+    ev.preventDefault();
     renderAccountCreationPage();
   });
 }
 
 function handleAccountCreation() {
-  $('body').on('click', '#create', function() {
-    event.preventDefault();
+  $('body').on('click', '#create', function(ev) {
+    ev.preventDefault();
     const user = $('#new-user').val();
     const pass = $('#new-pass').val();
     const confirmPass = $('#pass-confirm').val();
@@ -975,39 +1003,42 @@ function handleAccountCreation() {
         processData: false,
         url: `/users`,
         data: JSON.stringify(newUser),
-        success: renderHomePage
+        success: renderHomePage,
+        error: showErrorMessage
       });
     } else {
       console.log('pass and confirm do not match');
+      const message = `<p>Passwords do not match!</p>`;
+      $('#account-creation').append(message);
     }
   });
 }
 
 function handleConfirmButton() {
-  $('body').on('click', '.confirm', function() {
-    event.preventDefault();
+  $('body').on('click', '.confirm', function(ev) {
+    ev.preventDefault();
     const selectedtId = $(this).attr('data-id');
     $.ajax({
       method: 'GET',
       contentType: 'application/json',
       dataType: 'json',
       url: `/sheets/${ selectedtId }`,
+      headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
       success: renderSavedSheet
     });
   });
 }
 
 function handleHomeButton() {
-  $('body').on('click', '#js-home', function() {
-    event.preventDefault();
-    renderHomePage();
-    appState.currentSheetId = null;
+  $('body').on('click', '#js-home', function(ev) {
+    ev.preventDefault();
+    getUsersAccount(appState.currentJwt);
   });
 }
 
 function handleAddAttackButton() {
-  $('body').on('click', '#js-add-attack', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-attack', function(ev) {
+    ev.preventDefault();
     const name = $('#new-attack-name').val();
     const bonus = $('#new-attack-bonus').val();
     const damage = $('#new-attack-damage').val();
@@ -1020,8 +1051,8 @@ function handleAddAttackButton() {
 }
 
 function handleAddProfButton() {
-  $('body').on('click', '#js-add-prof', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-prof', function(ev) {
+    ev.preventDefault();
     const prof = $('#new-prof').val(); 
     const newProf = generateProf(prof);
     $('#new-prof').before(newProf);
@@ -1030,8 +1061,8 @@ function handleAddProfButton() {
 }
 
 function handleAddItemButton() {
-  $('body').on('click', '#js-add-item', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-item', function(ev) {
+    ev.preventDefault();
     const item = $('#new-item').val();
     const newItem = generateEquip(item);
     $('#new-item').before(newItem);
@@ -1040,8 +1071,8 @@ function handleAddItemButton() {
 }
 
 function handleAddTraitButton() {
-  $('body').on('click', '#js-add-trait', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-trait', function(ev) {
+    ev.preventDefault();
     const trait = $('#new-trait').val();
     const newTrait = generateTrait(trait);
     $('#new-trait').before(newTrait);
@@ -1050,8 +1081,11 @@ function handleAddTraitButton() {
 }
 
 function handleSaveButton() {
-  $('body').on('click', '#js-save', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-save', function(ev) {
+    ev.preventDefault();
+    console.log(appState.currentSheetId);
+    console.log(appState.currentUser);
+    console.log(appState.currentJwt);
     const savedSheet = createSheetObject();
 
     if(appState.currentSheetId) {
@@ -1062,6 +1096,7 @@ function handleSaveButton() {
         dataType: 'json',
         processData: false,
         url: `/sheets/${ appState.currentSheetId }`,
+        headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -1073,6 +1108,7 @@ function handleSaveButton() {
         dataType: 'json',
         processData: false,
         url: `/sheets`,
+        headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -1081,10 +1117,33 @@ function handleSaveButton() {
 }
 
 function handleNewButton() {
-  $('body').on('click', '#js-new-sheet', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-new-sheet', function(ev) {
+    ev.preventDefault();
     console.log('Providing empty sheet');
     renderCharSheet();
+    appState.currentSheetId = null;
+  });
+}
+
+function handleDeleteButton() {
+  $('body').on('click', '#js-delete', function(ev) {
+    ev.preventDefault();
+    if(appState.currentSheetId) {
+      console.log('Prompting to confirm deletion');
+      renderDeletionPrompt();
+    } else {
+      console.log('Attempted deletion before saving new sheet');
+      window.alert('You have not yet saved this sheet.');
+    }
+  });
+}
+
+function handleLogoutButton() {
+  $('body').on('click', '#js-logout', function(ev) {
+    ev.preventDefault();
+    renderLandingPage();
+    appState.currentUser = null;
+    appState.currentJwt = null;
     appState.currentSheetId = null;
   });
 }
@@ -1102,6 +1161,8 @@ function handleButtons() {
   handleAddTraitButton();
   handleSaveButton();
   handleNewButton();
+  handleDeleteButton();
+  handleLogoutButton();
 }
 
 renderLandingPage();

@@ -87,6 +87,10 @@ h1 {
   background-color: darkred;
 }
 
+#account-creation p {
+  text-align: center;
+}
+
 #new-account, #example {
   display: block;
   border: none;
@@ -123,26 +127,19 @@ h1 {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  /*overflow: hidden;*/
 }
 
 #nav-bar li {
-  padding: 0.5em;
-  font-size: 1.5em;
-}
-
-#nav-bar li, #nav-bar button {
-  background-color: red;
   display: inline;
-}
-
-#nav-bar button {
   border: none;
+  background-color: red;
   color: white;
   margin: 0;
+  padding: 0.5em;
+  font-size: 1.2em;
 }
 
-#nav-bar button:hover {
+#nav-bar li:hover {
   cursor: pointer;
   background-color: gray;
 }
@@ -163,13 +160,18 @@ h1 {
   margin: auto;
 }
 
-#confirm-buttons button {
+#confirm-buttons button, #no-chars {
   border: none;
   background-color: lightgray;
   border-radius: 5px;
   margin-bottom: 1em;
   height: 3em;
   width: 15em;
+}
+
+#confirm-buttons button:hover {
+  background-color: gray;
+  cursor: pointer;
 }
 
 /*  Macro  */
@@ -638,6 +640,10 @@ h1 {
     margin-left: auto;
   }
 */
+  #nav-bar li {
+    font-size: 1.8em;
+  }
+
   #story {
     flex-direction: row;
     flex-wrap: wrap;

@@ -3,17 +3,35 @@
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 const jwt = require('jsonwebtoken');
 
+const config = require('../config');
 const router = express.Router();
 
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const { Sheet, User } = require('../models');
+const { User } = require('../models');
 
+function createAuthToken(user) {
+  return jwt.sign({user}, config.JWT_SECRET, {
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  });
+};
+
+const localAuth = passport.authenticate('local', { session: false });
+router.use(jsonParser);
+
+//endpoint for existing users to login
+router.post('/login', localAuth, (req, res) => {
+  const authToken = createAuthToken(req.user.serialize());
+  res.json({ authToken });
+});
+
+// endpoint for account creation
 router.post('/', (req, res) => {
   const requiredFields = ['username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
@@ -63,9 +81,9 @@ router.post('/', (req, res) => {
       code: 422,
       reason: 'ValidationError',
       message: tooSmallField
-        ? `Must be at least ${sizedFields[tooSmallField]
+        ? `Password must be at least ${sizedFields[tooSmallField]
           .min} characters long`
-        : `Must be at most ${sizedFields[tooLargeField]
+        : `Password can be at most ${sizedFields[tooLargeField]
           .max} characters long`,
       location: tooSmallField || tooLargeField
     });
@@ -103,10 +121,6 @@ router.post('/', (req, res) => {
       }
       res.status(500).json({code: 500, message: 'Internal server error'});
     });
-});
-
-router.post('/login', (req, res) => {
-
 });
 
 module.exports = router;

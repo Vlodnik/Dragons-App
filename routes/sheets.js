@@ -1,18 +1,24 @@
 'use strict';
 
 const express = require('express');
-const router = express.Router();
-
+const passport = require('passport');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+
+const router = express.Router();
+
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const { Sheet } = require('../models');
 
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+router.use(jwtAuth);
+
 router.get('/', (req, res) => {
   Sheet
-    .find()
+    .find({user: req.user.username})
     .then(sheets => {
       res.status(200).json(sheets);
     })
@@ -21,11 +27,17 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', jsonParser, (req, res) => {
+router.get('/:id', (req, res) => {
   Sheet
     .findById(req.params.id)
     .then(sheet => {
-      res.status(200).json(sheet.serialize());
+      if(sheet.user === req.user.username) {
+        res.status(200).json(sheet.serialize());
+      } else {
+        const message = 'Unauthorized';
+        console.error(message);
+        return res.status(401).send(message);
+      }
     })
     .catch(function(err) {
       console.error(err);
@@ -34,7 +46,6 @@ router.get('/:id', jsonParser, (req, res) => {
 });
 
 const sheetFields = [
-  'user',
   'charName',
   'classAndLevel',
   'background',
@@ -79,8 +90,8 @@ const sheetFields = [
 ];
 
 router.post('/', jsonParser, (req, res) => {
-  if(!(req.body.charName)) {
-    const message = 'Request must contain charName';
+  if(!(req.body.charName && req.user.username)) {
+    const message = 'Request must come from a user and contain charName';
     console.error(message);
     return res.status(400).send(message);
   }
@@ -91,6 +102,8 @@ router.post('/', jsonParser, (req, res) => {
   sheetFields.forEach(function(field) {
     newSheet[field] = req.body[field];
   });
+
+  newSheet.user = req.user.username;
 
   Sheet
     .create(newSheet)
@@ -119,9 +132,39 @@ router.put('/:id', jsonParser, (req, res) => {
   });
 
   Sheet
-    .findByIdAndUpdate(req.params.id, { $set: newData }, { new: true })
-    .then(function(updatedPost) {
-      res.status(200).json({ message: 'Saved!' });
+    .findById(req.params.id)
+    .then(sheet => {
+      if(sheet.user === req.user.username) {
+        Sheet
+          .findByIdAndUpdate(req.params.id, { $set: newData })
+          .then(() => {
+            res.status(200).json({ message: 'Saved!' });
+          });
+      } else {
+        const message = 'Unauthorized';
+        console.error(message);
+        return res.status(401).send(message);
+      }
+    })
+    .catch(function(err) {
+      res.status(500).json({ message: 'Failed!' });
+    });
+});
+
+router.delete('/:id', (req, res) => {
+  Sheet
+    .findById(req.params.id)
+    .then(sheet => {
+      if(sheet.user === req.user.username) {
+        sheet.remove()
+        .then(() => {
+          res.status(204).json({ message: 'Deleted!' });
+        });
+      } else {
+        const message = 'Unauthorized';
+        console.error(message);
+        return res.status(401).send(message);
+      }
     })
     .catch(function(err) {
       res.status(500).json({ message: 'Failed!' });

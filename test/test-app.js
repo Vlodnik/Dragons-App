@@ -2,45 +2,69 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const chaiJwt = require('chai-jwt');
 const faker = require('faker');
+const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const expect = chai.expect;
 
 const { Sheet, User } = require('../models');
 const { app, runServer, closeServer } = require('../server');
-const { TEST_DATABASE_URL } = require('../config');
+const config = require('../config');
 
 chai.use(chaiHttp);
-
-function seedSheetData() {
-  console.info('seeding character sheet data');
-  const seedData = [];
-
-  for(let i = 1; i <= 10; i++) {
-    seedData.push(generateSheetData());
-  }
-
-  return Sheet.insertMany(seedData);
-}
+chai.use(chaiJwt);
 
 function seedUserData() {
   console.info('seeding user data')
   const seedData = [];
 
-  for(let i = 1; i <= 10; i++) {
+  for(let i = 1; i <= 5; i++) {
     seedData.push(generateUserData());
   }
 
   return User.insertMany(seedData);
 }
 
-function generateSheetData() {
+function generateUserData() {
+  return {
+    username: faker.name.firstName() + faker.name.lastName(),
+    password: faker.internet.password()
+  };
+}
+
+function seedSheetData() {
+  console.info('seeding character sheet data');
+  const seedData = [];
+
+  // for(let i = 1; i <= 10; i++) {
+  //   seedData.push(generateSheetData());
+  // }
+
+  // return Sheet.insertMany(seedData);
+  return User
+    .find()
+    .then(function(users) {
+      users.forEach(function(user) {
+        for(let i = 1; i <= 5; i++) {
+          seedData.push(generateSheetData(user.username))
+        }
+      })
+    })
+    .then(function() {
+      return Sheet.insertMany(seedData);
+    });
+}
+
+function generateSheetData(user) {
   let newSheet = {};
 
+  newSheet.user = user;
+
   const stringValues = [
-    'user',
     'charName', 
     'classAndLevel', 
     'background', 
@@ -192,31 +216,32 @@ function createRandomAttacksArray() {
   return attacksArray;
 }
 
-function generateUserData() {
-  return {
-    username: faker.name.firstName() + faker.name.lastName(),
-    password: faker.internet.password()
-  };
-}
-
 function tearDownDb() {
   console.warn('tearing down database');
   mongoose.connection.dropDatabase();
 }
 
+function createAuthToken(user) {
+  return jwt.sign({user}, config.JWT_SECRET, {
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  });
+};
+
 describe('Dragon-App API resource', function() {
 
   before(function() {
-    return runServer(TEST_DATABASE_URL);
-  });
-
-  beforeEach(function() {
-    return seedSheetData();
+    return runServer(config.TEST_DATABASE_URL);
   });
 
   beforeEach(function() {
     return seedUserData();
   })
+
+  beforeEach(function() {
+    return seedSheetData();
+  });
 
   afterEach(function() {
     return tearDownDb();
@@ -234,106 +259,6 @@ describe('Dragon-App API resource', function() {
         .then(function(res) {
           expect(res).to.be.html;
           expect(res).to.have.status(200);
-        });
-    });
-  });
-
-  describe('GET endpoint', function() {
-
-    it('should respond with a json character sheet', function() {
-      return chai.request(app)
-        .get('/sheets')
-        .then(function(res) {
-          expect(res).to.be.json;
-          expect(res).to.have.status(200);
-        })
-    });
-
-    it('should retrieve object based on ID', function() {
-      let sheetId;
-
-      return chai.request(app)
-        .get('/sheets')
-        .then(function(data) {
-          sheetId = data.body[0]._id;
-          return chai.request(app)
-            .get(`/sheets/${ sheetId }`)
-        })
-        .then(function(data) {
-          expect(data.body.id).to.equal(sheetId);
-          expect(data).to.be.json;
-          expect(data.charName).to.not.equal(null);
-        })
-    });
-  });
-
-  describe('POST endpoint', function() {
-
-    it('should create new sheet and send 201 status code', function() {
-      const newSheet = generateSheetData();
-
-      return chai.request(app)
-        .post('/sheets')
-        .send(newSheet)
-        .then(function(res) {
-          expect(res).to.be.json;
-          expect(res).to.have.status(201);
-          expect(res.body.charName).to.equal(newSheet.charName);
-          newSheet.id = res.body._id;
-          expect(res.body._id).to.not.equal(undefined);
-          expect(res.body._id).to.equal(newSheet.id);
-        })
-    });
-  });
-
-  describe('PUT endpoint', function() {
-
-    it('should update sheet and send 200 status code', function() {
-      const updateData = {
-        charName: 'etetetetetetet',
-        attributes: {
-          strength: {val: 9001, bonus: '+3000'},
-          dexterity: {val: 9001, bonus: '+3000'},
-          constitution: {val: 9001, bonus: '+3000'},
-          intelligence: {val: 9001, bonus: '+3000'},
-          wisdom: {val: 9001, bonus: '+3000'},
-          charisma: {val: 9001, bonus: '+3000'}
-        },
-        levelNineSpells: [
-          'Funky Chicken Dance',
-          'Barbarian Rage',
-          'Scottish Brogue'
-        ]
-      };
-      return Sheet
-        .findOne()
-        .then(function(charSheet) {
-          updateData.id = charSheet.id;
-
-          return chai.request(app)
-            .put(`/sheets/${ updateData.id }`)
-            .send(updateData)
-        })
-        .then(function(res) {
-          expect(res).to.have.status(200);
-
-          return Sheet.findById(updateData.id);
-        }) 
-        .then(function(sheet) {
-          expect(sheet.charName).to.equal(updateData.charName);
-          expect(sheet.attributes.strength.val).to.equal(updateData.attributes.strength.val);
-          expect(sheet.attributes.dexterity.val).to.equal(updateData.attributes.dexterity.val);
-          expect(sheet.attributes.constitution.val).to.equal(updateData.attributes.constitution.val);
-          expect(sheet.attributes.intelligence.val).to.equal(updateData.attributes.intelligence.val);
-          expect(sheet.attributes.wisdom.val).to.equal(updateData.attributes.wisdom.val);
-          expect(sheet.attributes.charisma.val).to.equal(updateData.attributes.charisma.val);
-          expect(sheet.attributes.strength.bonus).to.equal(updateData.attributes.strength.bonus);
-          expect(sheet.attributes.dexterity.bonus).to.equal(updateData.attributes.dexterity.bonus);
-          expect(sheet.attributes.constitution.bonus).to.equal(updateData.attributes.constitution.bonus);
-          expect(sheet.attributes.intelligence.bonus).to.equal(updateData.attributes.intelligence.bonus);
-          expect(sheet.attributes.wisdom.bonus).to.equal(updateData.attributes.wisdom.bonus);
-          expect(sheet.attributes.charisma.bonus).to.equal(updateData.attributes.charisma.bonus);
-          expect(sheet.levelNineSpells).to.deep.equal(updateData.levelNineSpells);
         });
     });
   });
@@ -364,9 +289,8 @@ describe('Dragon-App API resource', function() {
       return User
         .findOne()
         .then(function(user) {
-          console.log(user);
           newUser.username = user.username;
-          console.log(newUser);
+
           return chai.request(app)
             .post('/users')
             .send(newUser)
@@ -408,7 +332,214 @@ describe('Dragon-App API resource', function() {
         })
         .then(function(res) {
           expect(res).to.be.json;
+          expect(res).to.have.status(200);
+          expect(res.body.authToken).to.be.a.jwt;
+        });
+    });
+  });
+
+  describe('GET endpoint', function() {
+
+    it('should respond with json character sheets matching the username', function() {
+      let testJwt;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testJwt = createAuthToken(user.serialize());
+        })
+        .then(function() {
+          return chai.request(app)
+            .get('/sheets')
+            .set('Authorization', `Bearer ${ testJwt }`)
+        })
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res.body[0].charName).to.be.a('string');
+        })
+    });
+
+    it('should retrieve object based on ID', function() {
+      let testUser;
+      let testJwt;
+      let sheetId;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testUser = user.serialize();
+          testJwt = createAuthToken(testUser);
+        })
+        .then(function() {
+          return Sheet
+            .findOne({user: testUser.username})
+        })
+        .then(function(sheet) {
+          sheetId = sheet._id;
+        })
+        .then(function() {
+          return chai.request(app)
+            .get(`/sheets/${ sheetId }`)
+            .set('Authorization', `Bearer ${ testJwt }`)
+        })
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res.body.id).to.equal(`${ sheetId }`);
+          expect(res.body.charName).to.be.a('string');
+        });
+    });
+
+    it('should error if a user attempts to access another users sheet', function() {
+      const testUserOne = {username: 'etetetetet', password: faker.internet.password()};
+      const testUserTwo = {username: 'rororororo', password: faker.internet.password()};
+      const newUsers = [testUserOne, testUserTwo];
+      const testJwtOne = createAuthToken({username: 'etetetetet'});
+      const testJwtTwo = createAuthToken({username: 'rororororo'});
+      const testSheet = generateSheetData(testUserTwo.username);
+
+      const addTestUsers = User.insertMany(newUsers);
+      const addTestSheet = Sheet.create(testSheet);
+
+      Promise.all([addTestUsers, addTestSheet])
+        .then(function() {
+          return chai.request(app)
+            .get(`/sheets`)
+            .set('Authorization', `Bearer ${ testJwtTwo }`)
+        })
+        .then(function(res) {
+          return chai.request(app)
+            .get(`/sheets/${ res.id }`)
+            .set('Authorization', `Bearer ${ testJwtOne }`)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(401);
+          expect(res).message.to.equal('Unauthorized');
+        });
+    })
+  });
+
+  describe('POST endpoint', function() {
+
+    it('should create new sheet and send 201 status code', function() {
+      let newSheet;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          const testJwt = createAuthToken(user.serialize());
+          newSheet = generateSheetData(user.username);
+
+          return chai.request(app)
+            .post('/sheets')
+            .set('Authorization', `Bearer ${ testJwt }`)
+            .send(newSheet)
+        })
+        .then(function(res) {
+          expect(res).to.be.json;
           expect(res).to.have.status(201);
+          expect(res.body.charName).to.equal(newSheet.charName);
+          expect(res.body.user).to.equal(newSheet.user);
+          expect(res.body._id).to.not.equal(undefined);
+        });
+    });
+  });
+
+  describe('PUT endpoint', function() {
+
+    it('should update sheet and send 200 status code', function() {
+      const updateData = {
+        charName: 'etetetetetetet',
+        attributes: {
+          strength: {val: 9001, bonus: '+3000'},
+          dexterity: {val: 9001, bonus: '+3000'},
+          constitution: {val: 9001, bonus: '+3000'},
+          intelligence: {val: 9001, bonus: '+3000'},
+          wisdom: {val: 9001, bonus: '+3000'},
+          charisma: {val: 9001, bonus: '+3000'}
+        },
+        levelNineSpells: [
+          'Funky Chicken Dance',
+          'Barbarian Rage',
+          'Scottish Brogue'
+        ]
+      };
+
+      let testJwt;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testJwt = createAuthToken(user.serialize());
+
+          return Sheet.findOne({user: user.username})
+        })
+        .then(function(charSheet) {
+          updateData.id = charSheet._id;
+
+          return chai.request(app)
+            .put(`/sheets/${ updateData.id }`)
+            .set('Authorization', `Bearer ${ testJwt }`)
+            .send(updateData)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(200);
+
+          return Sheet.findById(updateData.id);
+        }) 
+        .then(function(sheet) {
+          expect(sheet.charName).to.equal(updateData.charName);
+          expect(sheet.attributes.strength.val).to.equal(updateData.attributes.strength.val);
+          expect(sheet.attributes.dexterity.val).to.equal(updateData.attributes.dexterity.val);
+          expect(sheet.attributes.constitution.val).to.equal(updateData.attributes.constitution.val);
+          expect(sheet.attributes.intelligence.val).to.equal(updateData.attributes.intelligence.val);
+          expect(sheet.attributes.wisdom.val).to.equal(updateData.attributes.wisdom.val);
+          expect(sheet.attributes.charisma.val).to.equal(updateData.attributes.charisma.val);
+          expect(sheet.attributes.strength.bonus).to.equal(updateData.attributes.strength.bonus);
+          expect(sheet.attributes.dexterity.bonus).to.equal(updateData.attributes.dexterity.bonus);
+          expect(sheet.attributes.constitution.bonus).to.equal(updateData.attributes.constitution.bonus);
+          expect(sheet.attributes.intelligence.bonus).to.equal(updateData.attributes.intelligence.bonus);
+          expect(sheet.attributes.wisdom.bonus).to.equal(updateData.attributes.wisdom.bonus);
+          expect(sheet.attributes.charisma.bonus).to.equal(updateData.attributes.charisma.bonus);
+          expect(sheet.levelNineSpells).to.deep.equal(updateData.levelNineSpells);
+        });
+    });
+  });
+
+  describe('DELETE endpoint', function() {
+
+    it('delete sheet based on ID', function() {
+      // find a sheet associated with a user
+      // create a jwt for the user
+      // send request to DELETE endpoint with sheet ID and jwt
+      // expect 204 status code
+      // check to see if sheet is still there
+      // expect not to find it
+      let testJwt;
+      let targetSheetId;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testJwt = createAuthToken(user.serialize());
+
+          return Sheet
+            .findOne({user: user.username})
+        })
+        .then(function(sheet) {
+          targetSheetId = sheet._id;
+
+          return chai.request(app)
+            .delete(`/sheets/${ targetSheetId }`)
+            .set('Authorization', `Bearer ${ testJwt }`)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204);
+
+          return Sheet
+            .findById(targetSheetId)
+        })
+        .then(function(sheet) {
+          expect(sheet).to.be.null;
         });
     });
   });

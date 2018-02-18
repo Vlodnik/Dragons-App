@@ -1,10 +1,12 @@
 'use strict';
 
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const sheetSchema = mongoose.Schema({
-  charName: {type: String, required: true},
+  user: { type: String, required: true },
+  charName: { type: String, required: true },
   classAndLevel: String,
   background: String,
   playerName: String,
@@ -193,6 +195,7 @@ const sheetSchema = mongoose.Schema({
 sheetSchema.methods.serialize = function() {
   return {
     id: this._id,
+    user: this.user,
     charName: this.charName,
     classAndLevel: this.classAndLevel,
     background: this.background,
@@ -239,4 +242,32 @@ sheetSchema.methods.serialize = function() {
 
 const Sheet = mongoose.model('Sheet', sheetSchema);
 
-module.exports = { Sheet };
+const userSchema = mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
+});
+
+userSchema.methods.serialize = function() {
+  return {
+    username: this.username
+  };
+};
+
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compare(password, this.password);
+};
+
+userSchema.statics.hashPassword = function(password) {
+  return bcrypt.hash(password, 10)
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = { Sheet, User };

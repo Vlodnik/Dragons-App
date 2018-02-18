@@ -1,49 +1,90 @@
 'use strict';
 
 const appState = {
+  currentUser: null,
+  currentJwt: null,
   currentSheetId: null
 };
 
-function getCharacterSheet(callback) {
-  console.log('getting character sheet');
-  $.getJSON('http://localhost:8080/sheets', callback);
+function renderLandingPage() {
+  const html = `
+    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <h1>Create and update character sheets</h1>
+    <form id="sign-in">
+      <h2>Sign In</h2>
+      <input id="username" type="text" placeholder="Username" required>
+      <input id="password" type="password" placeholder="Password" required>
+      <button id="login" type="submit">Login</button>
+    </form>
+    <button id="new-account" type="submit">Create an account</button>
+    <button id="example" type="submit">See an example</button>
+  `;
+
+  $('body').html(html);
 }
 
-// <button class="js-save" type="submit">Save Character</button>
+function renderAccountCreationPage() {
+  const html = `
+    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <form id="account-creation">
+      <h2>Create your account</h2>
+      <input id="new-user" type="text" placeholder="Username" required>
+      <input id="new-pass" type="password" placeholder="Password" required>
+      <input id="pass-confirm" type="password" placeholder="Confirm password" required>
+      <button id="create" type="submit">Create</button>
+    </form>
+  `;
 
-function renderLandingPage() {
+  $('body').html(html);
+}
+
+// *** Code for finding and displaying user information *** //
+
+function initialLogin(jwt) {
+  appState.currentUser = $('#username').val();
+  appState.currentJwt = jwt.authToken;
+  getUsersAccount();
+}
+
+function getUsersAccount() {
+  $.ajax({
+    method: 'GET',
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    url: `/sheets`,
+    headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
+    success: renderHomePage
+  });
+}
+
+function renderHomePage(data) {
   const html =`
     <nav id="nav-bar">
       <ul>
-        <li id="home"><button id="js-home" type="submit">Home</button></li>
-        <li><button id="js-new-sheet" type="submit">New</button></li>
+        <li id="js-home">Home</li>
+        <li id="js-new-sheet">New</li>
+        <li id="js-logout">Logout</li>
       </ul>
     </nav>
 
-    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
 
     <ul id="confirm-buttons">
     </ul>
   `;
-
+ 
   $('body').html(html);
-
-  getAndDisplaySavedSheets();
-}
-
-function getAndDisplaySavedSheets() {
-  console.log('Getting saved sheets');
-      $.ajax({
-        method: 'GET',
-        dataType: 'json',
-        url: `http://localhost:8080/sheets`,
-        success: renderSavedCharacters
-      });
+  $('header').addClass('logged-in');
+  renderSavedCharacters(data);
+  appState.currentSheetId = null;
 }
 
 function renderSavedCharacters(data) {
-  // if data.length === 0, then display 'you have no characters'
-  const listElements = data.map(createListElement);
+  let listElements;
+  data.length ? 
+  listElements = data.map(createListElement) : 
+  listElements = `<li id="no-chars">You have no characters yet!</li>`;
 
   $('#confirm-buttons').append(listElements);
 }
@@ -61,17 +102,26 @@ function createListElement(sheet) {
   `;
 }
 
+function showErrorMessage(err) {
+  // NEEDS TO BE MODIFIED TO CORRECTLY FIND ERROR FROM LOGIN PAGE
+  console.log(err);
+  const message = `<p>${ err.responseJSON.message }</p>`;
+  $('form').append(message);
+}
+
 function renderCharSheet(data) {
   const html = `
     <nav id="nav-bar">
       <ul>
-        <li id="home"><button id="js-home" type="submit">Home</button></li>
-        <li id="save"><button id="js-save" type="submit">Save</button></li>
-        <li><button id="js-new-sheet" type="submit">New</button></li>
+        <li id="js-home">Home</li>
+        <li id="js-save">Save</li>
+        <li id="js-new-sheet">New</li>
+        <li id="js-delete">Delete</li>
+        <li id="js-logout">Logout</li>
       </ul>
     </nav>
 
-    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
 
     <form id="macro">
       <label for="charName">Character Name</label>
@@ -496,7 +546,7 @@ function renderSavedSheet(data) {
   appState.currentSheetId = data.id;
 
   console.log('renderCharSheet ran');
-  console.log(appState.currentSheetId);
+
 }
  
 function assignAttributes(data) {
@@ -876,41 +926,119 @@ function showSaveSuccessful(data) {
   $('#js-save').text('Saved!');
   setTimeout(() => $('#js-save').text('Save'), 2000);
 
- if(data.id) {
-    appState.currentSheetId = data.id;
+  if(data._id) {
+    appState.currentSheetId = data._id;
     console.log('Changed current sheet');
   } 
 }
 
+function renderDeletionPrompt() {
+  if(window.confirm('Are you sure you want to delete this sheet?')) {
+    $.ajax({
+      method: 'DELETE',
+      dataType: 'json',
+      headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
+      url: `/sheets/${ appState.currentSheetId }`,
+      success: renderCharSheet,
+      error: showDeletionError
+    });
+  }
+}
+
+function showDeletionError() {
+  window.alert('Deletion failed!');
+}
+
 //*** Event handlers ***//
 
+function handleLoginButton() {
+  $('body').on('click', '#login', function(ev) {
+    ev.preventDefault();
+    const username = $('#username').val();
+    const password = $('#password').val();
+    const loginObj = { username, password };
+    $.ajax({
+      method: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      processData: false,
+      url: `/users/login`,
+      data: JSON.stringify(loginObj),
+      success: initialLogin,
+      error: showErrorMessage
+    }); 
+  });
+}
+
+function handleExampleButton() {
+  $('body').on('click', '#example', function(ev) {
+    ev.preventDefault();
+    renderHomePage();
+  });
+} 
+
+function handleNewUser() {
+  $('body').on('click', '#new-account', function(ev) {
+    ev.preventDefault();
+    renderAccountCreationPage();
+  });
+}
+
+function handleAccountCreation() {
+  $('body').on('click', '#create', function(ev) {
+    ev.preventDefault();
+    const user = $('#new-user').val();
+    const pass = $('#new-pass').val();
+    const confirmPass = $('#pass-confirm').val();
+
+    if(pass === confirmPass) {
+      const newUser = {
+        username: user,
+        password: pass
+      };
+      $.ajax({
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        processData: false,
+        url: `/users`,
+        data: JSON.stringify(newUser),
+        success: renderHomePage,
+        error: showErrorMessage
+      });
+    } else {
+      console.log('pass and confirm do not match');
+      const message = `<p>Passwords do not match!</p>`;
+      $('#account-creation').append(message);
+    }
+  });
+}
+
 function handleConfirmButton() {
-  $('body').on('click', '.confirm', function() {
-    event.preventDefault();
-    console.log($(this).attr('data-id'));
+  $('body').on('click', '.confirm', function(ev) {
+    ev.preventDefault();
     const selectedtId = $(this).attr('data-id');
-    console.log(selectedtId);
     $.ajax({
       method: 'GET',
       contentType: 'application/json',
       dataType: 'json',
-      url: `http://localhost:8080/sheets/${ selectedtId }`,
+      url: `/sheets/${ selectedtId }`,
+      headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
       success: renderSavedSheet
     });
   });
 }
 
 function handleHomeButton() {
-  $('body').on('click', '#js-home', function() {
-    event.preventDefault();
-    renderLandingPage();
-    appState.currentSheetId = null;
+  $('body').on('click', '#js-home', function(ev) {
+    ev.preventDefault();
+    getUsersAccount(appState.currentJwt);
   });
 }
 
 function handleAddAttackButton() {
-  $('body').on('click', '#js-add-attack', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-attack', function(ev) {
+    ev.preventDefault();
     const name = $('#new-attack-name').val();
     const bonus = $('#new-attack-bonus').val();
     const damage = $('#new-attack-damage').val();
@@ -923,8 +1051,8 @@ function handleAddAttackButton() {
 }
 
 function handleAddProfButton() {
-  $('body').on('click', '#js-add-prof', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-prof', function(ev) {
+    ev.preventDefault();
     const prof = $('#new-prof').val(); 
     const newProf = generateProf(prof);
     $('#new-prof').before(newProf);
@@ -933,8 +1061,8 @@ function handleAddProfButton() {
 }
 
 function handleAddItemButton() {
-  $('body').on('click', '#js-add-item', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-item', function(ev) {
+    ev.preventDefault();
     const item = $('#new-item').val();
     const newItem = generateEquip(item);
     $('#new-item').before(newItem);
@@ -943,8 +1071,8 @@ function handleAddItemButton() {
 }
 
 function handleAddTraitButton() {
-  $('body').on('click', '#js-add-trait', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-add-trait', function(ev) {
+    ev.preventDefault();
     const trait = $('#new-trait').val();
     const newTrait = generateTrait(trait);
     $('#new-trait').before(newTrait);
@@ -953,8 +1081,11 @@ function handleAddTraitButton() {
 }
 
 function handleSaveButton() {
-  $('body').on('click', '#js-save', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-save', function(ev) {
+    ev.preventDefault();
+    console.log(appState.currentSheetId);
+    console.log(appState.currentUser);
+    console.log(appState.currentJwt);
     const savedSheet = createSheetObject();
 
     if(appState.currentSheetId) {
@@ -964,7 +1095,8 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: `http://localhost:8080/sheets/${ appState.currentSheetId }`,
+        url: `/sheets/${ appState.currentSheetId }`,
+        headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -975,7 +1107,8 @@ function handleSaveButton() {
         contentType: 'application/json',
         dataType: 'json',
         processData: false,
-        url: 'http://localhost:8080/sheets',
+        url: `/sheets`,
+        headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
         data: JSON.stringify(savedSheet),
         success: showSaveSuccessful
       });
@@ -984,19 +1117,42 @@ function handleSaveButton() {
 }
 
 function handleNewButton() {
-  $('body').on('click', '#js-new-sheet', function() {
-    event.preventDefault();
+  $('body').on('click', '#js-new-sheet', function(ev) {
+    ev.preventDefault();
     console.log('Providing empty sheet');
     renderCharSheet();
     appState.currentSheetId = null;
   });
 }
 
-function getAndDisplayCharacterSheet() {
-  getCharacterSheet(renderSavedSheet);
+function handleDeleteButton() {
+  $('body').on('click', '#js-delete', function(ev) {
+    ev.preventDefault();
+    if(appState.currentSheetId) {
+      console.log('Prompting to confirm deletion');
+      renderDeletionPrompt();
+    } else {
+      console.log('Attempted deletion before saving new sheet');
+      window.alert('You have not yet saved this sheet.');
+    }
+  });
+}
+
+function handleLogoutButton() {
+  $('body').on('click', '#js-logout', function(ev) {
+    ev.preventDefault();
+    renderLandingPage();
+    appState.currentUser = null;
+    appState.currentJwt = null;
+    appState.currentSheetId = null;
+  });
 }
 
 function handleButtons() {
+  handleLoginButton();
+  handleExampleButton();
+  handleNewUser();
+  handleAccountCreation();
   handleConfirmButton();
   handleHomeButton();
   handleAddAttackButton();
@@ -1005,8 +1161,9 @@ function handleButtons() {
   handleAddTraitButton();
   handleSaveButton();
   handleNewButton();
+  handleDeleteButton();
+  handleLogoutButton();
 }
 
-//getAndDisplayCharacterSheet();
 renderLandingPage();
 handleButtons();

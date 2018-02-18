@@ -2,30 +2,67 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const chaiJwt = require('chai-jwt');
 const faker = require('faker');
+const passport = require('passport');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const expect = chai.expect;
 
-const { Sheet } = require('../models');
+const { Sheet, User } = require('../models');
 const { app, runServer, closeServer } = require('../server');
-const { TEST_DATABASE_URL } = require('../config');
+const config = require('../config');
 
 chai.use(chaiHttp);
+chai.use(chaiJwt);
+
+function seedUserData() {
+  console.info('seeding user data')
+  const seedData = [];
+
+  for(let i = 1; i <= 5; i++) {
+    seedData.push(generateUserData());
+  }
+
+  return User.insertMany(seedData);
+}
+
+function generateUserData() {
+  return {
+    username: faker.name.firstName() + faker.name.lastName(),
+    password: faker.internet.password()
+  };
+}
 
 function seedSheetData() {
   console.info('seeding character sheet data');
   const seedData = [];
 
-  for(let i = 1; i <= 10; i++) {
-    seedData.push(generateSheetData());
-  }
+  // for(let i = 1; i <= 10; i++) {
+  //   seedData.push(generateSheetData());
+  // }
 
-  return Sheet.insertMany(seedData);
+  // return Sheet.insertMany(seedData);
+  return User
+    .find()
+    .then(function(users) {
+      users.forEach(function(user) {
+        for(let i = 1; i <= 5; i++) {
+          seedData.push(generateSheetData(user.username))
+        }
+      })
+    })
+    .then(function() {
+      return Sheet.insertMany(seedData);
+    });
 }
 
-function generateSheetData() {
+function generateSheetData(user) {
   let newSheet = {};
+
+  newSheet.user = user;
 
   const stringValues = [
     'charName', 
@@ -184,11 +221,23 @@ function tearDownDb() {
   mongoose.connection.dropDatabase();
 }
 
+function createAuthToken(user) {
+  return jwt.sign({user}, config.JWT_SECRET, {
+    subject: user.username,
+    expiresIn: config.JWT_EXPIRY,
+    algorithm: 'HS256'
+  });
+};
+
 describe('Dragon-App API resource', function() {
 
   before(function() {
-    return runServer(TEST_DATABASE_URL);
+    return runServer(config.TEST_DATABASE_URL);
   });
+
+  beforeEach(function() {
+    return seedUserData();
+  })
 
   beforeEach(function() {
     return seedSheetData();
@@ -214,55 +263,184 @@ describe('Dragon-App API resource', function() {
     });
   });
 
-  describe('GET endpoint', function() {
+  describe('POST endpoint for new users', function() {
 
-    it('should respond with a json character sheet', function() {
+    it('should create a new user and send 201 status code', function() {
+      const newUser = {
+        username: 'tomtomtomtomtomtomtomtomtom',
+        password: 'flappingaboutwildlylikeabigbirdinthebreeze'
+      };
+
       return chai.request(app)
-        .get('/sheets')
+        .post('/users')
+        .send(newUser)
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res).to.have.status(201);
+          expect(res.body.username).to.equal(newUser.username);
+        });
+    });
+
+    it('should return an error if username is taken', function() {
+      const newUser = {
+        password: 'manymanymonkeys'
+      };
+
+      return User
+        .findOne()
+        .then(function(user) {
+          newUser.username = user.username;
+
+          return chai.request(app)
+            .post('/users')
+            .send(newUser)
+        })
+        .then(function(res) {
+          // this code should never run, if it does we error
+          expect(1).to.equal(2);
+        })
+        .catch(function(err) {
+          expect(err).to.have.status(422);
+          // expect(err.message).to.equal('Username already taken');
+        });
+    });
+  });
+
+  describe('POST endpoint for creating jwts on login', function() {
+
+    it('should return a jwt when given username and password', function() {
+      let testUser = {};
+      let userId;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testUser.username = user.username;
+          testUser.password = user.password;
+          userId = user._id;
+          
+          return bcrypt.hash(user.password, 10);
+        })
+        .then(function(encryptedPass) {
+          return User
+            .findByIdAndUpdate(userId, {password: encryptedPass})
+        })
+        .then(function() {
+          return chai.request(app)
+            .post('/users/login')
+            .send(testUser)
+        })
         .then(function(res) {
           expect(res).to.be.json;
           expect(res).to.have.status(200);
+          expect(res.body.authToken).to.be.a.jwt;
+        });
+    });
+  });
+
+  describe('GET endpoint', function() {
+
+    it('should respond with json character sheets matching the username', function() {
+      let testJwt;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testJwt = createAuthToken(user.serialize());
+        })
+        .then(function() {
+          return chai.request(app)
+            .get('/sheets')
+            .set('Authorization', `Bearer ${ testJwt }`)
+        })
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res.body[0].charName).to.be.a('string');
         })
     });
 
     it('should retrieve object based on ID', function() {
+      let testUser;
+      let testJwt;
       let sheetId;
 
-      return chai.request(app)
-        .get('/sheets')
-        .then(function(data) {
-          console.log(data.body[0]._id);
-          sheetId = data.body[0]._id;
-
+      return User
+        .findOne()
+        .then(function(user) {
+          testUser = user.serialize();
+          testJwt = createAuthToken(testUser);
+        })
+        .then(function() {
+          return Sheet
+            .findOne({user: testUser.username})
+        })
+        .then(function(sheet) {
+          sheetId = sheet._id;
+        })
+        .then(function() {
           return chai.request(app)
             .get(`/sheets/${ sheetId }`)
+            .set('Authorization', `Bearer ${ testJwt }`)
         })
-        .then(function(data) {
-          console.log('The data follows this log');
-          console.log(data);
-          expect(data.body.id).to.equal(sheetId);
-          expect(data).to.be.json;
-          expect(data.charName).to.not.equal(null);
-        })
+        .then(function(res) {
+          expect(res).to.be.json;
+          expect(res.body.id).to.equal(`${ sheetId }`);
+          expect(res.body.charName).to.be.a('string');
+        });
     });
+
+    it('should error if a user attempts to access another users sheet', function() {
+      const testUserOne = {username: 'etetetetet', password: faker.internet.password()};
+      const testUserTwo = {username: 'rororororo', password: faker.internet.password()};
+      const newUsers = [testUserOne, testUserTwo];
+      const testJwtOne = createAuthToken({username: 'etetetetet'});
+      const testJwtTwo = createAuthToken({username: 'rororororo'});
+      const testSheet = generateSheetData(testUserTwo.username);
+
+      const addTestUsers = User.insertMany(newUsers);
+      const addTestSheet = Sheet.create(testSheet);
+
+      Promise.all([addTestUsers, addTestSheet])
+        .then(function() {
+          return chai.request(app)
+            .get(`/sheets`)
+            .set('Authorization', `Bearer ${ testJwtTwo }`)
+        })
+        .then(function(res) {
+          return chai.request(app)
+            .get(`/sheets/${ res.id }`)
+            .set('Authorization', `Bearer ${ testJwtOne }`)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(401);
+          expect(res).message.to.equal('Unauthorized');
+        });
+    })
   });
 
   describe('POST endpoint', function() {
 
     it('should create new sheet and send 201 status code', function() {
-      const newSheet = generateSheetData();
+      let newSheet;
 
-      return chai.request(app)
-        .post('/sheets')
-        .send(newSheet)
+      return User
+        .findOne()
+        .then(function(user) {
+          const testJwt = createAuthToken(user.serialize());
+          newSheet = generateSheetData(user.username);
+
+          return chai.request(app)
+            .post('/sheets')
+            .set('Authorization', `Bearer ${ testJwt }`)
+            .send(newSheet)
+        })
         .then(function(res) {
           expect(res).to.be.json;
           expect(res).to.have.status(201);
           expect(res.body.charName).to.equal(newSheet.charName);
-          newSheet.id = res.body._id;
+          expect(res.body.user).to.equal(newSheet.user);
           expect(res.body._id).to.not.equal(undefined);
-          expect(res.body._id).to.equal(newSheet.id);
-        })
+        });
     });
   });
 
@@ -285,13 +463,22 @@ describe('Dragon-App API resource', function() {
           'Scottish Brogue'
         ]
       };
-      return Sheet
+
+      let testJwt;
+
+      return User
         .findOne()
+        .then(function(user) {
+          testJwt = createAuthToken(user.serialize());
+
+          return Sheet.findOne({user: user.username})
+        })
         .then(function(charSheet) {
-          updateData.id = charSheet.id;
+          updateData.id = charSheet._id;
 
           return chai.request(app)
             .put(`/sheets/${ updateData.id }`)
+            .set('Authorization', `Bearer ${ testJwt }`)
             .send(updateData)
         })
         .then(function(res) {
@@ -314,6 +501,45 @@ describe('Dragon-App API resource', function() {
           expect(sheet.attributes.wisdom.bonus).to.equal(updateData.attributes.wisdom.bonus);
           expect(sheet.attributes.charisma.bonus).to.equal(updateData.attributes.charisma.bonus);
           expect(sheet.levelNineSpells).to.deep.equal(updateData.levelNineSpells);
+        });
+    });
+  });
+
+  describe('DELETE endpoint', function() {
+
+    it('delete sheet based on ID', function() {
+      // find a sheet associated with a user
+      // create a jwt for the user
+      // send request to DELETE endpoint with sheet ID and jwt
+      // expect 204 status code
+      // check to see if sheet is still there
+      // expect not to find it
+      let testJwt;
+      let targetSheetId;
+
+      return User
+        .findOne()
+        .then(function(user) {
+          testJwt = createAuthToken(user.serialize());
+
+          return Sheet
+            .findOne({user: user.username})
+        })
+        .then(function(sheet) {
+          targetSheetId = sheet._id;
+
+          return chai.request(app)
+            .delete(`/sheets/${ targetSheetId }`)
+            .set('Authorization', `Bearer ${ testJwt }`)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(204);
+
+          return Sheet
+            .findById(targetSheetId)
+        })
+        .then(function(sheet) {
+          expect(sheet).to.be.null;
         });
     });
   });

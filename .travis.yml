@@ -2,6 +2,7 @@ language: node_js
 node_js: node
 env: 
   TEST_DATABASE_URL: mongodb://Vlodnik:mabelthecat123@ds223738.mlab.com:23738/test-dragondb
+  JWT_SECRET: 7uyhji98YHJKI&8ijy7^%^YHGg
 deploy:
   provider: heroku
   api_key:

@@ -87,6 +87,10 @@ h1 {
   background-color: darkred;
 }
 
+#sign-in p {
+  text-align: center;
+}
+
 #account-creation p {
   text-align: center;
 }
@@ -163,6 +167,7 @@ h1 {
 #confirm-buttons button, #no-chars {
   border: none;
   background-color: lightgray;
+  transition: background-color .4s;
   border-radius: 5px;
   margin-bottom: 1em;
   height: 3em;

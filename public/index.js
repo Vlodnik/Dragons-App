@@ -3,7 +3,8 @@
 const appState = {
   currentUser: null,
   currentJwt: null,
-  currentSheetId: null
+  currentSheetId: null,
+  exampleSheets: null
 };
 
 function renderLandingPage() {
@@ -32,6 +33,7 @@ function renderAccountCreationPage() {
       <input id="new-pass" type="password" placeholder="Password" required>
       <input id="pass-confirm" type="password" placeholder="Confirm password" required>
       <button id="create" type="submit">Create</button>
+      <button id="js-logout" type="submit">Return</button>
     </form>
   `;
 
@@ -43,7 +45,12 @@ function renderAccountCreationPage() {
 function initialLogin(jwt) {
   appState.currentUser = $('#username').val();
   appState.currentJwt = jwt.authToken;
-  getUsersAccount();
+  if(appState.currentUser) {
+    getUsersAccount();
+  } else {
+    appState.currentUser = 'guest';
+    getExampleAccount();
+  }
 }
 
 function getUsersAccount() {
@@ -63,7 +70,7 @@ function renderHomePage(data) {
     <nav id="nav-bar">
       <ul>
         <li id="js-home">Home</li>
-        <li id="js-new-sheet">New</li>
+        <li class="js-new-sheet">New</li>
         <li id="js-logout">Logout</li>
       </ul>
     </nav>
@@ -84,23 +91,87 @@ function renderSavedCharacters(data) {
   let listElements;
   data.length ? 
   listElements = data.map(createListElement) : 
-  listElements = `<li id="no-chars">You have no characters yet!</li>`;
+  listElements = `
+    <li id="no-chars">
+      <button
+        class="js-new-sheet"
+        type="submit">
+        Make a charcter sheet!
+      </button>
+    </li>`;
 
   $('#confirm-buttons').append(listElements);
 }
 
-function createListElement(sheet) {
-  return `
-    <li class="landing-chars">
-      <button 
-        class="confirm" 
-        data-id="${ sheet._id }" 
-        type="submit">
-        ${ sheet.charName }
-      </button>
-    </li>
-  `;
+function createListElement(sheet, index) {
+  if(appState.currentUser !== 'guest') {
+    console.log(appState.currentUser);
+    console.log('Making a real confirm button');
+    return `
+      <li class="landing-chars">
+        <button 
+          class="confirm" 
+          data-id="${ sheet._id }" 
+          type="submit">
+          ${ sheet.charName }
+        </button>
+      </li>
+    `;
+  } else {
+    console.log(appState.currentUser);
+    console.log('Creating an example confirm button');
+    return `
+      <li class="landing-chars">
+        <button
+          class="confirm-ex"
+          data-id="${ index }"
+          type="submit">
+          ${ sheet.charName }
+        </button>
+      </li>
+    `;
+  }
 }
+
+// *** Code for handling example screens *** //
+
+function getExampleAccount() {
+  $.ajax({
+    method: 'GET',
+    contentType: 'application/json',
+    dataType: 'json',
+    processData: false,
+    url: `/sheets`,
+    headers: {'Authorization': `Bearer ${ appState.currentJwt }`},
+    success: renderExamplePage
+  });
+}
+
+function renderExamplePage(data = appState.exampleSheets) {
+  const html =`
+    <nav id="nav-bar">
+      <ul>
+        <li id="js-home-ex">Home</li>
+        <li class="js-new-sheet">New</li>
+        <li id="js-logout">Logout</li>
+      </ul>
+    </nav>
+
+    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
+
+    <ul id="confirm-buttons">
+    </ul>
+  `;
+ 
+  $('body').html(html);
+  $('header').addClass('logged-in');
+  appState.exampleSheets = data;
+  console.log(appState.exampleSheets);
+  renderSavedCharacters(appState.exampleSheets);
+  appState.currentSheetId = null;
+}
+
+// *** Code for displaying error messages *** //
 
 function showErrorMessage(err) {
   // NEEDS TO BE MODIFIED TO CORRECTLY FIND ERROR FROM LOGIN PAGE
@@ -109,18 +180,40 @@ function showErrorMessage(err) {
   $('form').append(message);
 }
 
-function renderCharSheet(data) {
-  const html = `
-    <nav id="nav-bar">
-      <ul>
-        <li id="js-home">Home</li>
-        <li id="js-save">Save</li>
-        <li id="js-new-sheet">New</li>
-        <li id="js-delete">Delete</li>
-        <li id="js-logout">Logout</li>
-      </ul>
-    </nav>
+// *** Code for character sheet display and user interaction *** //
 
+function renderCharSheet(data) {
+  appState.currentSheetId = null;
+
+  let navBarHtml;
+
+  if(appState.currentUser !== 'guest') {
+    navBarHtml = `
+      <nav id="nav-bar">
+        <ul>
+          <li id="js-home">Home</li>
+          <li id="js-save">Save</li>
+          <li class="js-new-sheet">New</li>
+          <li id="js-delete">Delete</li>
+          <li id="js-logout">Logout</li>
+        </ul>
+      </nav>
+    `;
+  } else {
+    navBarHtml = `
+      <nav id="nav-bar">
+        <ul>
+          <li id="js-home-ex">Home</li>
+          <li id="js-save-ex">Save</li>
+          <li class="js-new-sheet">New</li>
+          <li id="js-delete-ex">Delete</li>
+          <li id="js-logout">Logout</li>
+        </ul>
+      </nav>
+    `;
+  }
+
+  const sheetHtml = `
     <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
 
     <form id="macro">
@@ -501,7 +594,8 @@ function renderCharSheet(data) {
     </form>
   `;
 
-  $('body').html(html);
+  $('body').html(navBarHtml);
+  $('body').append(sheetHtml);
 }
 
 function renderSavedSheet(data) {
@@ -543,10 +637,11 @@ function renderSavedSheet(data) {
   assignTraits(data);
 
   // Make app state aware of the current sheet
-  appState.currentSheetId = data.id;
+  if(appState.currentUser !== 'guest') {
+    appState.currentSheetId = data.id;
+  } 
 
-  console.log('renderCharSheet ran');
-
+  console.log('renderSavedSheet ran');
 }
  
 function assignAttributes(data) {
@@ -924,9 +1019,11 @@ function findCheckedValue(element) {
 function showSaveSuccessful(data) {
   console.log('Save successful');
   $('#js-save').text('Saved!');
+  $('#js-save-ex').text('Saved!');
   setTimeout(() => $('#js-save').text('Save'), 2000);
+  setTimeout(() => $('#js-save-ex').text('Save'), 2000);
 
-  if(data._id) {
+  if(data && data._id) {
     appState.currentSheetId = data._id;
     console.log('Changed current sheet');
   } 
@@ -949,6 +1046,13 @@ function showDeletionError() {
   window.alert('Deletion failed!');
 }
 
+function renderExampleDeletionPrompt() {
+  if(window.confirm('Are you sure you want to delete this sheet?')) {
+    appState.exampleSheets.splice(appState.currentSheetId, 1);
+    renderCharSheet();
+  }
+}
+
 //*** Event handlers ***//
 
 function handleLoginButton() {
@@ -957,6 +1061,27 @@ function handleLoginButton() {
     const username = $('#username').val();
     const password = $('#password').val();
     const loginObj = { username, password };
+    if(username !== 'guest') {
+      $.ajax({
+        method: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        processData: false,
+        url: `/users/login`,
+        data: JSON.stringify(loginObj),
+        success: initialLogin,
+        error: showErrorMessage
+      }); 
+    } else {
+      showErrorMessage({ responseJSON: { message: `Cannot login as 'guest'` } });
+    }
+  });
+}
+
+function handleExampleButton() {
+  $('body').on('click', '#example', function(ev) {
+    ev.preventDefault();
+    const loginObj = { username: 'guest', password: 'exampleaccount' };
     $.ajax({
       method: 'POST',
       contentType: 'application/json',
@@ -966,14 +1091,7 @@ function handleLoginButton() {
       data: JSON.stringify(loginObj),
       success: initialLogin,
       error: showErrorMessage
-    }); 
-  });
-}
-
-function handleExampleButton() {
-  $('body').on('click', '#example', function(ev) {
-    ev.preventDefault();
-    renderHomePage();
+    });
   });
 } 
 
@@ -1117,7 +1235,7 @@ function handleSaveButton() {
 }
 
 function handleNewButton() {
-  $('body').on('click', '#js-new-sheet', function(ev) {
+  $('body').on('click', '.js-new-sheet', function(ev) {
     ev.preventDefault();
     console.log('Providing empty sheet');
     renderCharSheet();
@@ -1145,6 +1263,55 @@ function handleLogoutButton() {
     appState.currentUser = null;
     appState.currentJwt = null;
     appState.currentSheetId = null;
+    appState.exampleSheets = null;
+  });
+}
+
+function handleExampleConfirmButton() {
+  $('body').on('click', '.confirm-ex', function(ev) {
+    ev.preventDefault();
+    const sheetId = $(this).attr('data-id');
+    renderSavedSheet(appState.exampleSheets[sheetId]);
+    appState.currentSheetId = sheetId;
+  });
+}
+
+function handleExampleHomeButton() {
+  $('body').on('click', '#js-home-ex', function(ev) {
+    ev.preventDefault();
+    renderExamplePage();
+  });
+}
+
+function handleExampleSaveButton() {
+  $('body').on('click', '#js-save-ex', function(ev) {
+    ev.preventDefault();
+    const savedSheet = createSheetObject();
+    if(savedSheet.charName) {
+      if(appState.currentSheetId) {
+        console.log('Saving example sheet');
+        appState.exampleSheets[appState.currentSheetId] = savedSheet;
+        showSaveSuccessful();
+      } else {
+        console.log('Saving new example sheet');
+        appState.exampleSheets.push(savedSheet);
+        appState.currentSheetId = appState.exampleSheets.length - 1;
+        showSaveSuccessful();
+      }
+    }
+  });
+}
+
+function handleExampleDeleteButton() {
+  $('body').on('click', '#js-delete-ex', function(ev) {
+    ev.preventDefault();
+    if(appState.currentSheetId) {
+      console.log('Prompting to confirm deletion');
+      renderExampleDeletionPrompt();
+    } else {
+      console.log('Attempted deletion before saving new sheet');
+      window.alert('You have not yet saved this sheet.');
+    }
   });
 }
 
@@ -1163,6 +1330,10 @@ function handleButtons() {
   handleNewButton();
   handleDeleteButton();
   handleLogoutButton();
+  handleExampleConfirmButton();
+  handleExampleHomeButton();
+  handleExampleSaveButton();
+  handleExampleDeleteButton();
 }
 
 renderLandingPage();

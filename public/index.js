@@ -105,8 +105,6 @@ function renderSavedCharacters(data) {
 
 function createListElement(sheet, index) {
   if(appState.currentUser !== 'guest') {
-    console.log(appState.currentUser);
-    console.log('Making a real confirm button');
     return `
       <li class="landing-chars">
         <button 
@@ -118,8 +116,6 @@ function createListElement(sheet, index) {
       </li>
     `;
   } else {
-    console.log(appState.currentUser);
-    console.log('Creating an example confirm button');
     return `
       <li class="landing-chars">
         <button
@@ -166,7 +162,6 @@ function renderExamplePage(data = appState.exampleSheets) {
   $('body').html(html);
   $('header').addClass('logged-in');
   appState.exampleSheets = data;
-  console.log(appState.exampleSheets);
   renderSavedCharacters(appState.exampleSheets);
   appState.currentSheetId = null;
 }
@@ -175,7 +170,6 @@ function renderExamplePage(data = appState.exampleSheets) {
 
 function showErrorMessage(err) {
   // NEEDS TO BE MODIFIED TO CORRECTLY FIND ERROR FROM LOGIN PAGE
-  console.log(err);
   const message = `<p>${ err.responseJSON.message }</p>`;
   $('form').append(message);
 }
@@ -640,8 +634,6 @@ function renderSavedSheet(data) {
   if(appState.currentUser !== 'guest') {
     appState.currentSheetId = data.id;
   } 
-
-  console.log('renderSavedSheet ran');
 }
  
 function assignAttributes(data) {
@@ -1017,7 +1009,6 @@ function findCheckedValue(element) {
 }
 
 function showSaveSuccessful(data) {
-  console.log('Save successful');
   $('#js-save').text('Saved!');
   $('#js-save-ex').text('Saved!');
   setTimeout(() => $('#js-save').text('Save'), 2000);
@@ -1025,7 +1016,6 @@ function showSaveSuccessful(data) {
 
   if(data && data._id) {
     appState.currentSheetId = data._id;
-    console.log('Changed current sheet');
   } 
 }
 
@@ -1125,7 +1115,6 @@ function handleAccountCreation() {
         error: showErrorMessage
       });
     } else {
-      console.log('pass and confirm do not match');
       const message = `<p>Passwords do not match!</p>`;
       $('#account-creation').append(message);
     }
@@ -1201,13 +1190,10 @@ function handleAddTraitButton() {
 function handleSaveButton() {
   $('body').on('click', '#js-save', function(ev) {
     ev.preventDefault();
-    console.log(appState.currentSheetId);
-    console.log(appState.currentUser);
-    console.log(appState.currentJwt);
     const savedSheet = createSheetObject();
 
     if(appState.currentSheetId) {
-      console.log('Saving sheet');
+      // saving an existing sheet
       $.ajax({
         method: 'PUT',
         contentType: 'application/json',
@@ -1219,7 +1205,7 @@ function handleSaveButton() {
         success: showSaveSuccessful
       });
     } else {
-      console.log('Saving new sheet');
+      // saving a new sheet
       $.ajax({
         method: 'POST',
         contentType: 'application/json',
@@ -1237,7 +1223,6 @@ function handleSaveButton() {
 function handleNewButton() {
   $('body').on('click', '.js-new-sheet', function(ev) {
     ev.preventDefault();
-    console.log('Providing empty sheet');
     renderCharSheet();
     appState.currentSheetId = null;
   });
@@ -1247,10 +1232,8 @@ function handleDeleteButton() {
   $('body').on('click', '#js-delete', function(ev) {
     ev.preventDefault();
     if(appState.currentSheetId) {
-      console.log('Prompting to confirm deletion');
       renderDeletionPrompt();
     } else {
-      console.log('Attempted deletion before saving new sheet');
       window.alert('You have not yet saved this sheet.');
     }
   });
@@ -1289,11 +1272,9 @@ function handleExampleSaveButton() {
     const savedSheet = createSheetObject();
     if(savedSheet.charName) {
       if(appState.currentSheetId) {
-        console.log('Saving example sheet');
         appState.exampleSheets[appState.currentSheetId] = savedSheet;
         showSaveSuccessful();
       } else {
-        console.log('Saving new example sheet');
         appState.exampleSheets.push(savedSheet);
         appState.currentSheetId = appState.exampleSheets.length - 1;
         showSaveSuccessful();
@@ -1306,10 +1287,8 @@ function handleExampleDeleteButton() {
   $('body').on('click', '#js-delete-ex', function(ev) {
     ev.preventDefault();
     if(appState.currentSheetId) {
-      console.log('Prompting to confirm deletion');
       renderExampleDeletionPrompt();
     } else {
-      console.log('Attempted deletion before saving new sheet');
       window.alert('You have not yet saved this sheet.');
     }
   });

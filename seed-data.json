@@ -1,212 +1,1014 @@
 {
-  "charName": "Merriweather Abernethy",
-  "classAndLevel": "Barbarian 2",
-  "background": "Pro-Athelete",
-  "playerName": "Evan",
-  "race": "Halfling",
-  "alignment": "Chaotic Good",
-  "experience": 500,
-  "attributes": {
-    "strength": {
-      "val": 16,
-      "bonus": "+3"
-    },
-    "dexterity": {
-      "val": 16,
-      "bonus": "+3"
-    },
-    "constitution": {
-      "val": 16,
-      "bonus": "+3"
-    },
-    "intelligence": {
-      "val": 8,
-      "bonus": "-1"
-    },
-    "wisdom": {
-      "val": 8,
-      "bonus": "-1"
-    },
-    "charisma": {
-      "val": 15,
-      "bonus": "+2"
-    }
-  },
-  "inspiration": 1,
-  "profBonus": 2,
-  "AC": 16,
-  "initiative": null,
-  "speed": 25,
-  "HP": 25,
-  "currentHP": 18,
-  "temporaryHP": 0,
-  "savingThrows": {
-    "strength": {
-      "checked": true,
-      "bonus": 4
-    },
-    "dexterity": {
-      "checked": false,
-      "bonus": 4
-    },
-    "constitution": {
-      "checked": true,
-      "bonus": 3
-    },
-    "intelligence": {
-      "checked": false,
-      "bonus": 0
-    },
-    "wisdom": {
-      "checked": false,
-      "bonus": 0
-    },
-    "charisma": {
-      "checked": false,
-      "bonus": 1
-    }
-  },
-  "skills": {
-    "acrobatics": {
-      "checked": false,
-      "bonus": 3
-    },
-    "animalHandling": {
-      "checked": false,
-      "bonus": -1
-    },
-    "arcana": {
-      "checked": false,
-      "bonus": -1
-    },
-    "athletics": {
-      "checked": true,
-      "bonus": 5
-    },
-    "deception": {
-      "checked": false,
-      "bonus": 2
-    },
-    "history": {
-      "checked": false,
-      "bonus": -1
-    },
-    "insight": {
-      "checked": false,
-      "bonus": -1
-    },
-    "intimidation": {
-      "checked": true,
-      "bonus": 4
-    },
-    "investigation": {
-      "checked": false,
-      "bonus": -1
-    },
-    "medicine": {
-      "checked": false,
-      "bonus": -1
-    },
-    "nature": {
-      "checked": false,
-      "bonus": -1
-    },
-    "perception": {
-      "checked": false,
-      "bonus": -1
-    },
-    "performance": {
-      "checked": false,
-      "bonus": 2
-    },
-    "persuasion": {
-      "checked": false,
-      "bonus": 2
-    },
-    "religion": {
-      "checked": false,
-      "bonus": -1
-    },
-    "sleightOfHand": {
-      "checked": false,
-      "bonus": 3
-    },
-    "stealth": {
-      "checked": false,
-      "bonus": 3
-    },
-    "survival": {
-      "checked": false,
-      "bonus": -1
-    }
-  },
-  "passiveWisdom": 8,
-  "profAndLang": [
-    "Light & Med Armor",
-    "Shields",
-    "Simple & Martial Weapons",
-    "Common",
-    "Halfling"
-  ],
-  "hitDice": "Eh?",
-  "deathSaves": {
-    "successes": 2,
-    "failures": 1
-  },
-  "attacks": [
-    {
-      "name": "Greataxe",
-      "bonus": 5,
-      "damage": "1d12 + 3 slashing"
-    },
-    {
-      "name": "Greatclub",
-      "bonus": 2,
-      "damage": "1d8 slashing"
-    }
-  ],
-  "money": {
-    "cp": null,
-    "sp": 5,
-    "ep": null,
-    "gp": 20,
-    "pp": null
-  },
-  "equipment": [
-    "Greatclub",
-    "Club",
-    "Explorer's Pack",
-    "Javelins x4",
-    "Sword of Vengeance",
-    "Water Mask",
-    "Marauder's Map"
-  ],
-  "story": {
-    "personality": "Merri is sassy, brassy, and Scottish as can be!",
-    "ideals": "Merri came to play, and is here to stay.",
-    "bonds": "Merri aspires to be a famous adventurer one day, and is bonded to courage.",
-    "flaws": "Very whacky."
-  },
-  "features": [
-    "Lucky",
-    "Brave",
-    "Halfling Nimbleness",
-    "RAGE",
-    "Reckless Attack",
-    "Danger Sense"
-  ],
-  "castingClass": null,
-  "castingAbility": null,
-  "spellSaveDC": null,
-  "spellAttackBonus": null,
-  "cantrips": [],
-  "levelOneSpells": [],
-  "levelTwoSpells": [],
-  "levelThreeSpells": [],
-  "levelFourSpells": [],
-  "levelFiveSpells": [],
-  "levelSixSpells": [],
-  "levelSevenSpells": [],
-  "levelEightSpells": [],
-  "levelNineSpells": []
+"charName":"Merriweather Abernethy",
+"classAndLevel":"Barbarian 2",
+"background":"Pro-Athlete",
+"playerName":"Evan",
+"race":"Halfling",
+"alignment":"Chaotic good",
+"experience":500,
+"attributes":{
+"strength":{
+"val":16,
+"bonus":"+3"
+},
+"dexterity":{
+"val":16,
+"bonus":"+3"
+},
+"constitution":{
+"val":16,
+"bonus":"+3"
+},
+"intelligence":{
+"val":8,
+"bonus":"-1"
+},
+"wisdom":{
+"val":8,
+"bonus":"-1"
+},
+"charisma":{
+"val":15,
+"bonus":"+2"
+}
+},
+"inspiration":1,
+"profBonus":2,
+"AC":16,
+"initiative":null,
+"speed":25,
+"HP":25,
+"currentHP":23,
+"temporaryHP":0,
+"savingThrows":{
+"strength":{
+"checked":true,
+"bonus":3
+},
+"dexterity":{
+"checked":false,
+"bonus":3
+},
+"constitution":{
+"checked":true,
+"bonus":3
+},
+"intelligence":{
+"checked":false,
+"bonus":-1
+},
+"wisdom":{
+"checked":false,
+"bonus":-1
+},
+"charisma":{
+"checked":false,
+"bonus":2
+}
+},
+"skills":{
+"acrobatics":{
+"checked":false,
+"bonus":null
+},
+"animalHandling":{
+"checked":false,
+"bonus":null
+},
+"arcana":{
+"checked":false,
+"bonus":null
+},
+"athletics":{
+"checked":true,
+"bonus":null
+},
+"deception":{
+"checked":false,
+"bonus":null
+},
+"history":{
+"checked":false,
+"bonus":null
+},
+"insight":{
+"checked":false,
+"bonus":null
+},
+"intimidation":{
+"checked":true,
+"bonus":null
+},
+"investigation":{
+"checked":false,
+"bonus":null
+},
+"medicine":{
+"checked":false,
+"bonus":null
+},
+"nature":{
+"checked":false,
+"bonus":null
+},
+"perception":{
+"checked":false,
+"bonus":null
+},
+"performance":{
+"checked":false,
+"bonus":null
+},
+"persuasion":{
+"checked":false,
+"bonus":null
+},
+"religion":{
+"checked":false,
+"bonus":null
+},
+"sleightOfHand":{
+"checked":false,
+"bonus":null
+},
+"stealth":{
+"checked":false,
+"bonus":null
+},
+"survival":{
+"checked":false,
+"bonus":null
+}
+},
+"passiveWisdom":null,
+"profAndLang":[
+"Light & Med Armor",
+"Shields",
+"Simple & Martial Weapons",
+"Common",
+"Halfling"
+],
+"hitDice":"3d8",
+"deathSaves":{
+"successes":2,
+"failures":1
+},
+"attacks":[
+{
+"name":"Greataxe",
+"bonus":4,
+"damage":"1d8 + 3 Slashing"
+},
+{
+"name":"Greatclub",
+"bonus":2,
+"damage":"1d8 Bludgeoning"
+}
+],
+"money":{
+"cp":20,
+"sp":null,
+"ep":null,
+"gp":50,
+"pp":null
+},
+"equipment":[
+"Greatclub",
+"Club",
+"Mandolin",
+"Explorer's Pack",
+"Javelin",
+"Sword of Vengeance",
+"Water Mask",
+"Marauder's Map"
+],
+"story":{
+"personality":"Merri is sassy, brassy, and Scottish as can be!",
+"ideals":"Merri aspires to be a great adventurer along with his friends.",
+"bonds":"Merri is bonded to those who face adversity.",
+"flaws":"Brash and headstrong. Also, not too much of a thinker."
+},
+"features":[
+"Lucky",
+"Brave",
+"Halfling Nimbleness",
+"RAGE",
+"Reckless Attack",
+"Danger Sense"
+],
+"castingClass":null,
+"castingAbility":null,
+"spellSaveDC":null,
+"spellAttackBonus":null,
+"cantrips":[
+],
+"levelOneSpells":[
+],
+"levelTwoSpells":[
+],
+"levelThreeSpells":[
+],
+"levelFourSpells":[
+],
+"levelFiveSpells":[
+],
+"levelSixSpells":[
+],
+"levelSevenSpells":[
+],
+"levelEightSpells":[
+],
+"levelNineSpells":[
+],
+"user":"guest"
+}
+{
+"user":"Martha",
+"charName":"Betsy the Beneficent",
+"playerName":"Martha",
+"AC":null,
+"HP":null,
+"alignment":"",
+"attacks":[
+],
+"attributes":{
+"strength":{
+"val":null,
+"bonus":""
+},
+"dexterity":{
+"val":null,
+"bonus":""
+},
+"constitution":{
+"val":null,
+"bonus":""
+},
+"intelligence":{
+"val":null,
+"bonus":""
+},
+"wisdom":{
+"val":null,
+"bonus":""
+},
+"charisma":{
+"val":null,
+"bonus":""
+}
+},
+"background":"",
+"cantrips":[
+],
+"castingAbility":null,
+"castingClass":null,
+"classAndLevel":"",
+"currentHP":null,
+"deathSaves":{
+"successes":0,
+"failures":0
+},
+"equipment":[
+],
+"experience":null,
+"features":[
+],
+"hitDice":"",
+"initiative":null,
+"inspiration":null,
+"levelEightSpells":[
+],
+"levelFiveSpells":[
+],
+"levelFourSpells":[
+],
+"levelNineSpells":[
+],
+"levelOneSpells":[
+],
+"levelSevenSpells":[
+],
+"levelSixSpells":[
+],
+"levelThreeSpells":[
+],
+"levelTwoSpells":[
+],
+"money":{
+"cp":null,
+"sp":null,
+"ep":null,
+"gp":null,
+"pp":null
+},
+"passiveWisdom":null,
+"profAndLang":[
+],
+"profBonus":null,
+"race":"Human",
+"savingThrows":{
+"strength":{
+"checked":false,
+"bonus":null
+},
+"dexterity":{
+"checked":false,
+"bonus":null
+},
+"constitution":{
+"checked":false,
+"bonus":null
+},
+"intelligence":{
+"checked":false,
+"bonus":null
+},
+"wisdom":{
+"checked":false,
+"bonus":null
+},
+"charisma":{
+"checked":false,
+"bonus":null
+}
+},
+"skills":{
+"acrobatics":{
+"checked":false,
+"bonus":null
+},
+"animalHandling":{
+"checked":false,
+"bonus":null
+},
+"arcana":{
+"checked":false,
+"bonus":null
+},
+"athletics":{
+"checked":false,
+"bonus":null
+},
+"deception":{
+"checked":false,
+"bonus":null
+},
+"history":{
+"checked":false,
+"bonus":null
+},
+"insight":{
+"checked":false,
+"bonus":null
+},
+"intimidation":{
+"checked":false,
+"bonus":null
+},
+"investigation":{
+"checked":false,
+"bonus":null
+},
+"medicine":{
+"checked":false,
+"bonus":null
+},
+"nature":{
+"checked":false,
+"bonus":null
+},
+"perception":{
+"checked":false,
+"bonus":null
+},
+"performance":{
+"checked":false,
+"bonus":null
+},
+"persuasion":{
+"checked":false,
+"bonus":null
+},
+"religion":{
+"checked":false,
+"bonus":null
+},
+"sleightOfHand":{
+"checked":false,
+"bonus":null
+},
+"stealth":{
+"checked":false,
+"bonus":null
+},
+"survival":{
+"checked":false,
+"bonus":null
+}
+},
+"speed":null,
+"spellAttackBonus":null,
+"spellSaveDC":null,
+"story":{
+"personality":"",
+"ideals":"",
+"bonds":"",
+"flaws":""
+},
+"temporaryHP":null
+}
+{
+"attributes":{
+"strength":{
+"val":null,
+"bonus":""
+},
+"dexterity":{
+"val":null,
+"bonus":""
+},
+"constitution":{
+"val":null,
+"bonus":""
+},
+"intelligence":{
+"val":null,
+"bonus":""
+},
+"wisdom":{
+"val":null,
+"bonus":""
+},
+"charisma":{
+"val":null,
+"bonus":""
+}
+},
+"savingThrows":{
+"strength":{
+"checked":false,
+"bonus":null
+},
+"dexterity":{
+"checked":false,
+"bonus":null
+},
+"constitution":{
+"checked":false,
+"bonus":null
+},
+"intelligence":{
+"checked":false,
+"bonus":null
+},
+"wisdom":{
+"checked":false,
+"bonus":null
+},
+"charisma":{
+"checked":false,
+"bonus":null
+}
+},
+"skills":{
+"acrobatics":{
+"checked":false,
+"bonus":null
+},
+"animalHandling":{
+"checked":false,
+"bonus":null
+},
+"arcana":{
+"checked":false,
+"bonus":null
+},
+"athletics":{
+"checked":false,
+"bonus":null
+},
+"deception":{
+"checked":false,
+"bonus":null
+},
+"history":{
+"checked":false,
+"bonus":null
+},
+"insight":{
+"checked":false,
+"bonus":null
+},
+"intimidation":{
+"checked":false,
+"bonus":null
+},
+"investigation":{
+"checked":false,
+"bonus":null
+},
+"medicine":{
+"checked":false,
+"bonus":null
+},
+"nature":{
+"checked":false,
+"bonus":null
+},
+"perception":{
+"checked":false,
+"bonus":null
+},
+"performance":{
+"checked":false,
+"bonus":null
+},
+"persuasion":{
+"checked":false,
+"bonus":null
+},
+"religion":{
+"checked":false,
+"bonus":null
+},
+"sleightOfHand":{
+"checked":false,
+"bonus":null
+},
+"stealth":{
+"checked":false,
+"bonus":null
+},
+"survival":{
+"checked":false,
+"bonus":null
+}
+},
+"profAndLang":[
+],
+"deathSaves":{
+"successes":0,
+"failures":0
+},
+"attacks":[
+],
+"money":{
+"cp":null,
+"sp":null,
+"ep":null,
+"gp":null,
+"pp":null
+},
+"equipment":[
+],
+"story":{
+"personality":"",
+"ideals":"",
+"bonds":"",
+"flaws":""
+},
+"features":[
+],
+"cantrips":[
+],
+"levelOneSpells":[
+],
+"levelTwoSpells":[
+],
+"levelThreeSpells":[
+],
+"levelFourSpells":[
+],
+"levelFiveSpells":[
+],
+"levelSixSpells":[
+],
+"levelSevenSpells":[
+],
+"levelEightSpells":[
+],
+"levelNineSpells":[
+],
+"charName":"Infanta Eulalia",
+"classAndLevel":"Rogue 1893",
+"background":"Spanish Princess",
+"playerName":"Martha",
+"race":"Human",
+"alignment":"Neutral Good",
+"experience":null,
+"inspiration":null,
+"profBonus":null,
+"AC":null,
+"initiative":null,
+"speed":null,
+"HP":null,
+"currentHP":null,
+"temporaryHP":null,
+"passiveWisdom":null,
+"hitDice":"",
+"castingClass":null,
+"castingAbility":null,
+"spellSaveDC":null,
+"spellAttackBonus":null,
+"user":"Martha",
+"__v":0
+}
+{
+"attributes":{
+"strength":{
+"val":null,
+"bonus":""
+},
+"dexterity":{
+"val":null,
+"bonus":""
+},
+"constitution":{
+"val":null,
+"bonus":""
+},
+"intelligence":{
+"val":null,
+"bonus":""
+},
+"wisdom":{
+"val":null,
+"bonus":""
+},
+"charisma":{
+"val":null,
+"bonus":""
+}
+},
+"savingThrows":{
+"strength":{
+"checked":false,
+"bonus":null
+},
+"dexterity":{
+"checked":false,
+"bonus":null
+},
+"constitution":{
+"checked":false,
+"bonus":null
+},
+"intelligence":{
+"checked":false,
+"bonus":null
+},
+"wisdom":{
+"checked":false,
+"bonus":null
+},
+"charisma":{
+"checked":false,
+"bonus":null
+}
+},
+"skills":{
+"acrobatics":{
+"checked":false,
+"bonus":null
+},
+"animalHandling":{
+"checked":false,
+"bonus":null
+},
+"arcana":{
+"checked":false,
+"bonus":null
+},
+"athletics":{
+"checked":false,
+"bonus":null
+},
+"deception":{
+"checked":false,
+"bonus":null
+},
+"history":{
+"checked":false,
+"bonus":null
+},
+"insight":{
+"checked":false,
+"bonus":null
+},
+"intimidation":{
+"checked":false,
+"bonus":null
+},
+"investigation":{
+"checked":false,
+"bonus":null
+},
+"medicine":{
+"checked":false,
+"bonus":null
+},
+"nature":{
+"checked":false,
+"bonus":null
+},
+"perception":{
+"checked":false,
+"bonus":null
+},
+"performance":{
+"checked":false,
+"bonus":null
+},
+"persuasion":{
+"checked":false,
+"bonus":null
+},
+"religion":{
+"checked":false,
+"bonus":null
+},
+"sleightOfHand":{
+"checked":false,
+"bonus":null
+},
+"stealth":{
+"checked":false,
+"bonus":null
+},
+"survival":{
+"checked":false,
+"bonus":null
+}
+},
+"profAndLang":[
+],
+"deathSaves":{
+"successes":0,
+"failures":0
+},
+"attacks":[
+],
+"money":{
+"cp":null,
+"sp":null,
+"ep":null,
+"gp":null,
+"pp":null
+},
+"equipment":[
+],
+"story":{
+"personality":"",
+"ideals":"",
+"bonds":"",
+"flaws":""
+},
+"features":[
+],
+"cantrips":[
+],
+"levelOneSpells":[
+],
+"levelTwoSpells":[
+],
+"levelThreeSpells":[
+],
+"levelFourSpells":[
+],
+"levelFiveSpells":[
+],
+"levelSixSpells":[
+],
+"levelSevenSpells":[
+],
+"levelEightSpells":[
+],
+"levelNineSpells":[
+],
+"charName":"Mary of Magdalene",
+"classAndLevel":"Cleric 1",
+"background":"Lady",
+"playerName":"Martha",
+"race":"Human",
+"alignment":"Lawful Good",
+"experience":null,
+"inspiration":null,
+"profBonus":null,
+"AC":null,
+"initiative":null,
+"speed":null,
+"HP":null,
+"currentHP":null,
+"temporaryHP":null,
+"passiveWisdom":null,
+"hitDice":"",
+"castingClass":null,
+"castingAbility":null,
+"spellSaveDC":null,
+"spellAttackBonus":null,
+"user":"Martha",
+"__v":0
+}
+{
+"attributes":{
+"strength":{
+"val":8,
+"bonus":""
+},
+"dexterity":{
+"val":18,
+"bonus":""
+},
+"constitution":{
+"val":6,
+"bonus":""
+},
+"intelligence":{
+"val":1,
+"bonus":""
+},
+"wisdom":{
+"val":1,
+"bonus":""
+},
+"charisma":{
+"val":20,
+"bonus":""
+}
+},
+"savingThrows":{
+"strength":{
+"checked":false,
+"bonus":null
+},
+"dexterity":{
+"checked":false,
+"bonus":null
+},
+"constitution":{
+"checked":false,
+"bonus":null
+},
+"intelligence":{
+"checked":false,
+"bonus":null
+},
+"wisdom":{
+"checked":false,
+"bonus":null
+},
+"charisma":{
+"checked":false,
+"bonus":null
+}
+},
+"skills":{
+"acrobatics":{
+"checked":false,
+"bonus":null
+},
+"animalHandling":{
+"checked":false,
+"bonus":null
+},
+"arcana":{
+"checked":false,
+"bonus":null
+},
+"athletics":{
+"checked":false,
+"bonus":null
+},
+"deception":{
+"checked":false,
+"bonus":null
+},
+"history":{
+"checked":false,
+"bonus":null
+},
+"insight":{
+"checked":false,
+"bonus":null
+},
+"intimidation":{
+"checked":false,
+"bonus":null
+},
+"investigation":{
+"checked":false,
+"bonus":null
+},
+"medicine":{
+"checked":false,
+"bonus":null
+},
+"nature":{
+"checked":false,
+"bonus":null
+},
+"perception":{
+"checked":false,
+"bonus":null
+},
+"performance":{
+"checked":false,
+"bonus":null
+},
+"persuasion":{
+"checked":false,
+"bonus":null
+},
+"religion":{
+"checked":false,
+"bonus":null
+},
+"sleightOfHand":{
+"checked":false,
+"bonus":null
+},
+"stealth":{
+"checked":false,
+"bonus":null
+},
+"survival":{
+"checked":false,
+"bonus":null
+}
+},
+"profAndLang":[
+"Cat",
+"Infernal"
+],
+"deathSaves":{
+"successes":0,
+"failures":0
+},
+"attacks":[
+],
+"money":{
+"cp":null,
+"sp":null,
+"ep":null,
+"gp":null,
+"pp":null
+},
+"equipment":[
+"Collar"
+],
+"story":{
+"personality":"Vicious hunter\nSweet snuggler\nCrazy\n",
+"ideals":"Get a lot of food\nKill lots of things\nSleep a lot\nBe warm\nmeow",
+"bonds":"Loves the internet router\nhates the dragon",
+"flaws":"Is a cat\nIs insane"
+},
+"features":[
+"Fluffy fur",
+"Sharp claws",
+"Dark vision",
+"Smelly poop"
+],
+"cantrips":[
+],
+"levelOneSpells":[
+],
+"levelTwoSpells":[
+],
+"levelThreeSpells":[
+],
+"levelFourSpells":[
+],
+"levelFiveSpells":[
+],
+"levelSixSpells":[
+],
+"levelSevenSpells":[
+],
+"levelEightSpells":[
+],
+"levelNineSpells":[
+],
+"charName":"Mabel",
+"classAndLevel":"Rogue lvl 6",
+"background":"Housecat",
+"playerName":"Sarah",
+"race":"Cat",
+"alignment":"Chaotic neutral",
+"experience":null,
+"inspiration":null,
+"profBonus":null,
+"AC":null,
+"initiative":null,
+"speed":null,
+"HP":null,
+"currentHP":null,
+"temporaryHP":null,
+"passiveWisdom":null,
+"hitDice":"",
+"castingClass":null,
+"castingAbility":null,
+"spellSaveDC":null,
+"spellAttackBonus":null,
+"user":"sarahbobearah",
+"__v":0
 }

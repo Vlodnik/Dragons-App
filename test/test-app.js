@@ -235,12 +235,14 @@ describe('Dragon-App API resource', function() {
     return runServer(config.TEST_DATABASE_URL);
   });
 
-  beforeEach(function() {
-    return seedUserData();
-  })
-
-  beforeEach(function() {
-    return seedSheetData();
+  beforeEach(function(done) {
+    seedUserData()
+      .then(function() {
+        return seedSheetData();
+      })
+      .then(function() {
+        done();
+      });
   });
 
   afterEach(function() {
@@ -297,7 +299,7 @@ describe('Dragon-App API resource', function() {
         })
         .then(function(res) {
           // this code should never run, if it does we error
-          expect(1).to.equal(2);
+          expect(1).to.equal(2, 'endpoint should not allow duplicate usernames');
         })
         .catch(function(err) {
           expect(err).to.have.status(422);
@@ -400,20 +402,24 @@ describe('Dragon-App API resource', function() {
       const addTestUsers = User.insertMany(newUsers);
       const addTestSheet = Sheet.create(testSheet);
 
-      Promise.all([addTestUsers, addTestSheet])
-        .then(function() {
+      return Promise.all([addTestUsers, addTestSheet])
+        .then(function(res) {
           return chai.request(app)
             .get(`/sheets`)
             .set('Authorization', `Bearer ${ testJwtTwo }`)
         })
         .then(function(res) {
           return chai.request(app)
-            .get(`/sheets/${ res.id }`)
+            .get(`/sheets/${ res.body[0]._id }`)
             .set('Authorization', `Bearer ${ testJwtOne }`)
         })
-        .then(function(res) {
+        .then(function() {
+          // this code should never run
+          expect(1).to.equal(2, 'Endpoint gave authorization incorrectly');
+        })
+        .catch(function(res) {
           expect(res).to.have.status(401);
-          expect(res).message.to.equal('Unauthorized');
+          expect(res.message).to.equal('Unauthorized');
         });
     })
   });

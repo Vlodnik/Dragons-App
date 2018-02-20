@@ -125,6 +125,7 @@ h1 {
   top: 0;
   width: 100%;
   background-color: red;
+  z-index: 1;
 }
 
 #nav-bar ul {
@@ -383,14 +384,14 @@ h1 {
   width: 40%;
 }
 
-#attacks input:nth-child(3n+4), #attacks input:nth-child(3n+5) {
+.atk-name, .atk-bonus {
   border: 1px solid black;
   margin: 0.5em;
   text-align: center;
   width: 20%;
 }
 
-#attacks input:nth-child(3n+6) {
+.atk-damage {
   border: 1px solid black;
   margin: 0.5em;
   text-align: center;

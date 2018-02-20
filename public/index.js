@@ -371,7 +371,7 @@ function renderCharSheet(data) {
         <span>Name</span>
         <span>Atk Bonus</span>
         <span>Damage/Type</span>
-        <input id="new-attack-name" class="atk-damage" type="text">
+        <input id="new-attack-name" class="atk-name" type="text">
         <input id="new-attack-bonus" class="atk-bonus" type="number">
         <input id="new-attack-damage" class="atk-damage" type="text">
         <button id="js-add-attack" type="submit">Add Attack</button>
@@ -936,16 +936,16 @@ function createDeathSavesObject() {
 function createAttacksArray() {
   let attacksArray = [];
 
-  for(let i = 0; i <= $('.atk-name').length; i++) {
+  for(let i = 0; i <= $('.atk-name').length - 1; i++) {
     if(
-        $(`#attacks input:nth-of-type(${ 3*i+1 })`).val() !== '' ||
-        $(`#attacks input:nth-of-type(${ 3*i+2 }`).val() !== '' ||
-        $(`#attacks input:nth-of-type(${ 3*i+3 }`).val() !== ''
+        $(`.atk-name:nth-child(${ 3 * i + 4 })`).val() !== '' ||
+        $(`.atk-bonus:nth-child(${ 3 * i + 5 })`).val() !== '' ||
+        $(`.atk-damage:nth-child(${ 3 * i + 6 })`).val() !== ''
       ) {
           let newAttack = {};
-          newAttack.name = $(`#attacks input:nth-of-type(${ 3*i+1 })`).val();
-          newAttack.bonus = parseInt($(`#attacks input:nth-of-type(${ 3*i+2 })`).val(), 10);
-          newAttack.damage = $(`#attacks input:nth-of-type(${ 3*i+3 })`).val();
+          newAttack.name = $(`.atk-name:nth-child(${ 3 * i + 4 })`).val();
+          newAttack.bonus = parseInt($(`.atk-bonus:nth-child(${ 3 * i + 5 })`).val(), 10);
+          newAttack.damage = $(`.atk-damage:nth-child(${ 3 * i + 6 })`).val();
           attacksArray.push(newAttack);
     }
   }

@@ -20,5 +20,6 @@ Passport.js framework, and passwords are encrypted using bcrypt and then
 stored as secure hashes on a MongoDB database hosted on mLab.
 
 ## Screenshots
-Here are screenshots of the app's <a href="https://s3.us-east-2.amazonaws.com/readme.images/DPlandingpage.png" target="_blank">landing page</a>
-and <a href="https://s3.us-east-2.amazonaws.com/readme.images/DPaccountcreation.png" target="_blank">account creation page</a>.
+Here are screenshots of the app's landing page and account creation page:
+![alt-text](https://s3.us-east-2.amazonaws.com/readme.images/DPlandingpage.png "Landing Page")
+![alt-text](https://s3.us-east-2.amazonaws.com/readme.images/DPaccountcreation.png "Account Creation Page")

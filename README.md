@@ -1,4 +1,4 @@
-# <a href="https://floating-ravine-29030\.herokuapp.com" target="_blank">Draconis Personae</a>
+# <a href="https://floating-ravine-29030.herokuapp.com" target="_blank">Draconis Personae</a>
 
 ## Introduction
 Draconis Personae lets you create, modify, and save Dungeons &amp; Dragons

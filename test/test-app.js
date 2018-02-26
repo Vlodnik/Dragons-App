@@ -279,7 +279,7 @@ describe('Dragon-App API resource', function() {
         .then(function(res) {
           expect(res).to.be.json;
           expect(res).to.have.status(201);
-          expect(res.body.username).to.equal(newUser.username);
+          expect(res.body.authToken).to.be.a.jwt;
         });
     });
 

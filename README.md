@@ -21,7 +21,7 @@ stored as secure hashes on a MongoDB database hosted on mLab.
 
 ## Screenshots
 Here are screenshots of the app's landing page:
-![alt-text](https://s3.us-east-2.amazonaws.com/readme.images/DPLandingScreen.png "Landing Page")
+!["Landing Page"](https://s3.us-east-2.amazonaws.com/readme.images/DPLandingScreen.png)
 Account creation page:
 ![alt-text](https://s3.us-east-2.amazonaws.com/readme.images/DPAccountCreationPage.png "Account Creation Page")
 Home page:

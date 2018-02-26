@@ -28,7 +28,7 @@ router.use(jsonParser);
 //endpoint for existing users to login
 router.post('/login', localAuth, (req, res) => {
   const authToken = createAuthToken(req.user.serialize());
-  res.json({ authToken });
+  return res.json({ authToken });
 });
 
 // endpoint for account creation
@@ -81,7 +81,7 @@ router.post('/', (req, res) => {
       code: 422,
       reason: 'ValidationError',
       message: tooSmallField
-        ? `Password must be at least ${sizedFields[tooSmallField]
+        ? `${ tooSmallField } must be at least ${sizedFields[tooSmallField]
           .min} characters long`
         : `Password can be at most ${sizedFields[tooLargeField]
           .max} characters long`,
@@ -113,7 +113,8 @@ router.post('/', (req, res) => {
       });
     })
     .then(user => {
-      return res.status(201).json(user.serialize());
+      const authToken = createAuthToken(user.serialize());
+      return res.status(201).json({ authToken });
     })
     .catch(err => {
       if(err.reason === 'ValidationError') {

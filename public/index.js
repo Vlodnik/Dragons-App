@@ -9,31 +9,84 @@ const appState = {
 
 function renderLandingPage() {
   const html = `
-    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
-    <h1>Create and update character sheets</h1>
-    <form id="sign-in">
-      <h2>Sign In</h2>
-      <input id="username" type="text" placeholder="Username" required>
-      <input id="password" type="password" placeholder="Password" required>
-      <button id="login" type="submit">Login</button>
-    </form>
-    <button id="new-account" type="submit">Create an account</button>
-    <button id="example" type="submit">See an example</button>
+    <nav id="nav-bar">
+      <ul>
+        <li>
+          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+        </li>
+        <li>
+          <button id="show-login" type="submit">Log in</button>
+        </li>
+        <li>
+          <button class="sign-up" type="submit">Sign up</button>
+        </li>
+      </ul>
+    </nav>
+    <header>
+      <h1><span>D&D Character Sheets...</span>in the Cloud</h1>
+      <h2>Never forget your character sheet again</h2>
+    </header>
+    <div id="landing-options">
+      <button id="main-button" class="sign-up">Sign up</button>
+      <p>Wanna see how it works?</p>
+      <button id="example">See an example</button>
+    </div>
   `;
 
+  $('html').removeClass('sheet-view');
+  $('body').removeClass('sheet-view');
   $('body').html(html);
 }
 
 function renderAccountCreationPage() {
   const html = `
-    <header><img src="logo.gif" alt="Draconis Personae logo."></header>
+    <nav id="nav-bar">
+      <ul>
+        <li>
+          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+        </li>
+        <li>
+          <button id="show-login" type="submit">Log in</button>
+        </li>
+        <li>
+          <button class="sign-up" type="submit">Sign up</button>
+        </li>
+      </ul>
+    </nav>
     <form id="account-creation">
       <h2>Create your account</h2>
-      <input id="new-user" type="text" placeholder="Username" required>
-      <input id="new-pass" type="password" placeholder="Password" required>
-      <input id="pass-confirm" type="password" placeholder="Confirm password" required>
-      <button id="create" type="submit">Create</button>
-      <button id="js-logout" type="submit">Return</button>
+      <input id="new-user" type="text" placeholder="Username" required />
+      <input id="new-pass" type="password" placeholder="Password" required />
+      <input id="pass-confirm" type="password" placeholder="Confirm password" required />
+      <button id="create" type="submit">Continue</button>
+      <p id="error" aria-live="assertive"></p>
+    </form>
+  `;
+
+  $('body').html(html);
+}
+
+function renderLoginPage() {
+  const html = `
+    <nav id="nav-bar">
+      <ul>
+        <li>
+          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+        </li>
+        <li>
+          <button id="show-login" type="submit">Log in</button>
+        </li>
+        <li>
+          <button class="sign-up" type="submit">Sign up</button>
+        </li>
+      </ul>
+    </nav>
+    <form id="login-form">
+      <h2>Log in</h2>
+      <input id="username" type="text" placeholder="Username" required />
+      <input id="password" type="password" placeholder="Password" required />
+      <button id="login" type="submit">Continue</button>
+      <p id="error" aria-live="assertive"></p>
     </form>
   `;
 
@@ -41,6 +94,12 @@ function renderAccountCreationPage() {
 }
 
 // *** Code for finding and displaying user information *** //
+
+function newUserLogin(jwt) {
+  appState.currentUser = $('#new-user').val();
+  appState.currentJwt = jwt.authToken;
+  getUsersAccount();
+}
 
 function initialLogin(jwt) {
   appState.currentUser = $('#username').val();
@@ -69,20 +128,29 @@ function renderHomePage(data) {
   const html =`
     <nav id="nav-bar">
       <ul>
-        <li id="js-home">Home</li>
-        <li class="js-new-sheet">New</li>
-        <li id="js-logout">Logout</li>
+        <li>
+          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+        </li>
+        <li>
+          <img id="hamburger-button" src="hamburger.svg" alt="Hamburger icon.">
+          <div class="menu">
+            <ul>
+              <li class="js-new-sheet"><button>New Character</button></li>
+              <li id="js-logout"><button>Logout</button></li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </nav>
-
-    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
-
+    <h2 id="home-page-header">Click to view character</h2>
     <ul id="confirm-buttons">
     </ul>
+    <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
   `;
  
+  $('html').removeClass('sheet-view');
+  $('body').removeClass('sheet-view');
   $('body').html(html);
-  $('header').addClass('logged-in');
   renderSavedCharacters(data);
   appState.currentSheetId = null;
 }
@@ -92,11 +160,11 @@ function renderSavedCharacters(data) {
   data.length ? 
   listElements = data.map(createListElement) : 
   listElements = `
-    <li id="no-chars">
+    <li>
       <button
         class="js-new-sheet"
         type="submit">
-        Make a charcter sheet!
+        Make a character sheet!
       </button>
     </li>`;
 
@@ -147,18 +215,26 @@ function renderExamplePage(data = appState.exampleSheets) {
   const html =`
     <nav id="nav-bar">
       <ul>
-        <li id="js-home-ex">Home</li>
-        <li class="js-new-sheet">New</li>
-        <li id="js-logout">Logout</li>
+        <li>
+          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+        </li>
+        <li>
+          <button id="show-login" type="submit">Log in</button>
+        </li>
+        <li>
+          <button class="sign-up" type="submit">Sign up</button>
+        </li>
       </ul>
     </nav>
-
-    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
-
+    <h2 id="home-page-header">Click to view character</h2>
     <ul id="confirm-buttons">
     </ul>
+    <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
+    <button id="main-button" class="sign-up" type="submit">Sign up</button>
   `;
  
+  $('html').removeClass('sheet-view');
+  $('body').removeClass('sheet-view');
   $('body').html(html);
   $('header').addClass('logged-in');
   appState.exampleSheets = data;
@@ -170,8 +246,8 @@ function renderExamplePage(data = appState.exampleSheets) {
 
 function showErrorMessage(err) {
   // NEEDS TO BE MODIFIED TO CORRECTLY FIND ERROR FROM LOGIN PAGE
-  const message = `<p>${ err.responseJSON.message }</p>`;
-  $('form').append(message);
+  const message = `${ err.responseJSON.message }`;
+  $('#error').text(message);
 }
 
 // *** Code for character sheet display and user interaction *** //
@@ -185,11 +261,24 @@ function renderCharSheet(data) {
     navBarHtml = `
       <nav id="nav-bar">
         <ul>
-          <li id="js-home">Home</li>
-          <li id="js-save">Save</li>
-          <li class="js-new-sheet">New</li>
-          <li id="js-delete">Delete</li>
-          <li id="js-logout">Logout</li>
+          <li>
+            <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+          </li>
+          <li>
+            <button class="js-save">Save</button>
+          </li>
+          <li>
+            <img id="hamburger-button" src="hamburger.svg" alt="Hamburger icon.">
+            <div class="menu">
+              <ul>
+                <li><button class="js-save" type="submit">Save Character</button></li>
+                <li><button class="js-new-sheet" type="submit">New Character</button></li>
+                <li><button id="js-delete" type="submit">Delete Character</button></li>
+                <li><button id="js-home" type="submit">Home</button></li>
+                <li><button id="js-logout" type="submit">Logout</button></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
     `;
@@ -197,19 +286,31 @@ function renderCharSheet(data) {
     navBarHtml = `
       <nav id="nav-bar">
         <ul>
-          <li id="js-home-ex">Home</li>
-          <li id="js-save-ex">Save</li>
-          <li class="js-new-sheet">New</li>
-          <li id="js-delete-ex">Delete</li>
-          <li id="js-logout">Logout</li>
+          <li>
+            <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+          </li>
+          <li>
+            <button class="sign-up" type="submit">Sign up</button>
+          </li>
+          <li>
+            <img id="hamburger-button" src="hamburger.svg" alt="Hamburger icon.">
+            <div class="menu">
+              <ul>
+                <li><button class="js-save-ex" type="submit">Save Character</button></li>
+                <li><button class="js-new-sheet" type="submit">New Character</button></li>
+                <li><button id="js-delete-ex" type="submit">Delete Character</button></li>
+                <li><button id="show-login" type="submit">Log in</button></li>
+                <li><button id="js-home-ex" type="submit">Home</button></li>
+                <li><button id="js-logout" type="submit">Logout</button></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
     `;
   }
 
   const sheetHtml = `
-    <header class="logged-in"><img src="logo.gif" alt="Draconis Personae logo."></header>
-
     <form id="macro">
       <label for="charName">Character Name</label>
       <input id="charName" type="text" required>
@@ -352,32 +453,36 @@ function renderCharSheet(data) {
       </fieldset>
 
       <fieldset class="com-one">
-        <legend for="HP">Hit Point Maximum</legend>
+        <legend for="HP">Max HP</legend>
         <input id="HP" type="number">
       </fieldset>
 
       <fieldset class="com-one">
-        <legend for="currentHP">Current Hit Points</legend>
+        <legend for="currentHP">Current HP</legend>
         <input id="currentHP" type="number">
       </fieldset>
 
       <fieldset class="com-one">
-        <legend for="temporaryHP">Temporary Hit Points</legend>
+        <legend for="temporaryHP">Temporary HP</legend>
         <input id="temporaryHP" type="number">
       </fieldset>
 
-      <h3>Attacks &amp; Spellcasting</h3>
+      <h3 id="attacks-header">Attacks &amp; Spellcasting</h3>
       <div id="attacks">
-        <span>Name</span>
-        <span>Atk Bonus</span>
-        <span>Damage/Type</span>
-        <input id="new-attack-name" class="atk-name" type="text">
-        <input id="new-attack-bonus" class="atk-bonus" type="number">
-        <input id="new-attack-damage" class="atk-damage" type="text">
+        <div id="attack-labels">
+          <span>Name</span>
+          <span>Atk Bonus</span>
+          <span>Damage/Type</span>
+        </div>
+        <div id="new-atk-line" class="atk-line">
+          <input id="new-attack-name" class="atk-name" type="text">
+          <input id="new-attack-bonus" class="atk-bonus" type="number">
+          <input id="new-attack-damage" class="atk-damage" type="text">
+        </div>
         <button id="js-add-attack" type="submit">Add Attack</button>
       </div>
 
-      <fieldset>
+      <fieldset id="hit-dice-field">
         <legend for="hitDice">Hit Dice</legend>
         <input id="hitDice" type="text">
       </fieldset>
@@ -403,116 +508,154 @@ function renderCharSheet(data) {
     <h2 id="skills-header">Skills</h2>
     <form id="skills">
       <fieldset id="acrobatics">
-        <legend>Acrobatics<span>(Dex)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Acrobatics(Dex)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="animalHandling">
-        <legend>Animal Handling<span>(Wis)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Animal Handling(Wis)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="arcana">
-        <legend>Arcana<span>(Int)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Arcana(Int)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="athletics">
-        <legend>Athletics<span>(Str)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Athletics(Str)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="deception">
-        <legend>Deception<span>(Cha)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Deception(Cha)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="history">
-        <legend>History<span>(Int)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>History(Int)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="insight">
-        <legend>Insight<span>(Wis)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Insight(Wis)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="intimidation">
-        <legend>Intimidation<span>(Cha)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Intimidation(Cha)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="investigation">
-        <legend>Investigation<span>(Int)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Investigation(Int)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="medicine">
-        <legend>Medicine<span>(Wis)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Medicine(Wis)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="nature">
-        <legend>Nature<span>(Int)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Nature(Int)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="perception">
-        <legend>Perception<span>(Wis)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Perception(Wis)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="performance">
-        <legend>Performance<span>(Cha)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Performance(Cha)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="persuasion">
-        <legend>Persuasion<span>(Cha)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Persuasion(Cha)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="religion">
-        <legend>Religion<span>(Int)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Religion(Int)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="sleightOfHand">
-        <legend>Sleight of Hand<span>(Dex)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Sleight of Hand(Dex)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="stealth">
-        <legend>Stealth<span>(Dex)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Stealth(Dex)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="survival">
-        <legend>Survival<span>(Wis)</span></legend>
-        <input class="skill-prof" type="checkbox">
-        <input type="number">
+        <div>
+          <legend>Survival(Wis)</legend>
+          <input class="skill-prof" type="checkbox">
+          <input type="number">
+        </div>
       </fieldset>
 
       <fieldset id="passive-percep">
-        <legend for="passiveWisdom">Passive Wisdom (Perception)</legend>
-        <input id="passiveWisdom" type="number">
+        <div>
+          <legend for="passiveWisdom">Passive Wisdom (Perception)</legend>
+          <input id="passiveWisdom" type="number">
+        </div>
       </fieldset>
     </form>
 
@@ -552,16 +695,16 @@ function renderCharSheet(data) {
     </form>
 
     <form id="prof-and-lang">
-      <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
       <div id="proficiencies">
+        <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
         <input id="new-prof" class="profs" type="text">
         <button id="js-add-prof" type="submit">Add Proficiency</button>
       </div>
     </form>
 
     <form id="features">
-      <h2 id="features-header">Features &amp; Traits</h2>
       <div id="features-div"> 
+        <h2 id="features-header">Features &amp; Traits</h2>
         <input id="new-trait" class="traits" type="text">
         <button id="js-add-trait" type="submit">Add Trait</button>
       </div>
@@ -588,6 +731,8 @@ function renderCharSheet(data) {
     </form>
   `;
 
+  $('html').addClass('sheet-view');
+  $('body').addClass('sheet-view');
   $('body').html(navBarHtml);
   $('body').append(sheetHtml);
 }
@@ -681,14 +826,16 @@ function assignAttacks(data) {
     const newAttack = generateAttack(attack.name, attack.bonus, attack.damage);
     attackElements.push(newAttack);
   });
-  $('#new-attack-name').before(attackElements);
+  $('#new-atk-line').before(attackElements);
 }
 
 function generateAttack(name, bonus, dmg) {
   return `
-    <input class="atk-name" type="text" value="${ name }">
-    <input class="atk-bonus" type="number" value="${ bonus }">
-    <input class="atk-damage" type="text" value="${ dmg }">
+    <div class="atk-line">
+      <input class="atk-name" type="text" value="${ name }">
+      <input class="atk-bonus" type="number" value="${ bonus }">
+      <input class="atk-damage" type="text" value="${ dmg }">
+    </div>
   `;
 }
 
@@ -747,6 +894,10 @@ function generateTrait(trait) {
   return `
     <input class="traits" type="text" value="${ trait }">
   `;
+}
+
+function renderCharacterSheetMenu() {
+
 }
 
 // *** Code for creating saved Character Sheet objects *** //
@@ -936,16 +1087,16 @@ function createDeathSavesObject() {
 function createAttacksArray() {
   let attacksArray = [];
 
-  for(let i = 0; i <= $('.atk-name').length - 1; i++) {
+  for(let i = 1; i <= $('.atk-line').length; i++) {
     if(
-        $(`.atk-name:nth-child(${ 3 * i + 4 })`).val() !== '' ||
-        $(`.atk-bonus:nth-child(${ 3 * i + 5 })`).val() !== '' ||
-        $(`.atk-damage:nth-child(${ 3 * i + 6 })`).val() !== ''
+        $(`.atk-line:nth-child(${ i + 1 }) .atk-name`).val() !== '' ||
+        $(`.atk-line:nth-child(${ i + 1 }) .atk-bonus`).val() !== '' ||
+        $(`.atk-line:nth-child(${ i + 1 }) .atk-damage`).val() !== ''
       ) {
           let newAttack = {};
-          newAttack.name = $(`.atk-name:nth-child(${ 3 * i + 4 })`).val();
-          newAttack.bonus = parseInt($(`.atk-bonus:nth-child(${ 3 * i + 5 })`).val(), 10);
-          newAttack.damage = $(`.atk-damage:nth-child(${ 3 * i + 6 })`).val();
+          newAttack.name = $(`.atk-line:nth-child(${ i + 1 }) .atk-name`).val();
+          newAttack.bonus = parseInt($(`.atk-line:nth-child(${ i + 1 }) .atk-bonus`).val(), 10);
+          newAttack.damage = $(`.atk-line:nth-child(${ i + 1 }) .atk-damage`).val();
           attacksArray.push(newAttack);
     }
   }
@@ -1009,10 +1160,10 @@ function findCheckedValue(element) {
 }
 
 function showSaveSuccessful(data) {
-  $('#js-save').text('Saved!');
-  $('#js-save-ex').text('Saved!');
-  setTimeout(() => $('#js-save').text('Save'), 2000);
-  setTimeout(() => $('#js-save-ex').text('Save'), 2000);
+  $('.js-save').text('Saved!');
+  $('.js-save-ex').text('Saved!');
+  setTimeout(() => $('.js-save').text('Save'), 2000);
+  setTimeout(() => $('.js-save-ex').text('Save'), 2000);
 
   if(data && data._id) {
     appState.currentSheetId = data._id;
@@ -1045,6 +1196,20 @@ function renderExampleDeletionPrompt() {
 
 //*** Event handlers ***//
 
+function handleSignUpButton() {
+  $('body').on('click', '.sign-up', function(ev) {
+    ev.preventDefault();
+    renderAccountCreationPage();
+  });
+}
+
+function handleShowLoginButton() {
+  $('body').on('click', '#show-login', function(ev) {
+    ev.preventDefault();
+    renderLoginPage();
+  });
+}
+
 function handleLoginButton() {
   $('body').on('click', '#login', function(ev) {
     ev.preventDefault();
@@ -1060,7 +1225,7 @@ function handleLoginButton() {
         url: `/users/login`,
         data: JSON.stringify(loginObj),
         success: initialLogin,
-        error: showErrorMessage
+        error: showErrorMessage({ responseJSON: { message: 'Incorrect username or password' } })
       }); 
     } else {
       showErrorMessage({ responseJSON: { message: `Cannot login as 'guest'` } });
@@ -1111,13 +1276,19 @@ function handleAccountCreation() {
         processData: false,
         url: `/users`,
         data: JSON.stringify(newUser),
-        success: renderHomePage,
+        success: newUserLogin,
         error: showErrorMessage
       });
-    } else {
-      const message = `<p>Passwords do not match!</p>`;
-      $('#account-creation').append(message);
+    } else if(pass !== confirmPass) {
+      const message = `Passwords do not match!`;
+      $('#error').text(message);
     }
+  });
+}
+
+function handleHamburgerButton() {
+  $('body').on('click', '#hamburger-button', function(ev) {
+    $('.menu').toggleClass('expand');
   });
 }
 
@@ -1150,7 +1321,7 @@ function handleAddAttackButton() {
     const bonus = $('#new-attack-bonus').val();
     const damage = $('#new-attack-damage').val();
     const newAttack = generateAttack(name, bonus, damage);
-    $('#new-attack-name').before(newAttack);
+    $('#new-atk-line').before(newAttack);
     $('#new-attack-name').val('');
     $('#new-attack-bonus').val('');
     $('#new-attack-damage').val('');
@@ -1188,7 +1359,7 @@ function handleAddTraitButton() {
 }
 
 function handleSaveButton() {
-  $('body').on('click', '#js-save', function(ev) {
+  $('body').on('click', '.js-save', function(ev) {
     ev.preventDefault();
     const savedSheet = createSheetObject();
 
@@ -1267,7 +1438,7 @@ function handleExampleHomeButton() {
 }
 
 function handleExampleSaveButton() {
-  $('body').on('click', '#js-save-ex', function(ev) {
+  $('body').on('click', '.js-save-ex', function(ev) {
     ev.preventDefault();
     const savedSheet = createSheetObject();
     if(savedSheet.charName) {
@@ -1295,10 +1466,13 @@ function handleExampleDeleteButton() {
 }
 
 function handleButtons() {
+  handleSignUpButton();
+  handleShowLoginButton();
   handleLoginButton();
   handleExampleButton();
   handleNewUser();
   handleAccountCreation();
+  handleHamburgerButton();
   handleConfirmButton();
   handleHomeButton();
   handleAddAttackButton();

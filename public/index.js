@@ -245,8 +245,14 @@ function renderExamplePage(data = appState.exampleSheets) {
 // *** Code for displaying error messages *** //
 
 function showErrorMessage(err) {
-  // NEEDS TO BE MODIFIED TO CORRECTLY FIND ERROR FROM LOGIN PAGE
-  const message = `${ err.responseJSON.message }`;
+  let message;
+  if(err.responseJSON) {
+    message = `${err.responseJSON.message}`;
+  } else if(err.responseText) {
+    message = `${err.responseText}`;
+  } else {
+    message = 'Whoops! Something went wrong!'
+  }
   $('#error').text(message);
 }
 
@@ -1225,7 +1231,7 @@ function handleLoginButton() {
         url: `/users/login`,
         data: JSON.stringify(loginObj),
         success: initialLogin,
-        error: showErrorMessage({ responseJSON: { message: 'Incorrect username or password' } })
+        error: showErrorMessage
       }); 
     } else {
       showErrorMessage({ responseJSON: { message: `Cannot login as 'guest'` } });

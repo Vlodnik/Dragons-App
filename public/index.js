@@ -10,70 +10,70 @@ const appState = {
 function renderLandingPage() {
   const html = `
   <div class="landing-page">
-      <nav id="nav-bar">
-        <ul>
-          <li>
-            <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
-          </li>
-          <li>
-            <button id="show-login" type="submit">Log in</button>
-          </li>
-          <li>
-            <button class="sign-up" type="submit">Sign up</button>
-          </li>
-        </ul>
-      </nav>
-      <main>
-        <div class="dice-background">
-          <div class="layer">
-            <div class="landing-text">
-              <header>
-                <h1>D&amp;D Character Sheets in the Cloud</h1>
-                <h2>Never forget your character sheet again</h2>
-              </header>
-              <div id="landing-options">
-                <button id="main-button" class="sign-up">Sign up</button>
-                <p id="example">See an example</p>
-              </div>
+    <nav id="nav-bar">
+      <ul>
+        <li>
+          <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
+        </li>
+        <li>
+          <button id="show-login" type="submit">Log in</button>
+        </li>
+        <li>
+          <button class="sign-up" type="submit">Sign up</button>
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <div class="dice-background">
+        <div class="layer">
+          <div class="landing-text">
+            <header>
+              <h1>D&amp;D Character Sheets in the Cloud</h1>
+              <h2>Never forget your character sheet again</h2>
+            </header>
+            <div id="landing-options">
+              <button id="main-button" class="sign-up">Sign up</button>
+              <p id="example">See an example</p>
             </div>
           </div>
         </div>
-        <section id="info">
-          <h2 class="section-header">D&amp;D? What's that?</h2>
+      </div>
+      <section id="info">
+        <h2 class="section-header">D&amp;D? What's that?</h2>
+        <p>
+          Dungeons &amp; Dragons is a fantasy roleplaying game with millions of players worldwide.
+          Players create characters with near unlimited customization, and typically keep track of 
+          their progression using printed forms called character sheets. 
+          While the physical presence of the game is one of its greatest charms, one of the WORST 
+          moments playing D&amp;D is meeting up with your friends, sitting down at the table, and 
+          discovering that you've left your character sheet at home! Draconis Personae lets you 
+          avoid that by storing your character sheets in the cloud. 
+        </p>
+      </section>
+      <section id="feature-one">
+        <div class="feature-text">
+          <h2 class="section-header">Save your character sheets</h2>
           <p>
-            Dungeons &amp; Dragons is a fantasy roleplaying game with millions of players worldwide.
-            Players create characters with near unlimited customization, and typically keep track of 
-            their progression using printed forms called character sheets. 
-            While the physical presence of the game is one of its greatest charms, one of the WORST 
-            moments playing D&amp;D is meeting up with your friends, sitting down at the table, and 
-            discovering that you've left your character sheet at home! Draconis Personae lets you 
-            avoid that by storing your character sheets in the cloud. 
+            Create, save, and update character sheets. All in the cloud!
           </p>
-        </section>
-        <section id="feature-one">
-          <div class="feature-text">
-            <h2 class="section-header">Save your character sheets</h2>
-            <p>
-              Create, save, and update character sheets. All in the cloud!
-            </p>
-          </div>
-          <img id="warrior-img" class="feature-img" src="images/warrior.jpg" alt="A half-orc warrior." >
-        </section>
-        <section id="feature-two">
-          <img id="dragon-img" class="feature-img" src="images/dragon.png" alt="A red dragon.">
-          <div class="feature-text">
-            <h2 class="section-header">Navigate between characters</h2>
-            <p>
-              Have multiple characters? You can easily navigate between them from your home screen.
-            </p>
-          </div>
-        </section>
-        <section id="footer">
-          <h2>Put your character in the cloud.</h2>
-          <button class="sign-up" type="submit">Get started</button>
-        </section>
-      </main>
-    </div>
+        </div>
+        <img id="warrior-img" class="feature-img" src="images/warrior.jpg" alt="A half-orc warrior." >
+      </section>
+      <section id="feature-two">
+        <img id="dragon-img" class="feature-img" src="images/dragon.png" alt="A red dragon.">
+        <div class="feature-text">
+          <h2 class="section-header">Navigate between characters</h2>
+          <p>
+            Have multiple characters? You can easily navigate between them from your home screen.
+          </p>
+        </div>
+      </section>
+      <section id="footer">
+        <h2>Put your character in the cloud.</h2>
+        <button class="sign-up" type="submit">Get started</button>
+      </section>
+    </main>
+  </div>
   `;
 
   $('html').removeClass('sheet-view');

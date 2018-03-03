@@ -29,7 +29,8 @@ legend {
 
 /*  Nav Bar  */
 #nav-bar {
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   bottom: 0;
   display: flex;
@@ -128,7 +129,7 @@ legend {
 
 /*  Landing Page  */
 .landing-page {
-  height: 280vh;
+  /*height: 280vh;*/
 }
 
 main {

@@ -132,10 +132,17 @@ legend {
   /*height: 280vh;*/
 }
 
-main {
+/*main {
   display: flex;
   flex-direction: column;
   height: 100%;
+}*/
+
+main {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .dice-background {
@@ -381,6 +388,7 @@ section p {
 /* Character Sheet */
 #sheet {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   overflow-y: auto;
   height: 100%;

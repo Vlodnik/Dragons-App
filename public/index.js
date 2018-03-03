@@ -9,27 +9,70 @@ const appState = {
 
 function renderLandingPage() {
   const html = `
-    <nav id="nav-bar">
-      <ul>
-        <li>
-          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
-        </li>
-        <li>
-          <button id="show-login" type="submit">Log in</button>
-        </li>
-        <li>
-          <button class="sign-up" type="submit">Sign up</button>
-        </li>
-      </ul>
-    </nav>
-    <header>
-      <h1><span>D&D Character Sheets...</span>in the Cloud</h1>
-      <h2>Never forget your character sheet again</h2>
-    </header>
-    <div id="landing-options">
-      <button id="main-button" class="sign-up">Sign up</button>
-      <p>Wanna see how it works?</p>
-      <button id="example">See an example</button>
+  <div class="landing-page">
+      <nav id="nav-bar">
+        <ul>
+          <li>
+            <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
+          </li>
+          <li>
+            <button id="show-login" type="submit">Log in</button>
+          </li>
+          <li>
+            <button class="sign-up" type="submit">Sign up</button>
+          </li>
+        </ul>
+      </nav>
+      <main>
+        <div class="dice-background">
+          <div class="layer">
+            <div class="landing-text">
+              <header>
+                <h1>D&amp;D Character Sheets in the Cloud</h1>
+                <h2>Never forget your character sheet again</h2>
+              </header>
+              <div id="landing-options">
+                <button id="main-button" class="sign-up">Sign up</button>
+                <p id="example">See an example</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section id="info">
+          <h2 class="section-header">D&amp;D? What's that?</h2>
+          <p>
+            Dungeons &amp; Dragons is a fantasy roleplaying game with millions of players worldwide.
+            Players create characters with near unlimited customization, and typically keep track of 
+            their progression using printed forms called character sheets. 
+            While the physical presence of the game is one of its greatest charms, one of the WORST 
+            moments playing D&amp;D is meeting up with your friends, sitting down at the table, and 
+            discovering that you've left your character sheet at home! Draconis Personae lets you 
+            avoid that by storing your character sheets in the cloud. 
+          </p>
+        </section>
+        <section id="feature-one">
+          <div class="feature-text">
+            <h2 class="section-header">Save your character sheets</h2>
+            <p>
+              Create, save, and update character sheets. All in the cloud!
+            </p>
+          </div>
+          <img id="warrior-img" class="feature-img" src="images/warrior.jpg" alt="A half-orc warrior." >
+        </section>
+        <section id="feature-two">
+          <img id="dragon-img" class="feature-img" src="images/dragon.png" alt="A red dragon.">
+          <div class="feature-text">
+            <h2 class="section-header">Navigate between characters</h2>
+            <p>
+              Have multiple characters? You can easily navigate between them from your home screen.
+            </p>
+          </div>
+        </section>
+        <section id="footer">
+          <h2>Put your character in the cloud.</h2>
+          <button class="sign-up" type="submit">Get started</button>
+        </section>
+      </main>
     </div>
   `;
 
@@ -43,7 +86,7 @@ function renderAccountCreationPage() {
     <nav id="nav-bar">
       <ul>
         <li>
-          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+          <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
         </li>
         <li>
           <button id="show-login" type="submit">Log in</button>
@@ -63,6 +106,8 @@ function renderAccountCreationPage() {
     </form>
   `;
 
+  $('html').removeClass('sheet-view');
+  $('body').removeClass('sheet-view');
   $('body').html(html);
 }
 
@@ -71,7 +116,7 @@ function renderLoginPage() {
     <nav id="nav-bar">
       <ul>
         <li>
-          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+          <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
         </li>
         <li>
           <button id="show-login" type="submit">Log in</button>
@@ -90,6 +135,8 @@ function renderLoginPage() {
     </form>
   `;
 
+  $('html').removeClass('sheet-view');
+  $('body').removeClass('sheet-view');
   $('body').html(html);
 }
 
@@ -129,10 +176,10 @@ function renderHomePage(data) {
     <nav id="nav-bar">
       <ul>
         <li>
-          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+          <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
         </li>
         <li>
-          <img id="hamburger-button" src="hamburger.svg" alt="Hamburger icon.">
+          <img id="hamburger-button" src="images/hamburger.svg" alt="Hamburger icon.">
           <div class="menu">
             <ul>
               <li class="js-new-sheet"><button>New Character</button></li>
@@ -142,10 +189,12 @@ function renderHomePage(data) {
         </li>
       </ul>
     </nav>
-    <h2 id="home-page-header">Click to view character</h2>
-    <ul id="confirm-buttons">
-    </ul>
-    <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
+    <main>
+      <h2 id="home-page-header">Click to view character</h2>
+      <ul id="confirm-buttons">
+      </ul>
+      <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
+    </main>
   `;
  
   $('html').removeClass('sheet-view');
@@ -216,7 +265,7 @@ function renderExamplePage(data = appState.exampleSheets) {
     <nav id="nav-bar">
       <ul>
         <li>
-          <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+          <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
         </li>
         <li>
           <button id="show-login" type="submit">Log in</button>
@@ -226,11 +275,12 @@ function renderExamplePage(data = appState.exampleSheets) {
         </li>
       </ul>
     </nav>
-    <h2 id="home-page-header">Click to view character</h2>
-    <ul id="confirm-buttons">
-    </ul>
-    <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
-    <button id="main-button" class="sign-up" type="submit">Sign up</button>
+    <main>
+      <h2 id="home-page-header">Click to view character</h2>
+      <ul id="confirm-buttons">
+      </ul>
+      <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
+    </main>
   `;
  
   $('html').removeClass('sheet-view');
@@ -258,6 +308,18 @@ function showErrorMessage(err) {
 
 // *** Code for character sheet display and user interaction *** //
 
+// <form id="ins-prof">
+//         <fieldset>
+//           <label for="inspiration">Inspiration</label>
+//           <input id="inspiration" type="number">
+//         </fieldset>
+
+//         <fieldset>
+//           <label for="profBonus">Proficiency Bonus</label>
+//           <input id="profBonus" type="number">
+//         </fieldset>
+//       </form>
+
 function renderCharSheet(data) {
   appState.currentSheetId = null;
 
@@ -268,19 +330,18 @@ function renderCharSheet(data) {
       <nav id="nav-bar">
         <ul>
           <li>
-            <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+            <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
           </li>
           <li>
-            <button class="js-save">Save</button>
+            <button class="js-save">Save Character</button>
           </li>
           <li>
-            <img id="hamburger-button" src="hamburger.svg" alt="Hamburger icon.">
+            <img id="hamburger-button" src="images/hamburger.svg" alt="Hamburger icon.">
             <div class="menu">
               <ul>
                 <li><button class="js-save" type="submit">Save Character</button></li>
                 <li><button class="js-new-sheet" type="submit">New Character</button></li>
                 <li><button id="js-delete" type="submit">Delete Character</button></li>
-                <li><button id="js-home" type="submit">Home</button></li>
                 <li><button id="js-logout" type="submit">Logout</button></li>
               </ul>
             </div>
@@ -293,20 +354,19 @@ function renderCharSheet(data) {
       <nav id="nav-bar">
         <ul>
           <li>
-            <img id="logo" src="logo.gif" alt="Draconis Personae logo.">
+            <img id="logo" src="images/logo.gif" alt="Draconis Personae logo.">
           </li>
           <li>
             <button class="sign-up" type="submit">Sign up</button>
           </li>
           <li>
-            <img id="hamburger-button" src="hamburger.svg" alt="Hamburger icon.">
+            <img id="hamburger-button" src="images/hamburger.svg" alt="Hamburger icon.">
             <div class="menu">
               <ul>
                 <li><button class="js-save-ex" type="submit">Save Character</button></li>
                 <li><button class="js-new-sheet" type="submit">New Character</button></li>
                 <li><button id="js-delete-ex" type="submit">Delete Character</button></li>
                 <li><button id="show-login" type="submit">Log in</button></li>
-                <li><button id="js-home-ex" type="submit">Home</button></li>
                 <li><button id="js-logout" type="submit">Logout</button></li>
               </ul>
             </div>
@@ -317,424 +377,424 @@ function renderCharSheet(data) {
   }
 
   const sheetHtml = `
-    <form id="macro">
-      <label for="charName">Character Name</label>
-      <input id="charName" type="text" required>
-      <div>
-        <label for="playerName">Player Name</label>
-        <input id="playerName" type="text">
-      </div>
-
-      <div>
-        <label for="classAndLevel">Class &amp; Level</label>
-        <input id="classAndLevel" type="text">
-      </div>
-
-      <div>
-        <label for="background">Background</label>
-        <input id="background" type="text">
-      </div>
-
-      <div>
-        <label for="race">Race</label>
-        <input id="race" type="text">
-      </div>
-
-      <div>
-        <label for="alignment">Alignment</label>
-        <input id="alignment" type="text">
-      </div>
-
-      <div>
-        <label for="experience">Exp Points</label>
-        <input id="experience" type="number">
-      </div>
-    </form>
-
-    <h2 id="attributes-header">Attributes</h2>
-    <form id="attributes">
-      <fieldset>
-        <legend>Strength</legend>
-        <input id="strength" class="attribute" type="number">
-        <input id="strength-mod" class="modifier" type="string">
-      </fieldset>
-
-      <fieldset>
-        <legend>Dexterity</legend>
-        <input id="dexterity" class="attribute" type="number">
-        <input id="dexterity-mod" class="modifier" type="string">
-      </fieldset>
-
-      <fieldset>
-        <legend>Constitution</legend>
-        <input id="constitution" class="attribute" type="number">
-        <input id="constitution-mod" class="modifier" type="string">
-      </fieldset>
-
-      <fieldset>
-        <legend>Intelligence</legend>
-        <input id="intelligence" class="attribute" type="number">
-        <input id="intelligence-mod" class="modifier" type="string">
-      </fieldset>
-
-      <fieldset>
-        <legend>Wisdom</legend>
-        <input id="wisdom" class="attribute" type="number">
-        <input id="wisdom-mod" class="modifier" type="string">
-      </fieldset>
-
-      <fieldset>
-        <legend>Charisma</legend>
-        <input id="charisma" class="attribute" type="number">
-        <input id="charisma-mod" class="modifier" type="string">
-      </fieldset>
-    </form>
-
-    <form id="ins-prof">
-      <fieldset>
-        <label for="inspiration">Inspiration</label>
-        <input id="inspiration" type="number">
-      </fieldset>
-
-      <fieldset>
-        <label for="profBonus">Proficiency Bonus</label>
-        <input id="profBonus" type="number">
-      </fieldset>
-    </form>
-
-    <h2 id="throws-header">Saving Throws</h2>
-    <form id="saving-throws">
-      <fieldset id="strength-save">
-        <legend>Strength</legend>
-        <input type="checkbox">
-        <input type="number">
-      </fieldset>
-
-      <fieldset id="dexterity-save">
-        <legend>Dexterity</legend>
-        <input type="checkbox">
-        <input type="number">
-      </fieldset>
-
-      <fieldset id="constitution-save">
-        <legend>Constitution</legend>
-        <input type="checkbox">
-        <input type="number">
-      </fieldset>
-
-      <fieldset id="intelligence-save">
-        <legend>Intelligence</legend>
-        <input type="checkbox">
-        <input type="number">
-      </fieldset>
-
-      <fieldset id="wisdom-save">
-        <legend>Wisdom</legend>
-        <input type="checkbox">
-        <input type="number">
-      </fieldset>
-
-      <fieldset id="charisma-save">
-        <legend>Charisma</legend>
-        <input type="checkbox">
-        <input type="number">
-      </fieldset>
-    </form>
-
-    <h2 id="combat-header">Combat</h2>
-    <form id="combat">
-      <fieldset class="com-one">
-        <legend for="AC">Armor Class</legend>
-        <input id="AC" type="number">
-      </fieldset>
-
-      <fieldset class="com-one">
-        <legend for="initiative">Initiative</legend>
-        <input id="initiative" type="number">
-      </fieldset>
-
-      <fieldset class="com-one"> 
-        <legend for="speed">Speed</legend>
-        <input id="speed" type="number">
-      </fieldset>
-
-      <fieldset class="com-one">
-        <legend for="HP">Max HP</legend>
-        <input id="HP" type="number">
-      </fieldset>
-
-      <fieldset class="com-one">
-        <legend for="currentHP">Current HP</legend>
-        <input id="currentHP" type="number">
-      </fieldset>
-
-      <fieldset class="com-one">
-        <legend for="temporaryHP">Temporary HP</legend>
-        <input id="temporaryHP" type="number">
-      </fieldset>
-
-      <h3 id="attacks-header">Attacks &amp; Spellcasting</h3>
-      <div id="attacks">
-        <div id="attack-labels">
-          <span>Name</span>
-          <span>Atk Bonus</span>
-          <span>Damage/Type</span>
-        </div>
-        <div id="new-atk-line" class="atk-line">
-          <input id="new-attack-name" class="atk-name" type="text">
-          <input id="new-attack-bonus" class="atk-bonus" type="number">
-          <input id="new-attack-damage" class="atk-damage" type="text">
-        </div>
-        <button id="js-add-attack" type="submit">Add Attack</button>
-      </div>
-
-      <fieldset id="hit-dice-field">
-        <legend for="hitDice">Hit Dice</legend>
-        <input id="hitDice" type="text">
-      </fieldset>
-
-      <div id="death-saves">
-        <h3>Death Saves</h3>
-        <fieldset name="death-succ">
-          <legend>Successes</legend>
-          <input class="success" type="checkbox">
-          <input class="success" type="checkbox">
-          <input class="success" type="checkbox">
-        </fieldset>
-
-        <fieldset name="death-fail">
-          <legend>Failures</legend>
-          <input class="failure" type="checkbox">
-          <input class="failure" type="checkbox">
-          <input class="failure" type="checkbox">
-        </fieldset>
-      </div>
-    </form>
-
-    <h2 id="skills-header">Skills</h2>
-    <form id="skills">
-      <fieldset id="acrobatics">
+    <div id="sheet">
+      <form id="macro">
+        <label for="charName">Character Name</label>
+        <input id="charName" type="text" required>
         <div>
-          <legend>Acrobatics(Dex)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="playerName">Player Name</label>
+          <input id="playerName" type="text">
         </div>
-      </fieldset>
 
-      <fieldset id="animalHandling">
         <div>
-          <legend>Animal Handling(Wis)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="classAndLevel">Class &amp; Level</label>
+          <input id="classAndLevel" type="text">
         </div>
-      </fieldset>
 
-      <fieldset id="arcana">
         <div>
-          <legend>Arcana(Int)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="background">Background</label>
+          <input id="background" type="text">
         </div>
-      </fieldset>
 
-      <fieldset id="athletics">
         <div>
-          <legend>Athletics(Str)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="race">Race</label>
+          <input id="race" type="text">
         </div>
-      </fieldset>
 
-      <fieldset id="deception">
         <div>
-          <legend>Deception(Cha)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="alignment">Alignment</label>
+          <input id="alignment" type="text">
         </div>
-      </fieldset>
 
-      <fieldset id="history">
         <div>
-          <legend>History(Int)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="experience">Exp Points</label>
+          <input id="experience" type="number">
         </div>
-      </fieldset>
 
-      <fieldset id="insight">
         <div>
-          <legend>Insight(Wis)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="profBonus"> Proficiency Bonus</label>
+          <input id="profBonus" type="number">
         </div>
-      </fieldset>
 
-      <fieldset id="intimidation">
         <div>
-          <legend>Intimidation(Cha)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
+          <label for="inspiration">Inspiration</label>
+          <input id="inspiration" type="number">
         </div>
-      </fieldset>
+      </form>
 
-      <fieldset id="investigation">
-        <div>
-          <legend>Investigation(Int)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="medicine">
-        <div>
-          <legend>Medicine(Wis)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="nature">
-        <div>
-          <legend>Nature(Int)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="perception">
-        <div>
-          <legend>Perception(Wis)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="performance">
-        <div>
-          <legend>Performance(Cha)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="persuasion">
-        <div>
-          <legend>Persuasion(Cha)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="religion">
-        <div>
-          <legend>Religion(Int)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="sleightOfHand">
-        <div>
-          <legend>Sleight of Hand(Dex)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="stealth">
-        <div>
-          <legend>Stealth(Dex)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="survival">
-        <div>
-          <legend>Survival(Wis)</legend>
-          <input class="skill-prof" type="checkbox">
-          <input type="number">
-        </div>
-      </fieldset>
-
-      <fieldset id="passive-percep">
-        <div>
-          <legend for="passiveWisdom">Passive Wisdom (Perception)</legend>
-          <input id="passiveWisdom" type="number">
-        </div>
-      </fieldset>
-    </form>
-
-    <form id="equipment">
-      <div id="items-div"> 
-        <h2 id="equipment-header">Equipment</h2>
-        <input id="new-item" class="items" type="string">
-        <button id="js-add-item" type="submit">Add Item</button>
-      </div>
-      <div id="coins-div">
-      <h3 id="coins-header">Coins</h3>
+      <form id="attributes">
+        <h2 id="attributes-header">Attributes</h2>
         <fieldset>
-          <label for="cp">CP</label>
-          <input id="cp" class="coins" type="number">
+          <legend>Strength</legend>
+          <input id="strength" class="attribute" type="number">
+          <input id="strength-mod" class="modifier" type="string">
         </fieldset>
 
         <fieldset>
-          <label for="sp">SP</label>
-          <input id="sp" class="coins" type="number">
+          <legend>Dexterity</legend>
+          <input id="dexterity" class="attribute" type="number">
+          <input id="dexterity-mod" class="modifier" type="string">
         </fieldset>
 
         <fieldset>
-          <label for="ep">EP</label>
-          <input id="ep" class="coins" type="number">
+          <legend>Constitution</legend>
+          <input id="constitution" class="attribute" type="number">
+          <input id="constitution-mod" class="modifier" type="string">
         </fieldset>
 
         <fieldset>
-          <label for="gp">GP</label>
-          <input id="gp" class="coins" type="number">
+          <legend>Intelligence</legend>
+          <input id="intelligence" class="attribute" type="number">
+          <input id="intelligence-mod" class="modifier" type="string">
         </fieldset>
 
         <fieldset>
-          <label for="pp">PP</label>
-          <input id="pp" class="coins" type="number">
+          <legend>Wisdom</legend>
+          <input id="wisdom" class="attribute" type="number">
+          <input id="wisdom-mod" class="modifier" type="string">
         </fieldset>
-      </div>
-    </form>
 
-    <form id="prof-and-lang">
-      <div id="proficiencies">
-        <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
-        <input id="new-prof" class="profs" type="text">
-        <button id="js-add-prof" type="submit">Add Proficiency</button>
-      </div>
-    </form>
+        <fieldset>
+          <legend>Charisma</legend>
+          <input id="charisma" class="attribute" type="number">
+          <input id="charisma-mod" class="modifier" type="string">
+        </fieldset>
+      </form>
 
-    <form id="features">
-      <div id="features-div"> 
-        <h2 id="features-header">Features &amp; Traits</h2>
-        <input id="new-trait" class="traits" type="text">
-        <button id="js-add-trait" type="submit">Add Trait</button>
-      </div>
-    </form>
+      <form id="saving-throws">
+        <h2 id="throws-header">Saving Throws</h2>
+        <fieldset id="strength-save">
+          <legend>Strength</legend>
+          <input type="checkbox">
+          <input type="number">
+        </fieldset>
 
-    <h2 id="story-header">Story</h2>
-    <form id="story">
-      <div>
-        <h3>Personality Traits</h3>
-        <textarea id="personality"></textarea>
-      </div>
-      <div>
-        <h3>Ideals</h3>
-        <textarea id="ideals"></textarea>
-      </div>
-      <div>
-        <h3>Bonds</h3>
-        <textarea id="bonds"></textarea>
-      </div>
-      <div>
-        <h3>Flaws</h3>
-        <textarea id="flaws"></textarea>
-      </div>
-    </form>
+        <fieldset id="dexterity-save">
+          <legend>Dexterity</legend>
+          <input type="checkbox">
+          <input type="number">
+        </fieldset>
+
+        <fieldset id="constitution-save">
+          <legend>Constitution</legend>
+          <input type="checkbox">
+          <input type="number">
+        </fieldset>
+
+        <fieldset id="intelligence-save">
+          <legend>Intelligence</legend>
+          <input type="checkbox">
+          <input type="number">
+        </fieldset>
+
+        <fieldset id="wisdom-save">
+          <legend>Wisdom</legend>
+          <input type="checkbox">
+          <input type="number">
+        </fieldset>
+
+        <fieldset id="charisma-save">
+          <legend>Charisma</legend>
+          <input type="checkbox">
+          <input type="number">
+        </fieldset>
+      </form>
+
+      <form id="combat">
+        <h2 id="combat-header">Combat</h2>
+        <fieldset class="com-one">
+          <legend for="AC">Armor Class</legend>
+          <input id="AC" type="number">
+        </fieldset>
+
+        <fieldset class="com-one">
+          <legend for="initiative">Initiative</legend>
+          <input id="initiative" type="number">
+        </fieldset>
+
+        <fieldset class="com-one"> 
+          <legend for="speed">Speed</legend>
+          <input id="speed" type="number">
+        </fieldset>
+
+        <fieldset class="com-one">
+          <legend for="HP">Max HP</legend>
+          <input id="HP" type="number">
+        </fieldset>
+
+        <fieldset class="com-one">
+          <legend for="currentHP">Current HP</legend>
+          <input id="currentHP" type="number">
+        </fieldset>
+
+        <fieldset class="com-one">
+          <legend for="temporaryHP">Temporary HP</legend>
+          <input id="temporaryHP" type="number">
+        </fieldset>
+
+        <h3 id="attacks-header">Attacks &amp; Spellcasting</h3>
+        <div id="attacks">
+          <div id="attack-labels">
+            <span>Name</span>
+            <span>Atk Bonus</span>
+            <span>Damage/Type</span>
+          </div>
+          <div id="new-atk-line" class="atk-line">
+            <input id="new-attack-name" class="atk-name" type="text">
+            <input id="new-attack-bonus" class="atk-bonus" type="number">
+            <input id="new-attack-damage" class="atk-damage" type="text">
+          </div>
+          <button id="js-add-attack" type="submit">Add Attack</button>
+        </div>
+
+        <fieldset id="hit-dice-field">
+          <legend for="hitDice">Hit Dice</legend>
+          <input id="hitDice" type="text">
+        </fieldset>
+
+        <div id="death-saves">
+          <h3>Death Saves</h3>
+          <fieldset name="death-succ">
+            <legend>Successes</legend>
+            <input class="success" type="checkbox">
+            <input class="success" type="checkbox">
+            <input class="success" type="checkbox">
+          </fieldset>
+
+          <fieldset name="death-fail">
+            <legend>Failures</legend>
+            <input class="failure" type="checkbox">
+            <input class="failure" type="checkbox">
+            <input class="failure" type="checkbox">
+          </fieldset>
+        </div>
+      </form>
+
+      <form id="skills">
+        <h2 id="skills-header">Skills</h2>
+        <fieldset id="acrobatics">
+          <div>
+            <legend>Acrobatics(Dex)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="animalHandling">
+          <div>
+            <legend class="two-line">Animal Handling(Wis)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="arcana">
+          <div>
+            <legend>Arcana(Int)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="athletics">
+          <div>
+            <legend>Athletics(Str)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="deception">
+          <div>
+            <legend>Deception(Cha)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="history">
+          <div>
+            <legend>History(Int)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="insight">
+          <div>
+            <legend>Insight(Wis)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="intimidation">
+          <div>
+            <legend>Intimidation(Cha)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="investigation">
+          <div>
+            <legend>Investigation(Int)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="medicine">
+          <div>
+            <legend>Medicine(Wis)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="nature">
+          <div>
+            <legend>Nature(Int)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="perception">
+          <div>
+            <legend>Perception(Wis)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="performance">
+          <div>
+            <legend>Performance(Cha)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="persuasion">
+          <div>
+            <legend>Persuasion(Cha)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="religion">
+          <div>
+            <legend>Religion(Int)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="sleightOfHand">
+          <div>
+            <legend class="two-line">Sleight of <br> Hand(Dex)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="stealth">
+          <div>
+            <legend>Stealth(Dex)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="survival">
+          <div>
+            <legend>Survival(Wis)</legend>
+            <input class="skill-prof" type="checkbox">
+            <input type="number">
+          </div>
+        </fieldset>
+
+        <fieldset id="passive-percep">
+          <div>
+            <legend for="passiveWisdom">Passive Wisdom (Perception)</legend>
+            <input id="passiveWisdom" type="number">
+          </div>
+        </fieldset>
+      </form>
+
+      <form id="equipment">
+        <div id="items-div"> 
+          <h2 id="equipment-header">Equipment</h2>
+          <input id="new-item" class="items" type="string">
+          <button id="js-add-item" type="submit">Add Item</button>
+        </div>
+        <div id="coins-div">
+        <h3 id="coins-header">Coins</h3>
+          <fieldset>
+            <label for="cp">CP</label>
+            <input id="cp" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="sp">SP</label>
+            <input id="sp" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="ep">EP</label>
+            <input id="ep" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="gp">GP</label>
+            <input id="gp" class="coins" type="number">
+          </fieldset>
+
+          <fieldset>
+            <label for="pp">PP</label>
+            <input id="pp" class="coins" type="number">
+          </fieldset>
+        </div>
+      </form>
+
+      <form id="prof-and-lang">
+        <div id="proficiencies">
+          <h2 id="profs-header">Other Proficiencies &amp; Languages</h2>
+          <input id="new-prof" class="profs" type="text">
+          <button id="js-add-prof" type="submit">Add Proficiency</button>
+        </div>
+      </form>
+
+      <form id="features">
+        <div id="features-div"> 
+          <h2 id="features-header">Features &amp; Traits</h2>
+          <input id="new-trait" class="traits" type="text">
+          <button id="js-add-trait" type="submit">Add Trait</button>
+        </div>
+      </form>
+
+      <form id="story">
+        <h2 id="story-header">Story</h2>
+        <div>
+          <h3>Personality Traits</h3>
+          <textarea id="personality"></textarea>
+        </div>
+        <div>
+          <h3>Ideals</h3>
+          <textarea id="ideals"></textarea>
+        </div>
+        <div>
+          <h3>Bonds</h3>
+          <textarea id="bonds"></textarea>
+        </div>
+        <div>
+          <h3>Flaws</h3>
+          <textarea id="flaws"></textarea>
+        </div>
+      </form>
+    </div>
   `;
 
   $('html').addClass('sheet-view');
@@ -1168,8 +1228,8 @@ function findCheckedValue(element) {
 function showSaveSuccessful(data) {
   $('.js-save').text('Saved!');
   $('.js-save-ex').text('Saved!');
-  setTimeout(() => $('.js-save').text('Save'), 2000);
-  setTimeout(() => $('.js-save-ex').text('Save'), 2000);
+  setTimeout(() => $('.js-save').text('Save Character'), 2000);
+  setTimeout(() => $('.js-save-ex').text('Save Character'), 2000);
 
   if(data && data._id) {
     appState.currentSheetId = data._id;
@@ -1314,9 +1374,16 @@ function handleConfirmButton() {
 }
 
 function handleHomeButton() {
-  $('body').on('click', '#js-home', function(ev) {
-    ev.preventDefault();
-    getUsersAccount(appState.currentJwt);
+  $('body').on('click', '#logo', function(ev) {
+    if(appState.currentUser === 'guest' && !appState.currentSheetId) {
+      renderLandingPage();
+    } else if(appState.currentUser === 'guest') {
+      renderExamplePage();
+    } else if(appState.currentJwt) {
+      getUsersAccount(appState.currentJwt);
+    } else {
+      renderLandingPage();
+    }
   });
 }
 
@@ -1436,13 +1503,6 @@ function handleExampleConfirmButton() {
   });
 }
 
-function handleExampleHomeButton() {
-  $('body').on('click', '#js-home-ex', function(ev) {
-    ev.preventDefault();
-    renderExamplePage();
-  });
-}
-
 function handleExampleSaveButton() {
   $('body').on('click', '.js-save-ex', function(ev) {
     ev.preventDefault();
@@ -1490,7 +1550,6 @@ function handleButtons() {
   handleDeleteButton();
   handleLogoutButton();
   handleExampleConfirmButton();
-  handleExampleHomeButton();
   handleExampleSaveButton();
   handleExampleDeleteButton();
 }

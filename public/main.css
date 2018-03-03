@@ -1,14 +1,19 @@
 html, body {
   box-sizing: border-box;
-  font-family: 'Encode Sans Condensed';
-  background-color: black;
+  /*font-family: 'Encode Sans Condensed', sans-serif;*/
+  background: url("images/black_scales.png");
+  height: 100%;
 }
 
-.sheet-view {
-  background-color: #f2575e;
+body * {
+  font-family: 'Encode Sans Condensed', sans-serif;
 }
 
 /*  Titles  */
+h1 {
+  margin-top: 0;
+}
+
 h1, h2 {
   text-align: center;
 }
@@ -24,7 +29,17 @@ legend {
 
 /*  Nav Bar  */
 #nav-bar {
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
   background-color: white;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 0;
+  height: 10vh;
+  min-height: 3.5em;
+  z-index: 2;
 }
 
 #nav-bar > ul {
@@ -36,6 +51,11 @@ legend {
   max-height: 4em;
   margin: 0;
   padding: 0;
+  width: 100%;
+}
+
+#logo:hover {
+  cursor: pointer;
 }
 
 #logo, #nav-bar li button {
@@ -65,7 +85,7 @@ legend {
   transition: color .3s;
 }
 
-#nav-bar button.sign-up, #nav-bar > ul > li > button.js-save {
+#nav-bar button.sign-up, #nav-bar button.js-save {
   border: 2px solid #f2575e;
   border-radius: 10px;
   font-weight: 700;
@@ -107,33 +127,57 @@ legend {
 }
 
 /*  Landing Page  */
-header {
-  background-color: black;
+.landing-page {
+  height: 280vh;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dice-background {
+  background-image: url("https://s3.us-east-2.amazonaws.com/readme.images/dicebackground.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: 0;
+  height: 90vh;
+  width: 100%;
+}
+
+.layer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(255, 0, 0, 0.5);
+  background-size: cover;
+  margin-top: 0;
+  height: 100%;
+  width: 100%;
 }
 
 header h1 {
   color: white;
-}
-
-header h1 span {
-  display: block;
-  color: #f2575e;
+  font-size: 3em;
+  margin-top: 
 }
 
 header h2 {
   color: white;
-  font-size: 1.2em;
+  font-size: 1.5em;
 }
 
 #landing-options {
-  margin-top: 5em
+  text-align: center;
 }
 
 #landing-options p {
+  display: inline;
   color: white;
-  text-align: center;
   font-size: 1.5em;
-  margin-top: 5em;
+  transition: color .3s;
+  margin-top: 0.2em;
 }
 
 #main-button {
@@ -143,12 +187,12 @@ header h2 {
   height: 2em;
   font-size: 2em;
   font-weight: 700;
-  color: white;
-  background-color: #f2575e;
-  border: 1px solid black;
+  color: black;
+  background-color: white;
+  border: none;
   border-radius: 10px;
-  margin: auto;
-  transition: color .3s, background-color .3s;
+  margin: 2em auto 0.5em;
+  transition: color .3s;
 }
 
 #main-button:hover {
@@ -157,27 +201,85 @@ header h2 {
   cursor: pointer;
 }
 
-#example {
-  display: block;
-  width: 50%;
-  max-width: 250px;
-  height: 3em;
-  font-size: 1.2em;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 10px;
-  margin: auto;
-  transition: color .3s, background-color .3s;
+#example:hover {
+  cursor: pointer;
+  color: black;
 }
 
-#example:hover {
+section {
+  padding: 1.5em 0;
+  width: 100%;
+}
+
+.section-header {
+  text-align: left;
+  margin-left: 10%;
+}
+
+section p {
+  line-height: 1.4em;
+  font-size: 1.2em;
+  margin: 1em 10%;
+}
+
+section p {
+  margin: 1em 10%;
+}
+
+.feature-img {
+  /*margin: 10%;*/
+  width: 40%;
+  max-width: 180px;
+  height: 100%;
+  max-height: 300px;
+}
+
+#info {
+  background-color: rgb(230, 230, 230);
+}
+
+#feature-one, #feature-two {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#feature-one {
+  background-color: white;
+}
+
+#feature-two {
+  background-color: rgb(230, 230, 230);
+}
+
+#footer h2 {
   color: white;
-  background-color: #f2575e;
+}
+
+#footer .sign-up {
+  display: block;
+  width: 50%;
+  max-width: 300px; 
+  height: 2em;
+  font-size: 2em;
+  font-weight: 700;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+  margin: 2em auto 0.5em;
+  transition: color .3s;
+}
+
+#footer .sign-up:hover {
+  color: #f2575e;
+  background-color: white;
   cursor: pointer;
 }
 
-/*  Account Creation and Login Pages  */
+/* Account Creation and Login Pages */
 #account-creation, #login-form {
+  background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -190,6 +292,8 @@ header h2 {
 
 #account-creation input, #account-creation button, #login-form input, #login-form button {
   margin-bottom: 1.2em;
+  width: 65%;
+  max-width: 200px;
 }
 
 #account-creation input, #login-form input {
@@ -198,7 +302,6 @@ header h2 {
 }
 
 #create, #login {
-  width: 75%;
   max-width: 400px; 
   height: 1.5em;
   font-size: 1.2em;
@@ -226,7 +329,6 @@ header h2 {
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
-  margin-bottom: 10em;
 }
 
 #confirm-buttons li {
@@ -240,7 +342,7 @@ header h2 {
   color: white;
   background-color: #f2575e;
   transition: background-color .4s;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 0 auto 1em;
   width: 90%;
   max-width: 400px; 
@@ -260,8 +362,8 @@ header h2 {
   border: none;
   color: black;
   background-color: white;
-  transition: background-color .4s;
-  border-radius: 5px;
+  transition: color .4s;
+  border-radius: 10px;
   margin: 0 auto 1em;
   width: 40%;
   max-width: 200px; 
@@ -271,9 +373,24 @@ header h2 {
 }
 
 #big-new:hover {
-  color: white;
-  background-color: #f2575e;
+  color: #f2575e;
   cursor: pointer;
+}
+
+/* Character Sheet */
+#sheet {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  height: 100%;
+}
+
+form {
+  background-image: url("images/lightpaperfibers.png");
+  border-radius: 10px;
+  margin: auto;
+  margin-bottom: 2em;
+  width: 90%;
 }
 
 /*  Macro  */
@@ -281,23 +398,29 @@ header h2 {
   display: flex;
   flex-wrap: wrap;
   margin-top: 2em;
+  padding-bottom: 1em;
+}
+
+#macro label {
+  font-family: 'Encode Sans Condensed', sans-serif;
 }
 
 #macro > label {
   font-size: 1.4em;
-  margin: auto;
+  margin: 1em auto;
   text-align: center;
   width: 100%;
 }
 
 #macro > input {
-  font-size: 2em;
+  background: none;
+  font-size: 1.7em;
+  border: none;
+  border-bottom: 1px solid black;
   margin: auto;
   margin-bottom: 0.5em;
   text-align: center;
   width: 95%;
-  border: none;
-  border-radius: 5px;
 }
 
 #macro div {
@@ -308,34 +431,30 @@ header h2 {
 
 #macro div label, #macro div input {
   display: block;
-  margin: auto;
+  margin: 0.5em auto;
   text-align: center;
 }
 
-#macro label {
-  font-family: 'Encode Sans Condensed';
-}
-
 #macro div input{
+  background: none;
   border: none;
-  border-radius: 5px;
+  border-bottom: 1px solid black;
   margin-bottom: 0.5em;
   width: 80%;
 }
 
 /*  Attributes  */
 #attributes-header {
-  margin-top: 2em;
+  /*margin-top: 2em;*/
+  width: 100%;
 }
 
 #attributes {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 1.5em;
 }
 
 #attributes fieldset {
-  background-color: white;
   border: none;
   border-radius: 5px;
   margin: auto;
@@ -346,7 +465,7 @@ header h2 {
 }
 
 #attributes legend {
-  font-family: 'Encode Sans Condensed';
+  font-family: 'Encode Sans Condensed', sans-serif;
   font-size: 0.9em;
   margin: auto;
   margin-bottom: 1em;
@@ -379,44 +498,18 @@ header h2 {
   padding: 0.3em;
 }
 
-/*  Inspiration and Proficiency Bonus  */
-#ins-prof {
-  margin-top: 2em;
-}
-
-#ins-prof fieldset {
-  border: none;
-  margin: auto;
-  width: 70%;
-  max-width: 250px
-}
-
-#ins-prof label {
-  font-family: 'Encode Sans Condensed'
-}
-
-#ins-prof input {
-  border: none;
-  border-radius: 3px;
-  float: right;
-  text-align: center;
-  width: 2em;
-}
-
 /*  Saving Throws  */
 #throws-header {
-  margin-top: 2em;
+  width: 100%;
 }
 
 #saving-throws {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: 1.5em;
 }
 
 #saving-throws fieldset {
-  background-color: white;
   border: none;
   border-radius: 5px;
   margin: auto;
@@ -433,7 +526,7 @@ header h2 {
 }
 
 #saving-throws legend {
-  font-family: 'Encode Sans Condensed';
+  font-family: 'Encode Sans Condensed', sans-serif;
   font-size: 0.9em;
   margin: auto;
   padding: 0;
@@ -454,17 +547,17 @@ header h2 {
 
 /*  Combat  */
 #combat-header {
-  margin-top: 2em;
+  /*margin-top: 2em;*/
+  width: 100%;
 }
 
 #combat {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 1.5em;
 }
 
 #combat legend {
-  font-family: 'Encode Sans Condensed';
+  font-family: 'Encode Sans Condensed', sans-serif;
   font-size: 0.9em;
   margin: auto;
   padding: 0;
@@ -472,7 +565,6 @@ header h2 {
 }
 
 .com-one {
-  background-color: white;
   border: none;
   border-radius: 5px;
   margin: auto;
@@ -530,7 +622,7 @@ header h2 {
   border: none;
   margin: 0.5em;
   text-align: center;
-  width: 20%;
+  width: 25%;
 }
 
 #attacks span:nth-of-type(3) {
@@ -538,23 +630,23 @@ header h2 {
   margin: 0.5em;
   padding-top: 0;
   text-align: center;
-  width: 40%;
+  width: 42%;
 }
 
 .atk-name, .atk-bonus {
-  border: none;
+  border: 1px solid black;
   border-radius: 3px;
   margin: 0.5em;
   text-align: center;
-  width: 20%;
+  width: 25%;
 }
 
 .atk-damage {
-  border: none;
+  border: 1px solid black;
   border-radius: 3px;
   margin: 0.5em;
   text-align: center;
-  width: 40%;
+  width: 42%;
 }
 
 #js-add-attack {
@@ -572,7 +664,6 @@ header h2 {
 }
 
 #hit-dice-field {
-    background-color: white;
     border: none;
     border-radius: 5px;
     margin: auto;
@@ -609,16 +700,11 @@ header h2 {
 }
 
 #death-saves fieldset {
-  background-color: white;
-  border: none;
+  border: 1px solid black;
   border-radius: 5px;
+  margin-bottom: 1em;
   width: 80%;
   text-align: center;
-}
-
-#death-saves fieldset * {
-  position: relative;
-  top: 0.5em;
 }
 
 #death-saves input {
@@ -627,7 +713,8 @@ header h2 {
 
 /*  Skills  */
 #skills-header {
-  margin-top: 2em;
+  /*margin-top: 2em;*/
+  width: 100%;
 }
 
 #skills {
@@ -636,7 +723,6 @@ header h2 {
 }
 
 #skills fieldset {
-    background-color: white;
     border: none;
     border-radius: 5px;
     margin: auto;
@@ -649,10 +735,12 @@ header h2 {
 
 #skills legend {
   text-align: center;
+  margin-bottom: 2em;
+  line-height: 1em;
 }
 
-#skills input {
-  margin-top: 1em;
+#skills .two-line {
+  margin-bottom: 1em;
 }
 
 .skill-prof {
@@ -681,14 +769,12 @@ header h2 {
 #equipment {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 2em;
 }
 
 #items-div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: white;
   border: none;
   border-radius: 5px;
   border-top: none;
@@ -713,6 +799,7 @@ header h2 {
 }
 
 .items {
+  background: none;
   width: 90%;
   border: none;
   border-bottom: 1px solid black;
@@ -737,30 +824,25 @@ header h2 {
 }
 
 #coins-div {
-  background-color: white;
   border: none;
   border-radius: 5px;
   margin: auto;
 }
 
 .coins {
+  background: none;
   border: none;
   border-bottom: 1px solid black;
   margin: auto;
   text-align: center;
-  width: 20%;
+  width: 40%;
 }
 
 /*  Proficiencies and Languages  */
-#prof-and-lang {
-  margin-top: 2em;
-}
-
 #proficiencies {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: white;
   border: none;
   border-radius: 5px;
   margin: auto;
@@ -770,10 +852,11 @@ header h2 {
 }
 
 .profs {
-  width: 90%;
+  background: none;
   border: none;
   border-bottom: 1px solid black;
   margin-bottom: 0.5em;
+  width: 90%;
 }
 
 #js-add-prof {
@@ -792,15 +875,10 @@ header h2 {
 }
 
 /*  Features and Traits  */
-#features {
-  margin-top: 2em;
-}
-
 #features-div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: white;
   border: none;
   border-radius: 5px;
   margin: auto;
@@ -825,16 +903,22 @@ header h2 {
 }
 
 .traits {
-  width: 90%;
+  background: none;
   border: none;
   border-bottom: 1px solid black;
   margin-bottom: 0.5em;
+  width: 90%;
 }
 
 /*  Story  */
 #story {
   display: flex;
   flex-direction: column;
+  margin-bottom: 2em;
+}
+
+#story-header {
+  width: 100%;
 }
 
 #story div {
@@ -842,7 +926,7 @@ header h2 {
 }
 
 #story textarea {
-  border: none;
+  border: 1px solid black;
   border-radius: 5px;
   height: 8em;
   margin: 0.5em auto 1.5em auto;
@@ -854,23 +938,67 @@ header h2 {
 }
 
 @media only screen and (min-width: 1050px) {
+  #sheet {
+    align-items: stretch;
+  }
+
+  form {
+    width: 40%;
+    margin: auto;
+  }
+
+  #macro {
+    width: 90%;
+    margin-bottom: 2em;
+  }
+
+  #macro div {
+    width: 25%;
+  }
+
+  #attributes, #saving-throws {
+    order: 1;
+  }
+
+  #combat, #skills {
+    order: 2;
+    position: relative;
+    top: 2em;
+  }
+
+  #equipment {
+    order: 2;
+    position: relative;
+    top: 4em;
+    width: 90%;
+  }
+
+  #prof-and-lang, #features {
+    order: 2;
+    position: relative;
+    top: 6em;
+  }
+
   #story {
+    order: 2;
+    position: relative;
+    top: 8em;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    width: 90%;
   }
 
   #story div {
     width: 40%;
   }
 
-  #combat > fieldset:nth-of-type(7) {
-    /*  This selects the Hit Dice fieldset  */
-    margin-left: 30%; 
+  #hit-dice-field {
+    margin-left: 20%; 
   }  
 
   #death-saves {
-    margin-right: 30%;
+    margin-right: 20%;
   }
 
   #items-div {

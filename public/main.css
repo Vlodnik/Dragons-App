@@ -29,7 +29,7 @@ legend {
 
 /*  Nav Bar  */
 #nav-bar {
-  position: fixed;
+  position: sticky;
   width: 100%;
   top: 0;
   bottom: 0;
@@ -142,7 +142,7 @@ legend {
 }*/
 
 main {
-  margin-top: 10vh;
+  /*margin-top: 10vh;*/
   display: flex;
   flex-direction: column;
   justify-content: center;

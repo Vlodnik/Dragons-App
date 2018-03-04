@@ -41,6 +41,7 @@ legend {
   height: 10vh;
   min-height: 3.5em;
   z-index: 2;
+  -webkit-transform: translateZ(0);
 }
 
 #nav-bar > ul {

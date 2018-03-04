@@ -54,7 +54,7 @@ function renderLandingPage() {
           <div class="feature-text">
             <h2 class="section-header">Save your character sheets</h2>
             <p>
-              Create, save, and update character sheets. All in the cloud! You can your characters
+              Create, save, and update character sheets. All in the cloud! You can access your characters
               from any computer or mobile device.
             </p>
           </div>

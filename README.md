@@ -21,12 +21,13 @@ stored as secure hashes on a MongoDB database hosted on mLab.
 
 ## Screenshots
 Here are screenshots of the app's landing page:
-![Landing Page](https://s3.us-east-2.amazonaws.com/readme.images/DPLandingScreen.png)
+![Landing Page one](https://s3.us-east-2.amazonaws.com/readme.images/DPLandingPage1.png)
+![Landing Page two](https://s3.us-east-2.amazonaws.com/readme.images/DPLandingPage2.png)
 Account creation page:
-![Account Creation Page](https://s3.us-east-2.amazonaws.com/readme.images/DPAccountCreationPage.png)
+![Account Creation Page](https://s3.us-east-2.amazonaws.com/readme.images/DPAccountCreation.png)
 Home page:
-![Home Page](https://s3.us-east-2.amazonaws.com/readme.images/DPHomePage.png)
+![Home Page](https://s3.us-east-2.amazonaws.com/readme.images/DPHomeScreen.png)
 Login Page:
-![Login Page](https://s3.us-east-2.amazonaws.com/readme.images/DPLoginPage.png)
+![Login Page](https://s3.us-east-2.amazonaws.com/readme.images/DPLoginScreen.png)
 Screenshots of the character management page:
-![Character Page](https://s3.us-east-2.amazonaws.com/readme.images/DPCharMan1.png)
+![Character Page](https://s3.us-east-2.amazonaws.com/readme.images/DPCharMan.png)

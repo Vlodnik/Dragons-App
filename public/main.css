@@ -1,6 +1,5 @@
 html, body {
   box-sizing: border-box;
-  /*font-family: 'Encode Sans Condensed', sans-serif;*/
   background: url("images/black_scales.png");
   height: 100%;
 }
@@ -131,18 +130,7 @@ legend {
 }
 
 /*  Landing Page  */
-.landing-page {
-  /*height: 280vh;*/
-}
-
-/*main {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}*/
-
 main {
-  /*margin-top: 10vh;*/
   display: flex;
   flex-direction: column;
   justify-content: center;

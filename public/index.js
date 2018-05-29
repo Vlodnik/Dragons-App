@@ -42,12 +42,12 @@ function renderLandingPage() {
           <h2 class="section-header">D&amp;D? What's that?</h2>
           <p>
             Dungeons &amp; Dragons is a fantasy roleplaying game with millions of players worldwide.
-            Players create characters with near unlimited customization, and typically keep track of 
-            their progression using printed forms called character sheets. 
-            While the physical presence of the game is one of its greatest charms, one of the WORST 
-            moments playing D&amp;D is meeting up with your friends, sitting down at the table, and 
-            discovering that you've left your character sheet at home! Draconis Personae lets you 
-            avoid that by storing your character sheets in the cloud. 
+            Players create characters with near unlimited customization, and typically keep track of
+            their progression using printed forms called character sheets.
+            While the physical presence of the game is one of its greatest charms, one of the WORST
+            moments playing D&amp;D is meeting up with your friends, sitting down at the table, and
+            discovering that you've left your character sheet at home! Draconis Personae lets you
+            avoid that by storing your character sheets in the cloud.
           </p>
         </section>
         <section id="feature-one">
@@ -201,7 +201,7 @@ function renderHomePage(data) {
       <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
     </main>
   `;
- 
+
   $('html').removeClass('sheet-view');
   $('body').removeClass('sheet-view');
   $('body').html(html);
@@ -211,8 +211,8 @@ function renderHomePage(data) {
 
 function renderSavedCharacters(data) {
   let listElements;
-  data.length ? 
-  listElements = data.map(createListElement) : 
+  data.length ?
+  listElements = data.map(createListElement) :
   listElements = `
     <li>
       <button
@@ -229,9 +229,9 @@ function createListElement(sheet, index) {
   if(appState.currentUser !== 'guest') {
     return `
       <li class="landing-chars">
-        <button 
-          class="confirm" 
-          data-id="${ sheet._id }" 
+        <button
+          class="confirm"
+          data-id="${ sheet._id }"
           type="submit">
           ${ sheet.charName }
         </button>
@@ -287,7 +287,7 @@ function renderExamplePage(data = appState.exampleSheets) {
       <button id="big-new" class="js-new-sheet" type="submit">New Character</button>
     </main>
   `;
- 
+
   $('html').removeClass('sheet-view');
   $('body').removeClass('sheet-view');
   $('body').html(html);
@@ -517,7 +517,7 @@ function renderCharSheet(data) {
           <input id="initiative" type="number">
         </fieldset>
 
-        <fieldset class="com-one"> 
+        <fieldset class="com-one">
           <legend for="speed">Speed</legend>
           <input id="speed" type="number">
         </fieldset>
@@ -730,7 +730,7 @@ function renderCharSheet(data) {
       </form>
 
       <form id="equipment">
-        <div id="items-div"> 
+        <div id="items-div">
           <h2 id="equipment-header">Equipment</h2>
           <input id="new-item" class="items" type="string">
           <button id="js-add-item" type="submit">Add Item</button>
@@ -773,7 +773,7 @@ function renderCharSheet(data) {
       </form>
 
       <form id="features">
-        <div id="features-div"> 
+        <div id="features-div">
           <h2 id="features-header">Features &amp; Traits</h2>
           <input id="new-trait" class="traits" type="text">
           <button id="js-add-trait" type="submit">Add Trait</button>
@@ -812,10 +812,10 @@ function renderSavedSheet(data) {
   renderCharSheet();
 
   const fieldsArray = [
-    'charName', 
-    'classAndLevel', 
-    'background', 
-    'playerName', 
+    'charName',
+    'classAndLevel',
+    'background',
+    'playerName',
     'race',
     'alignment',
     'hitDice',
@@ -849,9 +849,9 @@ function renderSavedSheet(data) {
   // Make app state aware of the current sheet
   if(appState.currentUser !== 'guest') {
     appState.currentSheetId = data.id;
-  } 
+  }
 }
- 
+
 function assignAttributes(data) {
   for(let stat in data.attributes) {
     $(`#${ stat }`).attr('value', data.attributes[stat].val);
@@ -977,10 +977,10 @@ function createSheetObject() {
   let savedSheet = {};
 
   const stringValues = [
-    'charName', 
-    'classAndLevel', 
-    'background', 
-    'playerName', 
+    'charName',
+    'classAndLevel',
+    'background',
+    'playerName',
     'race',
     'alignment',
     'hitDice',
@@ -1052,8 +1052,8 @@ function createSheetObject() {
 function createAttributesObject() {
   let attributesObject = {};
   const attributes = [
-    'strength', 
-    'dexterity', 
+    'strength',
+    'dexterity',
     'constitution',
     'intelligence',
     'wisdom',
@@ -1062,7 +1062,7 @@ function createAttributesObject() {
 
   attributes.forEach(function(stat) {
     attributesObject[stat] = {
-      val: parseInt($(`#${ stat }`).val(), 10), 
+      val: parseInt($(`#${ stat }`).val(), 10),
       bonus: $(`#${ stat }-mod`).val()
     };
   });
@@ -1073,8 +1073,8 @@ function createAttributesObject() {
 function createSavingThrowsObject() {
   let savingThrowsObject = {};
   const attributes = [
-    'strength', 
-    'dexterity', 
+    'strength',
+    'dexterity',
     'constitution',
     'intelligence',
     'wisdom',
@@ -1180,7 +1180,7 @@ function createMoneyObject() {
 
   coins.forEach(function(coin) {
     moneyObject[coin] = parseInt($(`#${ coin }`).val(), 10);
-  });  
+  });
 
   return moneyObject;
 }
@@ -1221,7 +1221,7 @@ function createFeaturesArray() {
 
   return featuresArray;
 }
- 
+
 function findCheckedValue(element) {
   if($(element).is(':checked')) {
     return true;
@@ -1238,7 +1238,7 @@ function showSaveSuccessful(data) {
 
   if(data && data._id) {
     appState.currentSheetId = data._id;
-  } 
+  }
 }
 
 function renderDeletionPrompt() {
@@ -1297,7 +1297,7 @@ function handleLoginButton() {
         data: JSON.stringify(loginObj),
         success: initialLogin,
         error: showErrorMessage
-      }); 
+      });
     } else {
       showErrorMessage({ responseJSON: { message: `Cannot login as 'guest'` } });
     }
@@ -1319,7 +1319,7 @@ function handleExampleButton() {
       error: showErrorMessage
     });
   });
-} 
+}
 
 function handleNewUser() {
   $('body').on('click', '#new-account', function(ev) {
@@ -1409,7 +1409,7 @@ function handleAddAttackButton() {
 function handleAddProfButton() {
   $('body').on('click', '#js-add-prof', function(ev) {
     ev.preventDefault();
-    const prof = $('#new-prof').val(); 
+    const prof = $('#new-prof').val();
     const newProf = generateProf(prof);
     $('#new-prof').before(newProf);
     $('#new-prof').val('');

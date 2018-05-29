@@ -65,10 +65,10 @@ function generateSheetData(user) {
   newSheet.user = user;
 
   const stringValues = [
-    'charName', 
-    'classAndLevel', 
-    'background', 
-    'playerName', 
+    'charName',
+    'classAndLevel',
+    'background',
+    'playerName',
     'race',
     'alignment',
     'hitDice',
@@ -320,7 +320,7 @@ describe('Dragon-App API resource', function() {
           testUser.username = user.username;
           testUser.password = user.password;
           userId = user._id;
-          
+
           return bcrypt.hash(user.password, 10);
         })
         .then(function(encryptedPass) {
@@ -491,7 +491,7 @@ describe('Dragon-App API resource', function() {
           expect(res).to.have.status(200);
 
           return Sheet.findById(updateData.id);
-        }) 
+        })
         .then(function(sheet) {
           expect(sheet.charName).to.equal(updateData.charName);
           expect(sheet.attributes.strength.val).to.equal(updateData.attributes.strength.val);

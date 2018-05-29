@@ -15,7 +15,7 @@ const app = express();
 const sheetsRouter = require('./routes/sheets');
 const usersRouter = require('./routes/users');
 const { jwtStrategy, localStrategy } = require('./strategies');
- 
+
 app.use(morgan('common'));
 // app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
@@ -35,9 +35,9 @@ app.use('/users', usersRouter);
 
 let server;
 
-function runServer(databaseURL = DATABASE_URL, port = PORT) {
+function runServer(databaseUrl = DATABASE_URL, port = PORT) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseURL, err => {
+    mongoose.connect(databaseUrl, err => {
       if(err) {
         return reject(err);
       }

@@ -159,7 +159,7 @@ main {
 header h1 {
   color: white;
   font-size: 3em;
-  margin-top: 
+  margin-top:
 }
 
 header h2 {
@@ -182,7 +182,7 @@ header h2 {
 #main-button {
   display: block;
   width: 75%;
-  max-width: 400px; 
+  max-width: 400px;
   height: 2em;
   font-size: 2em;
   font-weight: 700;
@@ -198,6 +198,10 @@ header h2 {
   color: #f2575e;
   background-color: white;
   cursor: pointer;
+}
+
+#example {
+  text-decoration: underline;
 }
 
 #example:hover {
@@ -258,7 +262,7 @@ section p {
 #footer .sign-up {
   display: block;
   width: 50%;
-  max-width: 300px; 
+  max-width: 300px;
   height: 2em;
   font-size: 2em;
   font-weight: 700;
@@ -301,7 +305,7 @@ section p {
 }
 
 #create, #login {
-  max-width: 400px; 
+  max-width: 400px;
   height: 1.5em;
   font-size: 1.2em;
   font-weight: 700;
@@ -344,7 +348,7 @@ section p {
   border-radius: 10px;
   margin: 0 auto 1em;
   width: 90%;
-  max-width: 400px; 
+  max-width: 400px;
   height: 3em;
   font-size: 2em;
   font-weight: 700;
@@ -365,7 +369,7 @@ section p {
   border-radius: 10px;
   margin: 0 auto 1em;
   width: 40%;
-  max-width: 200px; 
+  max-width: 200px;
   height: 2.5em;
   font-size: 1.2em;
   font-weight: 400;
@@ -994,8 +998,8 @@ form {
   }
 
   #hit-dice-field {
-    margin-left: 20%; 
-  }  
+    margin-left: 20%;
+  }
 
   #death-saves {
     margin-right: 20%;
